@@ -3,7 +3,7 @@
    <application
         android:label="deeplaid_apps_models"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/logo">
         <activity
             android:name=".MainActivity"
             android:exported="true"

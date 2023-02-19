@@ -1,3 +1,4 @@
+import 'package:deeplaid_apps_models/login_deeplaid_apps/login.dart';
 import 'package:deeplaid_apps_models/main.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +17,9 @@ class _SplashDeeplaidState extends State<SplashDeeplaid> {
   }
 
   _navigationHome() async {
-    await Future.delayed(const Duration(milliseconds: 3000), () {});
-    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage(title: '')));
+    await Future.delayed(const Duration(milliseconds: 2200), () {});
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Login(title: '')));
   }
 
   @override
@@ -44,7 +46,7 @@ class _SplashDeeplaidState extends State<SplashDeeplaid> {
               child: Column(
                 children: [
                   SizedBox(
-                      height: deviceHight * 0.9,
+                      height: deviceHight * 0.93,
                       width: deviceWidth,
 
                       //child: Image.asset('assets/images/logo.png'),
@@ -54,38 +56,43 @@ class _SplashDeeplaidState extends State<SplashDeeplaid> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 12.0),
+                              padding: const EdgeInsets.only(top: 15.0),
                               child: SizedBox(
-                                child: Image.asset('assets/images/logo.png'),
                                 height: 120,
                                 width: 120,
+                                child: Image.asset('assets/images/logo.png'),
                               ),
                             ),
                           ],
                         ),
                       )),
                   SizedBox(
-                    height: deviceHight * 0.1,
+                    height: deviceHight * 0.07,
                     width: deviceWidth,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children:  [
+                      children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Text(
                               "Deeplaid",
-                              style: TextStyle(color: Colors.black,
-                                  fontSize: 18, fontStyle: FontStyle.normal),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 17,
+                                  fontStyle: FontStyle.normal),
                             ),
                             Text(
                               " Laboratories Limited",
-                              style: TextStyle(color: Colors.black,
-                                  fontSize: 18, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Schuyler"),
                             )
                           ],
-                        ),
-
+                        )
                       ],
                     ),
                   )
