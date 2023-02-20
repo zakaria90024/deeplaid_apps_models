@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key, required String title}) : super(key: key);
@@ -14,6 +15,9 @@ class _LoginState extends State<Login> {
   List<Company> _companies = Company.getCompanies();
   late List<DropdownMenuItem<Company>> _dropdownMenuItems;
   String dropdownValue = 'Select Branch';
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
 
   @override
   void initState() {
@@ -86,9 +90,9 @@ class _LoginState extends State<Login> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 15.0),
                                 child: SizedBox(
-                                  child: Image.asset('assets/images/logo.png'),
                                   height: 75,
                                   width: 75,
+                                  child: Image.asset('assets/images/logo.png'),
                                 ),
                               ),
                               Row(
@@ -160,15 +164,25 @@ class _LoginState extends State<Login> {
                                 height: 300,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 20, right: 20, top: 12),
+                                      left: 22, right: 22, top: 12),
                                   child: Column(
                                     children: [
-                                      const Text(
-                                        "WEB PORTAL",
-                                        style: TextStyle(color: Colors.blue),
+                                      GestureDetector(
+                                        onTap: () {
+                                          String url = 'https://google.com';
+                                          launch(url);
+                                        },
+                                        child: const Text(
+                                          "WEB PORTAL",
+                                          style: TextStyle(color: Colors.blue),
+                                        ),
                                       ),
-                                      const TextField(
-                                        decoration: InputDecoration(
+
+                                     TextField(
+                                        controller: _emailController,
+                                        maxLength: 6,
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
                                           enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
                                                 width: 1, color: Colors.black),
@@ -177,13 +191,15 @@ class _LoginState extends State<Login> {
                                         ),
                                       ),
                                       const SizedBox(
-                                        height: 17,
-                                        width: 17,
+                                        height: 8,
+                                        width: 16,
                                       ),
                                       TextField(
+                                        controller: _passwordController,
                                         obscureText: passwordVisible,
                                         decoration: InputDecoration(
-                                          enabledBorder: UnderlineInputBorder(),
+                                          enabledBorder:
+                                              const UnderlineInputBorder(),
                                           labelText: "Password",
                                           //helperText: "Password must contain special character",
                                           helperStyle: const TextStyle(
@@ -211,6 +227,7 @@ class _LoginState extends State<Login> {
                                       Row(
                                         children: [
                                           DropdownButton<String>(
+                                            underline: Container(),
                                             // Step 3.
                                             value: dropdownValue,
                                             // Step 4.
@@ -224,7 +241,8 @@ class _LoginState extends State<Login> {
                                                 value: value,
                                                 child: Text(
                                                   value,
-                                                  style: TextStyle(fontSize: 15),
+                                                  style: const TextStyle(
+                                                      fontSize: 15),
                                                 ),
                                               );
                                             }).toList(),
@@ -246,8 +264,10 @@ class _LoginState extends State<Login> {
                                       // ),
                                       ElevatedButton(
                                           onPressed: () {
+                                            var emailText = _emailController.text;
+                                            var passwordText = _passwordController.text;
                                             Fluttertoast.showToast(
-                                                msg: "Clicked Login",
+                                                msg: "User id = $emailText\n Password = $passwordText\n Selected = $dropdownValue",
                                                 toastLength: Toast.LENGTH_SHORT,
                                                 gravity: ToastGravity.BOTTOM,
                                                 timeInSecForIosWeb: 1,
@@ -256,13 +276,23 @@ class _LoginState extends State<Login> {
                                                 fontSize: 12.0);
                                           },
                                           style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                            ),
                                             primary: Colors.grey,
                                             elevation: 0,
                                           ),
                                           child: const SizedBox(
-                                            height: 30,
-                                            width:  270,
-                                            child: Center(child: Text("Login")),
+                                            height: 25,
+                                            width: 280,
+                                            child: Center(
+                                                child: Text(
+                                              "Login",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
+                                            )),
                                           )),
                                     ],
                                   ),

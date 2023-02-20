@@ -1,5 +1,6 @@
 import 'package:deeplaid_apps_models/login_deeplaid_apps/login.dart';
 import 'package:deeplaid_apps_models/main.dart';
+import 'package:deeplaid_apps_models/otp_deeplaid_apps/otp.dart';
 import 'package:flutter/material.dart';
 
 class SplashDeeplaid extends StatefulWidget {
@@ -19,7 +20,7 @@ class _SplashDeeplaidState extends State<SplashDeeplaid> {
   _navigationHome() async {
     await Future.delayed(const Duration(milliseconds: 2200), () {});
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Login(title: '')));
+        context, MaterialPageRoute(builder: (context) => otpModel(title: '')));
   }
 
   @override
