@@ -15,9 +15,9 @@ class otpModel extends StatefulWidget {
 }
 
 class _otpModelState extends State<otpModel> {
-  late String otpUser = Services.getValidNumber("01818280008") as String;
+  //late String otpUser = Services.getValidNumber("01818280008") as String;
   final TextEditingController _numberController = TextEditingController();
-  late String userID;
+  late String userID = "";
 
   @override
   void initState() {
@@ -28,6 +28,21 @@ class _otpModelState extends State<otpModel> {
     //Services.getValidNumber(_numberController.text);
     Services.getValidNumber(_numberController.text).then((result) {
       userID = result;
+
+      if (userID.isNotEmpty) {
+        print("else if called $userID");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const Login(
+                      title: "_number",
+                    )));
+        _numberController.clear();
+        userID = "";
+      }else if(userID.isEmpty){
+        Fluttertoast.showToast(msg: "Invalid Mobile Number");
+      }
+
       //print("from name $userID");
     });
 
@@ -170,32 +185,30 @@ class _otpModelState extends State<otpModel> {
                                 ),
                                 ElevatedButton(
                                     onPressed: () {
-                                      var _number = _numberController.text;
-
-                                      _createTable();
-
-
-                                      print("Print before$userID");
-
-                                      var fd = "353";
-                                      var s = userID;
-
-                                      if (s == fd) {
-
-                                        print("if called $userID");
-
+                                      if (_numberController.text
+                                          .trim()
+                                          .isEmpty) {
+                                        Fluttertoast.showToast(
+                                            msg: "Number Field Empty",
+                                            toastLength: Toast.LENGTH_LONG,
+                                            gravity: ToastGravity.TOP,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.blue,
+                                            textColor: Colors.white,
+                                            fontSize: 12.0);
                                       } else {
-                                        print("else called$userID");
-                                        // Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //         const Login(
-                                        //           title: "_number",
-                                        //         )));
-                                        _numberController.clear();
-
+                                        _createTable();
                                       }
+
+                                      // if (s == userID) {
+                                      //
+                                      //
+                                      //
+                                      // } else if(s == "393") {
+                                      //   print("else called$userID");
+                                      //
+                                      //
+                                      // }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
