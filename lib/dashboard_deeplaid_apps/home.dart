@@ -547,7 +547,7 @@ class _HomePageState extends State<HomePage> {
 
                 GestureDetector(
                   onTap: () {
-                    Navigator.push((context), MaterialPageRoute(builder: (context)=>const Sync()));
+                    Navigator.push((context), MaterialPageRoute(builder: (context)=>Sync()));
                   },
                 child:SizedBox(
                   height: deviceHight * 0.15,

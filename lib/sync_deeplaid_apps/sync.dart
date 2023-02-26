@@ -11,6 +11,32 @@ class Sync extends StatefulWidget {
 class _SyncState extends State<Sync> {
   @override
   Widget build(BuildContext context) {
+    //
+    // AlertDialog alert = AlertDialog(
+    //   title: Text("AlertDialog Title"),
+    //   content: Text("AlertDialog description goes here."),
+    //   actions: [
+    //     TextButton(
+    //       child: Text("Close"),
+    //       onPressed: () {
+    //         Navigator.of(context).pop();
+    //       },
+    //     ),
+    //   ],
+    // );
+    //
+    // // show the dialog
+    // showDialog(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return alert;
+    //   },
+    // );
+    // setState(() {
+    //
+    // });
+
+
     final deviceHight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
     print("height$deviceHight width$deviceWidth");
@@ -39,6 +65,7 @@ class _SyncState extends State<Sync> {
                         width: deviceWidth * 0.95,
                         child: Row(
                           children: [
+
                             SizedBox(
                               height: deviceHight * 0.30,
                               width: deviceWidth * 0.65,
@@ -55,7 +82,7 @@ class _SyncState extends State<Sync> {
                                 width: deviceWidth * 0.30,
                                 child: GestureDetector(
                                   onTap: () {
-                                    print("Clicked Doctor Sync");
+
                                   },
                                   child: Card(
                                     shape: RoundedRectangleBorder(
