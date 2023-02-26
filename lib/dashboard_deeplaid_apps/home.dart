@@ -1,3 +1,4 @@
+import 'package:deeplaid_apps_models/sync_deeplaid_apps/sync.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -543,7 +544,12 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
+
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push((context), MaterialPageRoute(builder: (context)=>const Sync()));
+                  },
+                child:SizedBox(
                   height: deviceHight * 0.15,
                   width: deviceWidth * 0.45,
                   child: Card(
@@ -563,7 +569,8 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                ),
+                ),),
+
                 SizedBox(
                   height: deviceHight * 0.15,
                   width: deviceWidth * 0.45,
