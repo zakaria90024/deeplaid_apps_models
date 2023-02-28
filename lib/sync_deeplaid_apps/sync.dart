@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../sqlite_crud.dart';
+
 class Sync extends StatefulWidget {
   const Sync({Key? key}) : super(key: key);
 
@@ -70,10 +72,15 @@ class _SyncState extends State<Sync> {
                               height: deviceHight * 0.30,
                               width: deviceWidth * 0.65,
                               child: Center(
-                                child: Text(
-                                  "Doctor Update",
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.normal),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    Navigator.push((context), MaterialPageRoute(builder: (context)=>DBTestPage(title: 'title',)));
+                                  },
+                                  child:Text(
+                                    "Doctor Update",
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.normal),
+                                  )
                                 ),
                               ),
                             ),

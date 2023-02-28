@@ -29,19 +29,22 @@ class _otpModelState extends State<otpModel> {
     Services.getValidNumber(_numberController.text).then((result) {
       userID = result;
 
-      if (userID.isNotEmpty) {
-        print("else if called $userID");
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const Login(
-                      title: "_number",
-                    )));
-        _numberController.clear();
-        userID = "";
-      }else if(userID.isEmpty){
-        Fluttertoast.showToast(msg: "Invalid Mobile Number");
-      }
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const Login(
+                title: "_number",
+              )));
+
+      // if (userID.isNotEmpty) {
+      //   print("else if called $userID");
+      //
+      //   _numberController.clear();
+      //   userID = "";
+      // }else if(userID.isEmpty){
+      //   Fluttertoast.showToast(msg: "Invalid Mobile Number");
+      // }
 
       //print("from name $userID");
     });
