@@ -47,14 +47,15 @@ class _DBTestPageState extends State<DBTestPage> {
     // if (formKey.currentState.validate()) {
     formKey.currentState?.save();
     if (isUpdating) {
-      DoctorModel e = DoctorModel("ds", "sdf", "fsdf", name);
-      dbHelper.update(e);
+      //DoctorModel e = DoctorModel(mpo: 'sdf', strCustomerName:name, straddress: "sdf", strPhone: "sd");
+      //dbHelper.update(e);
       setState(() {
         isUpdating = false;
       });
     } else {
-      DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
-      dbHelper.save(e);
+
+      //DoctorModel e = DoctorModel(mpo: 'sdf', strCustomerName:name, straddress: "sdf", strPhone: "sd");
+      //dbHelper.save(e);
     }
     clearName();
     refreshList();
