@@ -32,25 +32,25 @@ class _otpModelState extends State<otpModel> {
   }
 
   _createTable() {
-    // Services.getValidNumber(_numberController.text).then((result) {
-    //   final String jsonData = jsonDecode(result);
-    //   final String dataMapList = jsonData.toString();
-    //   userID = dataMapList;
-    //   if (userID.isNotEmpty) {
-    //     print("else if called $userID");
-    //     Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //             builder: (context) => const Login(
-    //                   title: "_number",
-    //                 )));
-    //
-    //     _numberController.clear();
-    //     userID = "";
-    //   } else if (userID.isEmpty) {
-    //     Fluttertoast.showToast(msg: "Invalid Mobile Number");
-    //   }
-    // });
+    Services.getValidNumber(_numberController.text).then((result) {
+      final String jsonData = jsonDecode(result);
+      final String dataMapList = jsonData.toString();
+      userID = dataMapList;
+      if (userID.isNotEmpty) {
+        print("else if called $userID");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const Login(
+                      title: "_number",
+                    )));
+
+        _numberController.clear();
+        userID = "";
+      } else if (userID.isEmpty) {
+        Fluttertoast.showToast(msg: "Invalid Mobile Number");
+      }
+    });
 
     // Services.getDoctor().then((value) {
     //   print("Value is = $value");
@@ -61,36 +61,7 @@ class _otpModelState extends State<otpModel> {
     //
     // });
 
-    Services.getDoctor().then((doctors) {
-      setState(() {
-        _employees = doctors;
 
-        for (int i = 0; i < _employees.length; i++) {
-          if (_employees.length == 0) {
-            if (i == 0) {
-              DoctorModel e = DoctorModel(
-                  mpo: userID,
-                  strCustomerName: "New Doctor",
-                  straddress: _employees[i].straddress,
-                  strPhone: _employees[i].strPhone);
-              dbHelper.save(e);
-            }
-          }
-
-          DoctorModel e = DoctorModel(
-              mpo: userID,
-              strCustomerName: _employees[i].strCustomerName,
-              straddress: _employees[i].straddress,
-              strPhone: _employees[i].strPhone);
-          dbHelper.save(e);
-        }
-      });
-
-      // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
-      // dbHelper.save(e);
-
-      print("Length: ${_employees[0].strCustomerName}");
-    });
 
     // Services.addEmployee(_firstNameController.text, _lastNameController.text)
     //     .then((result) {

@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import '../model/doctor_model.dart';
+import '../service/Services.dart';
 import '../sqlite_crud.dart';
+import '../sqlitehelper_deeplaid_apps/sqlitehelper.dart';
 
 class Sync extends StatefulWidget {
   const Sync({Key? key}) : super(key: key);
@@ -11,6 +15,19 @@ class Sync extends StatefulWidget {
 }
 
 class _SyncState extends State<Sync> {
+  final TextEditingController _numberController = TextEditingController();
+  late String userID = "85";
+  late List<DoctorModel> _employees;
+  var dbHelper;
+
+  @override
+  void initState() {
+    _employees = [];
+    dbHelper = DBHelper();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     //
@@ -74,7 +91,7 @@ class _SyncState extends State<Sync> {
                               child: Center(
                                 child: GestureDetector(
                                   onTap: (){
-                                    Navigator.push((context), MaterialPageRoute(builder: (context)=>DBTestPage(title: 'title',)));
+
                                   },
                                   child:Text(
                                     "Doctor Update",
@@ -90,11 +107,47 @@ class _SyncState extends State<Sync> {
                                 child: GestureDetector(
                                   onTap: () {
 
+
+                                    //insert into Doctor table
+                                    Services.getDoctor().then((doctors) {
+                                      setState(() {
+                                        _employees = doctors;
+
+                                        for (int i = 0; i < _employees.length; i++) {
+                                          if (_employees.length == 0) {
+                                            if (i == 0) {
+                                              DoctorModel e = DoctorModel(
+                                                  mpo: userID,
+                                                  strCustomerName: "New Doctor",
+                                                  straddress: _employees[i].straddress,
+                                                  strPhone: _employees[i].strPhone);
+                                              dbHelper.save(e);
+                                            }
+                                          }
+
+                                          DoctorModel e = DoctorModel(
+                                              mpo: userID,
+                                              strCustomerName: _employees[i].strCustomerName,
+                                              straddress: _employees[i].straddress,
+                                              strPhone: _employees[i].strPhone);
+                                          dbHelper.save(e);
+                                        }
+                                      });
+
+                                      // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
+                                      // dbHelper.save(e);
+
+                                      print("Length: ${_employees[0].strCustomerName}");
+                                    });
+
+                                    //Navigator.push((context), MaterialPageRoute(builder: (context)=>DBTestPage(title: 'title',)));
+                                    Fluttertoast.showToast(msg: "Doctor Sync Succcessfull");
+
                                   },
                                   child: Card(
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
-                                        color: Colors.grey,
+                                        color: Colors.blue,
                                         width: 1,
                                       ),
                                       borderRadius: BorderRadius.circular(30),

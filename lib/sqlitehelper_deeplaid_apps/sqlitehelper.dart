@@ -7,8 +7,6 @@ import 'package:path_provider/path_provider.dart';
 
 class DBHelper {
   static Database? _db;
-  //static const String ID = 'id';
-  //static const String NAME = 'name';
   static const String DB_NAME = 'deeplaiddb';
   static const String TABLE_DOCTOR_LIST = 'DOCTOR';
 
@@ -33,7 +31,7 @@ class DBHelper {
   initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, DB_NAME);
-    var db = await openDatabase(path, version: 1, onCreate: _onCreate);
+    var db = await openDatabase(path, version:1, onCreate: _onCreate);
     return db;
   }
 
@@ -50,18 +48,18 @@ class DBHelper {
 
   Future<DoctorModel> save(DoctorModel doctors) async {
     var dbClient = await db;
-    //doctors.id = await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap());
+    doctors.id = await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap());
     doctors.mpo = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
     doctors.strCustomerName = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
     doctors.strPhone = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
     doctors.straddress = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
     return doctors;
     /*
-    await dbClient.transaction((txn) async {
-      var query = "INSERT INTO $TABLE ($NAME) VALUES ('" + employee.name + "')";
-      return await txn.rawInsert(query);
-    });
-    */
+    // await dbClient?.transaction((txn) async {
+    //   var query = "INSERT INTO $TABLE_DOCTOR_LIST ($MPO, $DOCTORNAME, $DOCTORADDRESS, $DOCTORPHONE) VALUES ('" + doctors.mpo + "')";
+    //   return await txn.rawInsert(query);
+    // });*/
+
   }
 
 

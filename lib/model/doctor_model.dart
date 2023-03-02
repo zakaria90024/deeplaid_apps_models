@@ -16,6 +16,8 @@ class DoctorModel {
     );
   }
 
+  set id(int? id) {}
+
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       'mpo': mpo,
