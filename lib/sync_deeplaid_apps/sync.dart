@@ -27,7 +27,6 @@ class _SyncState extends State<Sync> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     //
@@ -54,7 +53,6 @@ class _SyncState extends State<Sync> {
     // setState(() {
     //
     // });
-
 
     final deviceHight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
@@ -84,21 +82,17 @@ class _SyncState extends State<Sync> {
                         width: deviceWidth * 0.95,
                         child: Row(
                           children: [
-
                             SizedBox(
                               height: deviceHight * 0.30,
                               width: deviceWidth * 0.65,
                               child: Center(
                                 child: GestureDetector(
-                                  onTap: (){
-
-                                  },
-                                  child:Text(
-                                    "Doctor Update",
-                                    style:
-                                    TextStyle(fontWeight: FontWeight.normal),
-                                  )
-                                ),
+                                    onTap: () {},
+                                    child: Text(
+                                      "Doctor Update",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal),
+                                    )),
                               ),
                             ),
                             SizedBox(
@@ -106,29 +100,33 @@ class _SyncState extends State<Sync> {
                                 width: deviceWidth * 0.30,
                                 child: GestureDetector(
                                   onTap: () {
-
-
                                     //insert into Doctor table
                                     Services.getDoctor().then((doctors) {
                                       setState(() {
                                         _employees = doctors;
 
-                                        for (int i = 0; i < _employees.length; i++) {
+                                        for (int i = 0;
+                                            i < _employees.length;
+                                            i++) {
                                           if (_employees.length == 0) {
                                             if (i == 0) {
                                               DoctorModel e = DoctorModel(
                                                   mpo: userID,
                                                   strCustomerName: "New Doctor",
-                                                  straddress: _employees[i].straddress,
-                                                  strPhone: _employees[i].strPhone);
+                                                  straddress:
+                                                      _employees[i].straddress,
+                                                  strPhone:
+                                                      _employees[i].strPhone);
                                               dbHelper.save(e);
                                             }
                                           }
 
                                           DoctorModel e = DoctorModel(
                                               mpo: userID,
-                                              strCustomerName: _employees[i].strCustomerName,
-                                              straddress: _employees[i].straddress,
+                                              strCustomerName:
+                                                  _employees[i].strCustomerName,
+                                              straddress:
+                                                  _employees[i].straddress,
                                               strPhone: _employees[i].strPhone);
                                           dbHelper.save(e);
                                         }
@@ -137,12 +135,13 @@ class _SyncState extends State<Sync> {
                                       // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
                                       // dbHelper.save(e);
 
-                                      print("Length: ${_employees[0].strCustomerName}");
+                                      print(
+                                          "Length: ${_employees[0].strCustomerName}");
                                     });
 
                                     //Navigator.push((context), MaterialPageRoute(builder: (context)=>DBTestPage(title: 'title',)));
-                                    Fluttertoast.showToast(msg: "Doctor Sync Succcessfull");
-
+                                    Fluttertoast.showToast(
+                                        msg: "Doctor Sync Succcessfull");
                                   },
                                   child: Card(
                                     shape: RoundedRectangleBorder(
