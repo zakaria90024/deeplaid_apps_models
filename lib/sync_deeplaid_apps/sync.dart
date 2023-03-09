@@ -139,9 +139,28 @@ class _SyncState extends State<Sync> {
                                           "Length: ${_employees[0].strCustomerName}");
                                     });
 
+                                    CupertinoAlertDialog(
+                                      title: Text("Success"),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Back")),
+                                        //https://blog.logrocket.com/creating-dialogs-flutter/ dialog from here
+                                        CupertinoDialogAction(
+                                            onPressed: () {
+                                              Fluttertoast.showToast(
+                                                  msg: "Doctor Sync Successful");
+                                            },
+                                            child: Text("Next")),
+                                      ],
+                                      content: Text("Saved successfully"),
+                                    );
+
+                                    Fluttertoast.showToast(msg: "sdfsfsdf");
                                     //Navigator.push((context), MaterialPageRoute(builder: (context)=>DBTestPage(title: 'title',)));
-                                    Fluttertoast.showToast(
-                                        msg: "Doctor Sync Succcessfull");
+
                                   },
                                   child: Card(
                                     shape: RoundedRectangleBorder(
