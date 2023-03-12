@@ -135,8 +135,6 @@ class _SyncState extends State<Sync> {
                                       // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
                                       // dbHelper.save(e);
 
-                                      //start from here for develop
-
                                       print(
                                           "Length: ${_employees[0].strCustomerName}");
                                     });
