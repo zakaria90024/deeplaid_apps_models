@@ -100,10 +100,12 @@ class _SyncState extends State<Sync> {
                                 width: deviceWidth * 0.30,
                                 child: GestureDetector(
                                   onTap: () {
+                                    dbHelper.delete("85");
                                     //insert into Doctor table
                                     Services.getDoctor().then((doctors) {
                                       setState(() {
                                         _employees = doctors;
+
 
                                         for (int i = 0;
                                             i < _employees.length;
@@ -129,11 +131,14 @@ class _SyncState extends State<Sync> {
                                                   _employees[i].straddress,
                                               strPhone: _employees[i].strPhone);
                                           dbHelper.save(e);
+
                                         }
                                       });
 
                                       // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
                                       // dbHelper.save(e);
+
+                                      print("store successfully ");
 
                                       print(
                                           "Length: ${_employees[0].strCustomerName}");
@@ -158,7 +163,7 @@ class _SyncState extends State<Sync> {
                                       content: Text("Saved successfully"),
                                     );
 
-                                    Fluttertoast.showToast(msg: "sdfsfsdf");
+                                    //Fluttertoast.showToast(msg: "sdfsfsdf");
                                     //Navigator.push((context), MaterialPageRoute(builder: (context)=>DBTestPage(title: 'title',)));
 
                                   },
