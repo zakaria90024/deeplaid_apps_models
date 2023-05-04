@@ -63,6 +63,12 @@ class DBHelper {
   }
 
 
+  Future<int?> deleteDoctor() async {
+    var dbClient = await db;
+    return await dbClient?.rawDelete("Delete from $TABLE_DOCTOR_LIST");
+  }
+
+
 
   Future<List<DoctorModel>> getEmployees() async {
     await db;

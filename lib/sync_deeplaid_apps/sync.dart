@@ -18,6 +18,7 @@ class _SyncState extends State<Sync> {
   final TextEditingController _numberController = TextEditingController();
   late String userID = "85";
   late List<DoctorModel> _employees;
+  late DoctorModel ef;
   var dbHelper;
 
   @override
@@ -100,17 +101,20 @@ class _SyncState extends State<Sync> {
                                 width: deviceWidth * 0.30,
                                 child: GestureDetector(
                                   onTap: () {
-                                    dbHelper.delete("85");
+                                    dbHelper.deleteDoctor();
                                     //insert into Doctor table
                                     Services.getDoctor().then((doctors) {
                                       setState(() {
                                         _employees = doctors;
 
 
-                                        for (int i = 0;
-                                            i < _employees.length;
-                                            i++) {
-                                          if (_employees.length == 0) {
+
+
+
+
+                                        for (int i = 0; i < 95; i++) {
+                                          print(i);
+
                                             if (i == 0) {
                                               DoctorModel e = DoctorModel(
                                                   mpo: userID,
@@ -120,25 +124,40 @@ class _SyncState extends State<Sync> {
                                                   strPhone:
                                                       _employees[i].strPhone);
                                               dbHelper.save(e);
-                                            }
-                                          }
-
-                                          DoctorModel e = DoctorModel(
-                                              mpo: userID,
-                                              strCustomerName:
-                                                  _employees[i].strCustomerName,
-                                              straddress:
+                                            }else{
+                                              DoctorModel e = DoctorModel(
+                                                  mpo: userID,
+                                                  strCustomerName: _employees[i].strCustomerName,
+                                                  straddress:
                                                   _employees[i].straddress,
-                                              strPhone: _employees[i].strPhone);
-                                          dbHelper.save(e);
+                                                  strPhone:
+                                                  _employees[i].strPhone);
+                                              dbHelper.save(e);
+                                            }
 
+                                           //
+                                           // ef = DoctorModel(
+                                           //    mpo: "85",
+                                           //    strCustomerName:
+                                           //        _employees[i].strCustomerName,
+                                           //    straddress:
+                                           //        _employees[i].straddress,
+                                           //    strPhone: _employees[i].strPhone);
+                                           //    dbHelper.save(ef);
+
+                                          //return;
+                                           //Fluttertoast.showToast(msg: "calldsets");
                                         }
+
+
+
+
                                       });
 
                                       // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
                                       // dbHelper.save(e);
 
-                                      print("store successfully ");
+
 
                                       print(
                                           "Length: ${_employees[0].strCustomerName}");
