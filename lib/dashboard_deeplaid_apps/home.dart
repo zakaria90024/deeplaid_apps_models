@@ -49,7 +49,8 @@ class _HomePageState extends State<HomePage> {
                               Row(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 25,top: 0, right: 0, bottom: 0),
+                                    padding: const EdgeInsets.only(
+                                        left: 25, top: 0, right: 0, bottom: 0),
                                     child: Row(
                                       children: [
                                         GestureDetector(
@@ -150,8 +151,11 @@ class _HomePageState extends State<HomePage> {
                                           onTap: () {
                                             print("clicked Logo");
                                           },
-                                          child: Icon(Icons.mail, color: Colors.white, size: 26,)
-                                      ),
+                                          child: Icon(
+                                            Icons.mail,
+                                            color: Colors.white,
+                                            size: 26,
+                                          )),
 
                                       // IconButton(
                                       //
@@ -238,8 +242,12 @@ class _HomePageState extends State<HomePage> {
                                           onTap: () {
                                             print("clicked Logo");
                                           },
-                                          child: const Icon(CupertinoIcons.person_alt_circle_fill, color: Colors.white, size: 26,)
-                                      ),
+                                          child: const Icon(
+                                            CupertinoIcons
+                                                .person_alt_circle_fill,
+                                            color: Colors.white,
+                                            size: 26,
+                                          )),
 
                                       // IconButton(
                                       //
@@ -544,33 +552,33 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 GestureDetector(
                   onTap: () {
-                    Navigator.push((context), MaterialPageRoute(builder: (context)=>Sync()));
+                    Navigator.push((context),
+                        MaterialPageRoute(builder: (context) => Sync()));
                   },
-                child:SizedBox(
-                  height: deviceHight * 0.15,
-                  width: deviceWidth * 0.45,
-                  child: Card(
-                    elevation: 2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          CupertinoIcons.rays,
-                          color: Colors.black,
-                          size: 50,
-                        ),
-                        Text(
-                          "Sync",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )
-                      ],
+                  child: SizedBox(
+                    height: deviceHight * 0.15,
+                    width: deviceWidth * 0.45,
+                    child: Card(
+                      elevation: 2,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            CupertinoIcons.rays,
+                            color: Colors.black,
+                            size: 50,
+                          ),
+                          Text(
+                            "Sync",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),),
-
+                ),
                 SizedBox(
                   height: deviceHight * 0.15,
                   width: deviceWidth * 0.45,

@@ -43,38 +43,39 @@ class DBHelper {
     //     "( " + ID + " INTEGER PRIMARY KEY  AUTOINCREMENT NOT NULL," + MPO + " TEXT ," + DOCTORNAME + " TEXT," + DOCTORADDRESS + " TEXT ," + DOCTORPHONE + " TEXT )";
     //
     //
-    await db.execute("CREATE TABLE $TABLE_DOCTOR_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $MPO TEXT, $DOCTORNAME TEXT, $DOCTORADDRESS TEXT, $DOCTORPHONE TEXT)");
+    await db.execute("CREATE TABLE [IF NOT EXISTS $TABLE_DOCTOR_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $MPO TEXT, $DOCTORNAME TEXT, $DOCTORADDRESS TEXT, $DOCTORPHONE TEXT)");
   }
 
   Future<DoctorModel> save(DoctorModel doctors) async {
     var dbClient = await db;
-    doctors.id = await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap());
-    doctors.mpo = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    doctors.strCustomerName = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    doctors.strPhone = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    doctors.straddress = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
+    await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap());
+    // doctors.mpo = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
+    // doctors.strCustomerName = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
+    // doctors.strPhone = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
+    // doctors.straddress = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
+    // print("${"ckkka"}");
     return doctors;
     /*
-    // await dbClient?.transaction((txn) async {
-    //   var query = "INSERT INTO $TABLE_DOCTOR_LIST ($MPO, $DOCTORNAME, $DOCTORADDRESS, $DOCTORPHONE) VALUES ('" + doctors.mpo + "')";
-    //   return await txn.rawInsert(query);
+     await dbClient?.transaction((txn) async {
+       var query = "INSERT INTO $TABLE_DOCTOR_LIST ($MPO, $DOCTORNAME, $DOCTORADDRESS, $DOCTORPHONE) VALUES ('" + doctors.mpo + "')";
+       return await txn.rawInsert(query);
     // });*/
 
   }
 
-
   Future<int?> deleteDoctor() async {
     var dbClient = await db;
-    return await dbClient?.rawDelete("Delete from $TABLE_DOCTOR_LIST");
+    int? result = await dbClient?.rawDelete('DELETE FROM $TABLE_DOCTOR_LIST');
+    return result;
   }
 
 
 
-  Future<List<DoctorModel>> getEmployees() async {
-    await db;
-    final List<Map<String, Object?>> QueryResult = await _db!.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
-    return QueryResult.map((e) => DoctorModel.fromMap(e)).toList();
-  }
+  // Future<List<DoctorModel>> getEmployees() async {
+  //   await db;
+  //   final List<Map<String, Object?>> QueryResult = await _db!.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
+  //   return QueryResult.map((e) => DoctorModel.fromJson(e)).toList();
+  // }
   // Future<List<Employee>> getEmployees() async {
   //   var dbClient = await db;
   //   List<Map> maps = await dbClient.query(TABLE, columns: [ID, NAME]);
@@ -93,11 +94,11 @@ class DBHelper {
     return await dbClient?.delete(TABLE_DOCTOR_LIST, where: '$MPO = ?', whereArgs: [mpo]);
   }
 
-  Future<int?> update(DoctorModel doctors) async {
-    var dbClient = await db;
-    return await dbClient?.update(TABLE_DOCTOR_LIST, doctors.toMap(),
-        where: '$MPO = ?', whereArgs: [doctors.mpo]);
-  }
+  // Future<int?> update(DoctorModel doctors) async {
+  //   var dbClient = await db;
+  //   return await dbClient?.update(TABLE_DOCTOR_LIST, doctors.toMap(),
+  //       where: '$MPO = ?', whereArgs: [doctors.mpo]);
+  // }
 
   Future close() async {
     var dbClient = await db;

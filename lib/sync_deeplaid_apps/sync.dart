@@ -102,65 +102,69 @@ class _SyncState extends State<Sync> {
                                 child: GestureDetector(
                                   onTap: () {
                                     dbHelper.deleteDoctor();
+
+                                    // dbHelper.save(DoctorModel(
+                                    //
+                                    //     mpo: "2",
+                                    //     strCustomerName: "sdfsdf",
+                                    //     straddress:"sdfsdf",
+                                    //     strPhone:"sdfs"));
+
+                                    //Services.getDoctor().then((value) => null);
                                     //insert into Doctor table
                                     Services.getDoctor().then((doctors) {
                                       setState(() {
                                         _employees = doctors;
 
+                                        Fluttertoast.showToast(
+                                            msg: "total${_employees.length}");
 
+                                        dbHelper.save(DoctorModel(
 
+                                            mpo: "10",
+                                            strCustomerName:  "New Doctor",
+                                            straddress: "",
+                                            strPhone:""));
 
+                                        for (int i = 0; i < _employees.length; i++) {
 
+                                          dbHelper.save(DoctorModel(
+                                              ID:"E",
+                                              mpo: "2",
+                                              strCustomerName: _employees[i].strCustomerName,
+                                              straddress: _employees[i].straddress,
+                                              strPhone:_employees[i].strPhone));
 
-                                        for (int i = 0; i < 95; i++) {
-                                          print(i);
-
-                                            if (i == 0) {
-                                              DoctorModel e = DoctorModel(
-                                                  mpo: userID,
-                                                  strCustomerName: "New Doctor",
-                                                  straddress:
-                                                      _employees[i].straddress,
-                                                  strPhone:
-                                                      _employees[i].strPhone);
-                                              dbHelper.save(e);
-                                            }else{
-                                              DoctorModel e = DoctorModel(
-                                                  mpo: userID,
-                                                  strCustomerName: _employees[i].strCustomerName,
-                                                  straddress:
-                                                  _employees[i].straddress,
-                                                  strPhone:
-                                                  _employees[i].strPhone);
-                                              dbHelper.save(e);
-                                            }
-
-                                           //
-                                           // ef = DoctorModel(
-                                           //    mpo: "85",
-                                           //    strCustomerName:
-                                           //        _employees[i].strCustomerName,
-                                           //    straddress:
-                                           //        _employees[i].straddress,
-                                           //    strPhone: _employees[i].strPhone);
-                                           //    dbHelper.save(ef);
-
-                                          //return;
-                                           //Fluttertoast.showToast(msg: "calldsets");
+                                          // if (i == 0) {
+                                          //   DoctorModel e = DoctorModel(
+                                          //       mpo: userID,
+                                          //       strCustomerName: "New Doctor",
+                                          //       straddress:
+                                          //           _employees[i].straddress,
+                                          //       strPhone:
+                                          //           _employees[i].strPhone);
+                                          //   dbHelper.deleteDoctor();
+                                          //   dbHelper.save(e);
+                                          // } else {
+                                          //   DoctorModel e = DoctorModel(
+                                          //       mpo: "85",
+                                          //       strCustomerName: _employees[i]
+                                          //           .strCustomerName,
+                                          //       straddress:
+                                          //           _employees[i].straddress,
+                                          //       strPhone:
+                                          //           _employees[i].strPhone);
+                                          //   dbHelper.save(e);
+                                          //
+                                          //   return;
+                                          //   Fluttertoast.showToast(
+                                          //       msg: "calldsets");
+                                          // }
                                         }
-
-
-
-
                                       });
 
                                       // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
                                       // dbHelper.save(e);
-
-
-
-                                      print(
-                                          "Length: ${_employees[0].strCustomerName}");
                                     });
 
                                     CupertinoAlertDialog(
@@ -175,7 +179,8 @@ class _SyncState extends State<Sync> {
                                         CupertinoDialogAction(
                                             onPressed: () {
                                               Fluttertoast.showToast(
-                                                  msg: "Doctor Sync Successful");
+                                                  msg:
+                                                      "Doctor Sync Successful");
                                             },
                                             child: Text("Next")),
                                       ],
@@ -184,7 +189,6 @@ class _SyncState extends State<Sync> {
 
                                     //Fluttertoast.showToast(msg: "sdfsfsdf");
                                     //Navigator.push((context), MaterialPageRoute(builder: (context)=>DBTestPage(title: 'title',)));
-
                                   },
                                   child: Card(
                                     shape: RoundedRectangleBorder(

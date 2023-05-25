@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Services {
-  static const root = 'http://192.168.1.83:8080/api/';
+  static const root = 'http://192.168.1.83:8080/api';
   static const urlPrefix = 'http://localhost:8086/EmployesDB';
   static const String _GET_ACTION = 'GET_ALL';
   static const String _CREATE_TABLE = 'CREATE_TABLE';
@@ -19,14 +19,17 @@ class Services {
     if (response.statusCode == 200) {
 
       final jsonData = jsonDecode(response.body);
+
+
       final List<dynamic> dataList = jsonData.cast<dynamic>();
 
       final List<DoctorModel> myDataList = dataList.map((data) => DoctorModel.fromJson(data)).toList();
 
       return myDataList;
 
+
     } else {
-      print("else called ");
+
       throw <DoctorModel>[];
     }
   }
@@ -53,7 +56,7 @@ class Services {
   static List<DoctorModel> parsePhotos(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed
-        .map<DoctorModel>((json) => DoctorModel.fromMap(json))
+        .map<DoctorModel>((json) => DoctorModel.fromJson(json))
         .toList();
   }
 

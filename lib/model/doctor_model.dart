@@ -8,6 +8,7 @@ class DoctorModel {
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
     return DoctorModel(
+
       mpo: json['mpo'],
       strCustomerName: json['strCustomerName'],
       straddress: json['straddress'],
@@ -28,11 +29,11 @@ class DoctorModel {
     return map;
   }
 
-  DoctorModel.fromMap(Map<String, dynamic> res)
-      : mpo = res["mpo"],
-        strCustomerName = res["doctorName"],
-        straddress = res["doctorAddress"],
-        strPhone = res["doctorPhone"];
+  // DoctorModel.fromMap(Map<String, dynamic> res)
+  //     : mpo = res["mpo"],
+  //       strCustomerName = res["doctorName"],
+  //       straddress = res["doctorAddress"],
+  //       strPhone = res["doctorPhone"];
 
 
 
