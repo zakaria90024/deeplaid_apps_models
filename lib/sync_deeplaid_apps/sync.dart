@@ -129,7 +129,6 @@ class _SyncState extends State<Sync> {
                                         for (int i = 0; i < _employees.length; i++) {
 
                                           dbHelper.save(DoctorModel(
-                                              ID:"E",
                                               mpo: "2",
                                               strCustomerName: _employees[i].strCustomerName,
                                               straddress: _employees[i].straddress,
