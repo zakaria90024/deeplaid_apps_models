@@ -1,7 +1,10 @@
+import 'package:deeplaid_apps_models/custom_alart_dialog/alartdialog.dart';
+import 'package:deeplaid_apps_models/model/commision_model.dart';
+import 'package:deeplaid_apps_models/model/group_model.dart';
+import 'package:deeplaid_apps_models/model/item_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import '../model/doctor_model.dart';
 import '../service/Services.dart';
 import '../sqlite_crud.dart';
@@ -15,16 +18,22 @@ class Sync extends StatefulWidget {
 }
 
 class _SyncState extends State<Sync> {
+  //var _showAlertDialog;
   final TextEditingController _numberController = TextEditingController();
   late String userID = "85";
   late List<DoctorModel> _employees;
+  late List<GroupModel> _groups;
+  late List<ItemModel> _items;
+  late List<CommissionSlabModel> _commissions;
   late DoctorModel ef;
   var dbHelper;
 
   @override
   void initState() {
+
     _employees = [];
     dbHelper = DBHelper();
+    //_showAlertDialog = DialogCustomm();
     super.initState();
   }
 
@@ -116,23 +125,28 @@ class _SyncState extends State<Sync> {
                                       setState(() {
                                         _employees = doctors;
 
+                                        // Fluttertoast.showToast(
+                                        //     msg: "total${_employees.length}");
                                         Fluttertoast.showToast(
                                             msg: "total${_employees.length}");
-
-                                        dbHelper.save(DoctorModel(
-
+                                        dbHelper.sqfliteSaveDoctor(DoctorModel(
                                             mpo: "10",
-                                            strCustomerName:  "New Doctor",
+                                            strCustomerName: "New Doctor",
                                             straddress: "",
-                                            strPhone:""));
+                                            strPhone: ""));
 
-                                        for (int i = 0; i < _employees.length; i++) {
-
-                                          dbHelper.save(DoctorModel(
-                                              mpo: "2",
-                                              strCustomerName: _employees[i].strCustomerName,
-                                              straddress: _employees[i].straddress,
-                                              strPhone:_employees[i].strPhone));
+                                        for (int i = 0;
+                                            i < _employees.length;
+                                            i++) {
+                                          dbHelper.sqfliteSaveDoctor(
+                                              DoctorModel(
+                                                  mpo: userID,
+                                                  strCustomerName: _employees[i]
+                                                      .strCustomerName,
+                                                  straddress:
+                                                      _employees[i].straddress,
+                                                  strPhone:
+                                                      _employees[i].strPhone));
 
                                           // if (i == 0) {
                                           //   DoctorModel e = DoctorModel(
@@ -162,31 +176,13 @@ class _SyncState extends State<Sync> {
                                         }
                                       });
 
+                                      DialogCustomm.showAlertDoneFail(context,
+                                          "Done", "Insert Successful", "Okay");
+
                                       // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
                                       // dbHelper.save(e);
                                     });
 
-                                    CupertinoAlertDialog(
-                                      title: Text("Success"),
-                                      actions: [
-                                        CupertinoDialogAction(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text("Back")),
-                                        //https://blog.logrocket.com/creating-dialogs-flutter/ dialog from here
-                                        CupertinoDialogAction(
-                                            onPressed: () {
-                                              Fluttertoast.showToast(
-                                                  msg:
-                                                      "Doctor Sync Successful");
-                                            },
-                                            child: Text("Next")),
-                                      ],
-                                      content: Text("Saved successfully"),
-                                    );
-
-                                    //Fluttertoast.showToast(msg: "sdfsfsdf");
                                     //Navigator.push((context), MaterialPageRoute(builder: (context)=>DBTestPage(title: 'title',)));
                                   },
                                   child: Card(
@@ -247,7 +243,35 @@ class _SyncState extends State<Sync> {
                                 width: deviceWidth * 0.30,
                                 child: GestureDetector(
                                   onTap: () {
-                                    print("Clicked Doctor Sync");
+                                    dbHelper.sqlitedeleteGroup();
+
+                                    //insert Group
+                                    Services.getGroup().then((groups) {
+                                      setState(() {
+                                        _groups = groups;
+
+                                        Fluttertoast.showToast(
+                                            msg: "total ${_groups.length}");
+
+                                        for (int i = 0;
+                                            i < _groups.length;
+                                            i++) {
+                                          dbHelper.sqflitesaveGroup(
+                                              GroupModel(
+                                            GroupName: _groups[i].GroupName,
+                                          ));
+                                        }
+                                      });
+
+                                      DialogCustomm.showAlertDoneFail(
+                                          context,
+                                          "Done",
+                                          "Group Insert Successful",
+                                          "Okay");
+
+                                      // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
+                                      // dbHelper.save(e);
+                                    });
                                   },
                                   child: Card(
                                     shape: RoundedRectangleBorder(
@@ -307,7 +331,42 @@ class _SyncState extends State<Sync> {
                                 width: deviceWidth * 0.30,
                                 child: GestureDetector(
                                   onTap: () {
-                                    print("Clicked Doctor Sync");
+                                    dbHelper.sqlitedeleteItem();
+
+                                    //insert Group
+                                    Services.getItem().then((Items) {
+                                      setState(() {
+                                        _items = Items;
+                                        Fluttertoast.showToast(
+                                            msg: "total${_items.length}");
+
+                                        for (int i = 0;
+                                        i < _items.length;
+                                        i++) {
+                                          dbHelper.sqfliteSaveItem(
+                                              ItemModel(
+                                                commgroupgame: _items[i].commgroupgame,
+                                                dblPartyvalue: _items[i].dblPartyvalue,
+                                                dblRate: _items[i].dblRate,
+                                                dblcomboMaxvalue: _items[i].dblcomboMaxvalue,
+                                                dblcomboMinqty: _items[i].dblcomboMinqty,
+                                                groupName: _items[i].groupName,
+                                                itemName: _items[i].itemName,
+                                                itemcode: _items[i].itemcode,
+                                              ));
+                                        }
+                                        DialogCustomm.showAlertDoneFail(
+                                            context,
+                                            "Done",
+                                            "Item Insert Successful",
+                                            "Okay");
+                                      });
+
+
+
+                                      // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
+                                      // dbHelper.save(e);
+                                    });
                                   },
                                   child: Card(
                                     shape: RoundedRectangleBorder(
@@ -367,7 +426,39 @@ class _SyncState extends State<Sync> {
                                 width: deviceWidth * 0.30,
                                 child: GestureDetector(
                                   onTap: () {
-                                    print("Clicked Doctor Sync");
+                                    //dbHelper.sqlitedeleteCommission();
+
+                                    //insert Group
+                                    Services.getCommission().then((Items) {
+                                      setState(() {
+                                        _commissions = Items;
+                                        Fluttertoast.showToast(
+                                            msg: "total ${_commissions.length}");
+
+                                        for (int i = 0;
+                                        i < _commissions.length;
+                                        i++) {
+                                          dbHelper.sqfliteSaveCommision(
+                                              CommissionSlabModel(
+                                                dblFromRange: _commissions[i].dblFromRange,
+                                                dblPercentage: _commissions[i].dblPercentage,
+                                                dblToRange: _commissions[i].dblToRange,
+                                                groupName: _commissions[i].groupName,
+                                                strDate: _commissions[i].strDate,
+                                              ));
+                                        }
+                                        DialogCustomm.showAlertDoneFail(
+                                            context,
+                                            "Done",
+                                            "Commission Insert Successful",
+                                            "Okay");
+                                      });
+
+
+
+                                      // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
+                                      // dbHelper.save(e);
+                                    });
                                   },
                                   child: Card(
                                     shape: RoundedRectangleBorder(

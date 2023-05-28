@@ -1,11 +1,16 @@
 import 'dart:convert';
+import 'package:deeplaid_apps_models/model/commision_model.dart';
 import 'package:deeplaid_apps_models/model/doctor_model.dart';
+import 'package:deeplaid_apps_models/model/group_model.dart';
+import 'package:deeplaid_apps_models/model/item_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Services {
   static const root = 'http://192.168.1.83:8080/api';
   static const urlPrefix = 'http://localhost:8086/EmployesDB';
+
+
   static const String _GET_ACTION = 'GET_ALL';
   static const String _CREATE_TABLE = 'CREATE_TABLE';
   static const String _ADD_EMP_ACTION = 'ADD_EMP';
@@ -19,20 +24,65 @@ class Services {
     if (response.statusCode == 200) {
 
       final jsonData = jsonDecode(response.body);
-
-
       final List<dynamic> dataList = jsonData.cast<dynamic>();
-
       final List<DoctorModel> myDataList = dataList.map((data) => DoctorModel.fromJson(data)).toList();
-
       return myDataList;
 
-
     } else {
-
       throw <DoctorModel>[];
     }
   }
+
+  static Future<List<GroupModel>> getGroup() async {
+    final url = Uri.parse('$root/StockGroup?branchid=0001');
+    final response = await http.get(url);
+    print("getDoctor >> Response:: ${response.statusCode}");
+    if (response.statusCode == 200) {
+
+      final jsonData = jsonDecode(response.body);
+      final List<dynamic> dataList = jsonData.cast<dynamic>();
+      final List<GroupModel> myDataList = dataList.map((data) => GroupModel.fromJson(data)).toList();
+      return myDataList;
+
+    } else {
+      throw <GroupModel>[];
+    }
+  }
+
+
+  static Future<List<ItemModel>> getItem() async {
+    final url = Uri.parse('$root/mLoadItemRate?branchid=0001');
+    final response = await http.get(url);
+    print("getDoctor >> Response:: ${response.statusCode}");
+    if (response.statusCode == 200) {
+
+      final jsonData = jsonDecode(response.body);
+      final List<dynamic> dataList = jsonData.cast<dynamic>();
+      final List<ItemModel> myItemList = dataList.map((data) => ItemModel.fromJson(data)).toList();
+      return myItemList;
+
+    } else {
+      throw <GroupModel>[];
+    }
+  }
+
+
+  static Future<List<CommissionSlabModel>> getCommission() async {
+    final url = Uri.parse('$root/Commissionslab');
+    final response = await http.get(url);
+    print("getDoctor >> Response:: ${response.statusCode}");
+    if (response.statusCode == 200) {
+
+      final jsonData = jsonDecode(response.body);
+      final List<dynamic> dataList = jsonData.cast<dynamic>();
+      final List<CommissionSlabModel> myItemList = dataList.map((data) => CommissionSlabModel.fromJson(data)).toList();
+      return myItemList;
+
+    } else {
+      throw <GroupModel>[];
+    }
+  }
+
 
 
 
