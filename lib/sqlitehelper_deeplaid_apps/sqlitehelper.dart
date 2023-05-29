@@ -10,7 +10,7 @@ import 'package:path_provider/path_provider.dart';
 
 class DBHelper {
   static Database? _db;
-  static const String DB_NAME = 'deeplaiddb';
+  static const String DB_NAME = 'dbdeeplaid';
   static const String TABLE_DOCTOR_LIST = 'DOCTOR';
   static const String TABLE_GROUP_LIST = "STOCKGROUP";
   static const String TABLE_ITEM_LIST = "STOCKITEM";
@@ -23,14 +23,12 @@ class DBHelper {
   static const String DOCTORADDRESS = "doctorAddress";
   static const String DOCTORPHONE = "doctorPhone";
 
-
   //commission slab
   static const String SLABGROUP = "groupName";
   static const String FROMRANGE = "dblFromRange";
   static const String PERCENTAGE = "dblPercentage";
   static const String TORANGE = "dblToRange";
   static const String STRDATE = "strDate";
-
 
 
   //for Item list table
@@ -64,14 +62,6 @@ class DBHelper {
 
 
   _onCreate(Database db, int version) async {
-    // await db
-    //     .execute("CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY, $NAME TEXT)");
-    // private static final String CREATE_DOCTOR_TABLE = " CREATE TABLE " + TABLE_DOCTOR_LIST +
-    //
-    //     "( " + ID + " INTEGER PRIMARY KEY  AUTOINCREMENT NOT NULL," + MPO + " TEXT ," + DOCTORNAME + " TEXT," + DOCTORADDRESS + " TEXT ," + DOCTORPHONE + " TEXT )";
-    //
-    //
-
 
     //party or doctor
     await db.execute("CREATE TABLE IF NOT EXISTS $TABLE_DOCTOR_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $MPO TEXT, $DOCTORNAME TEXT, $DOCTORADDRESS TEXT, $DOCTORPHONE TEXT)");
@@ -83,15 +73,11 @@ class DBHelper {
     //stockgroup
     await db.execute("CREATE TABLE IF NOT EXISTS $TABLE_GROUP_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $GROUPNAME TEXT )");
 
-
-
     //commisonslab
     await db.execute("CREATE TABLE IF NOT EXISTS $TABLE_COMMISSION_SLAB_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $SLABGROUP TEXT, $FROMRANGE TEXT, $PERCENTAGE TEXT, $TORANGE TEXT, $STRDATE TEXT)");
 
 
   }
-
-
 
   Future<DoctorModel> sqfliteSaveDoctor(DoctorModel doctors) async {
     var dbClient = await db;
@@ -117,23 +103,11 @@ class DBHelper {
   }
 
 
-
-
   //for group sqlite
   Future<GroupModel> sqflitesaveGroup(GroupModel groups) async {
     var dbClient = await db;
     await dbClient?.insert(TABLE_GROUP_LIST, groups.toMap());
-    // doctors.mpo = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // doctors.strCustomerName = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // doctors.strPhone = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // doctors.straddress = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // print("${"ckkka"}");
     return groups;
-    /*
-     await dbClient?.transaction((txn) async {
-       var query = "INSERT INTO $TABLE_DOCTOR_LIST ($MPO, $DOCTORNAME, $DOCTORADDRESS, $DOCTORPHONE) VALUES ('" + doctors.mpo + "')";
-       return await txn.rawInsert(query);
-    // });*/
 
   }
 
@@ -148,17 +122,7 @@ class DBHelper {
   Future<ItemModel> sqfliteSaveItem(ItemModel items) async {
     var dbClient = await db;
     await dbClient?.insert(TABLE_ITEM_LIST, items.toMap());
-    // doctors.mpo = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // doctors.strCustomerName = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // doctors.strPhone = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // doctors.straddress = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // print("${"ckkka"}");
     return items;
-    /*
-     await dbClient?.transaction((txn) async {
-       var query = "INSERT INTO $TABLE_DOCTOR_LIST ($MPO, $DOCTORNAME, $DOCTORADDRESS, $DOCTORPHONE) VALUES ('" + doctors.mpo + "')";
-       return await txn.rawInsert(query);
-    // });*/
 
   }
 
@@ -174,18 +138,7 @@ class DBHelper {
   Future<CommissionSlabModel> sqfliteSaveCommision(CommissionSlabModel items) async {
     var dbClient = await db;
     await dbClient?.insert(TABLE_COMMISSION_SLAB_LIST, items.toMap());
-    // doctors.mpo = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // doctors.strCustomerName = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // doctors.strPhone = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // doctors.straddress = (await dbClient?.insert(TABLE_DOCTOR_LIST, doctors.toMap())) as String?;
-    // print("${"ckkka"}");
     return items;
-    /*
-     await dbClient?.transaction((txn) async {
-       var query = "INSERT INTO $TABLE_DOCTOR_LIST ($MPO, $DOCTORNAME, $DOCTORADDRESS, $DOCTORPHONE) VALUES ('" + doctors.mpo + "')";
-       return await txn.rawInsert(query);
-    // });*/
-
   }
 
   Future<int?> sqlitedeleteCommission() async {
