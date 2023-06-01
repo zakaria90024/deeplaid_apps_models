@@ -148,11 +148,11 @@ class DBHelper {
   }
 
 
-  // Future<List<DoctorModel>> getEmployees() async {
-  //   await db;
-  //   final List<Map<String, Object?>> QueryResult = await _db!.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
-  //   return QueryResult.map((e) => DoctorModel.fromJson(e)).toList();
-  // }
+  Future<List<DoctorModel>> getDoctors() async {
+    await db;
+    final List<Map<String, Object?>> QueryResult = await _db!.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
+    return QueryResult.map((e) => DoctorModel.fromJson(e)).toList();
+  }
   // Future<List<Employee>> getEmployees() async {
   //   var dbClient = await db;
   //   List<Map> maps = await dbClient.query(TABLE, columns: [ID, NAME]);
