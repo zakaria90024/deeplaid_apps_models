@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const DoctorList(),
+      home: const SplashDeeplaid(),
       debugShowCheckedModeBanner: false,
     );
   }

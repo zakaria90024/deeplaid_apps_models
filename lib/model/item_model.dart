@@ -7,6 +7,7 @@ class ItemModel {
   String? groupName;
   String? itemName;
   String? itemcode;
+  String? depot;
 
   ItemModel({
     required this.commgroupgame,
@@ -16,7 +17,8 @@ class ItemModel {
     required this.dblcomboMinqty,
     required this.groupName,
     required this.itemName,
-    required this.itemcode});
+    required this.itemcode,
+    required this.depot});
 
 
   factory ItemModel.fromJson(Map<String, dynamic> json) {
@@ -30,6 +32,7 @@ class ItemModel {
       groupName: json['groupName'],
       itemName: json['itemName'],
       itemcode: json['itemcode'],
+      depot: json['depot']
 
     );
   }
@@ -46,6 +49,7 @@ class ItemModel {
       'groupName': groupName,
       'itemName': itemName,
       'itemcode': itemcode,
+      'depot':depot
     };
     return map;
   }

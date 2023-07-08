@@ -30,7 +30,6 @@ class _SyncState extends State<Sync> {
 
   @override
   void initState() {
-
     _employees = [];
     dbHelper = DBHelper();
     //_showAlertDialog = DialogCustomm();
@@ -256,8 +255,7 @@ class _SyncState extends State<Sync> {
                                         for (int i = 0;
                                             i < _groups.length;
                                             i++) {
-                                          dbHelper.sqflitesaveGroup(
-                                              GroupModel(
+                                          dbHelper.sqflitesaveGroup(GroupModel(
                                             GroupName: _groups[i].GroupName,
                                           ));
                                         }
@@ -341,19 +339,22 @@ class _SyncState extends State<Sync> {
                                             msg: "total${_items.length}");
 
                                         for (int i = 0;
-                                        i < _items.length;
-                                        i++) {
-                                          dbHelper.sqfliteSaveItem(
-                                              ItemModel(
-                                                commgroupgame: _items[i].commgroupgame,
-                                                dblPartyvalue: _items[i].dblPartyvalue,
-                                                dblRate: _items[i].dblRate,
-                                                dblcomboMaxvalue: _items[i].dblcomboMaxvalue,
-                                                dblcomboMinqty: _items[i].dblcomboMinqty,
-                                                groupName: _items[i].groupName,
-                                                itemName: _items[i].itemName,
-                                                itemcode: _items[i].itemcode,
-                                              ));
+                                            i < _items.length;
+                                            i++) {
+                                          dbHelper.sqfliteSaveItem(ItemModel(
+                                              commgroupgame:
+                                                  _items[i].commgroupgame,
+                                              dblPartyvalue:
+                                                  _items[i].dblPartyvalue,
+                                              dblRate: _items[i].dblRate,
+                                              dblcomboMaxvalue:
+                                                  _items[i].dblcomboMaxvalue,
+                                              dblcomboMinqty:
+                                                  _items[i].dblcomboMinqty,
+                                              groupName: _items[i].groupName,
+                                              itemName: _items[i].itemName,
+                                              itemcode: _items[i].itemcode,
+                                              depot: _items[i].depot));
                                         }
                                         DialogCustomm.showAlertDoneFail(
                                             context,
@@ -361,8 +362,6 @@ class _SyncState extends State<Sync> {
                                             "Item Insert Successful",
                                             "Okay");
                                       });
-
-
 
                                       // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
                                       // dbHelper.save(e);
@@ -433,19 +432,24 @@ class _SyncState extends State<Sync> {
                                       setState(() {
                                         _commissions = Items;
                                         Fluttertoast.showToast(
-                                            msg: "total ${_commissions.length}");
+                                            msg:
+                                                "total ${_commissions.length}");
 
                                         for (int i = 0;
-                                        i < _commissions.length;
-                                        i++) {
+                                            i < _commissions.length;
+                                            i++) {
                                           dbHelper.sqfliteSaveCommision(
                                               CommissionSlabModel(
-                                                dblFromRange: _commissions[i].dblFromRange,
-                                                dblPercentage: _commissions[i].dblPercentage,
-                                                dblToRange: _commissions[i].dblToRange,
-                                                groupName: _commissions[i].groupName,
-                                                strDate: _commissions[i].strDate,
-                                              ));
+                                            dblFromRange:
+                                                _commissions[i].dblFromRange,
+                                            dblPercentage:
+                                                _commissions[i].dblPercentage,
+                                            dblToRange:
+                                                _commissions[i].dblToRange,
+                                            groupName:
+                                                _commissions[i].groupName,
+                                            strDate: _commissions[i].strDate,
+                                          ));
                                         }
                                         DialogCustomm.showAlertDoneFail(
                                             context,
@@ -453,8 +457,6 @@ class _SyncState extends State<Sync> {
                                             "Commission Insert Successful",
                                             "Okay");
                                       });
-
-
 
                                       // DoctorModel e = DoctorModel("ds", "sdf", "sdfsd", name);
                                       // dbHelper.save(e);

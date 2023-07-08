@@ -29,11 +29,11 @@ class DoctorModel {
     return map;
   }
 
-  // DoctorModel.fromMap(Map<String, dynamic> res)
-  //     : mpo = res["mpo"],
-  //       strCustomerName = res["doctorName"],
-  //       straddress = res["doctorAddress"],
-  //       strPhone = res["doctorPhone"];
+  DoctorModel.fromMap(Map<String, dynamic> res)
+      : mpo = res["mpo"],
+        strCustomerName = res["doctorName"],
+        straddress = res["doctorAddress"],
+        strPhone = res["doctorPhone"];
 
 
 

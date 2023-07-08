@@ -41,8 +41,8 @@ class _otpModelState extends State<otpModel> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const Login(
-                      title: "_number",
+                builder: (context) =>  Login(
+                      title: "_number", userid: userID,
                     )));
 
         _numberController.clear();

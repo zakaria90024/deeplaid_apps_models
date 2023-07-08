@@ -33,6 +33,8 @@ class Services {
     }
   }
 
+
+
   static Future<List<GroupModel>> getGroup() async {
     final url = Uri.parse('$root/StockGroup?branchid=0001');
     final response = await http.get(url);
@@ -51,7 +53,7 @@ class Services {
 
 
   static Future<List<ItemModel>> getItem() async {
-    final url = Uri.parse('$root/mLoadItemRate?branchid=0001');
+    final url = Uri.parse('$root/mLoadItemRate?branchid=0001&strTC=001');
     final response = await http.get(url);
     print("getDoctor >> Response:: ${response.statusCode}");
     if (response.statusCode == 200) {

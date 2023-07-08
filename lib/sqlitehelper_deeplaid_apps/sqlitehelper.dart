@@ -4,6 +4,7 @@ import 'package:deeplaid_apps_models/model/commision_model.dart';
 import 'package:deeplaid_apps_models/model/doctor_model.dart';
 import 'package:deeplaid_apps_models/model/group_model.dart';
 import 'package:deeplaid_apps_models/model/item_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -40,6 +41,7 @@ class DBHelper {
   static const String groupName = "groupName";
   static const String itemName = "itemName";
   static const String itemcode = "itemcode";
+  static const String itemdepot = "depot";
 
 
   //for Doctor list table
@@ -68,7 +70,7 @@ class DBHelper {
 
     //stock items
     await db.execute("CREATE TABLE IF NOT EXISTS $TABLE_ITEM_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $commgroupgame TEXT, $dblPartyvalue TEXT, $dblRate TEXT, "
-        "$dblcomboMaxvalue TEXT, $dblcomboMinqty TEXT, $groupName TEXT, $itemName TEXT, $itemcode TEXT)");
+        "$dblcomboMaxvalue TEXT, $dblcomboMinqty TEXT, $groupName TEXT, $itemName TEXT, $itemcode TEXT, $itemdepot TEXT)");
 
     //stockgroup
     await db.execute("CREATE TABLE IF NOT EXISTS $TABLE_GROUP_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $GROUPNAME TEXT )");
@@ -147,12 +149,51 @@ class DBHelper {
     return result;
   }
 
-
   Future<List<DoctorModel>> getDoctors() async {
-    await db;
-    final List<Map<String, Object?>> QueryResult = await _db!.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
-    return QueryResult.map((e) => DoctorModel.fromJson(e)).toList();
+
+    final List<Map<String, dynamic>> maps = await _db!.rawQuery('SELECT FROM $TABLE_DOCTOR_LIST');
+    //final List<Map<String, dynamic>> maps = await _database.query(TABLE_DOCTOR_LIST, Matrix4.columns(ID, arg1, arg2, arg3));
+
+    List<DoctorModel> employees = [];
+
+    if (maps.length > 0) {
+      for (int i = 0; i < maps.length; i++) {
+        employees.add(DoctorModel.fromMap(maps[i]));
+      }
+    }
+    print("map$maps");
+
+    // List<DoctorModel> users = [];
+    // for (Map<String, dynamic> map in maps) {
+    //   users.add(DoctorModel.fromMap(map));
+    // }
+
+    return employees;
   }
+  // commission slab
+  // static const String ID = "id";
+  // static const String MPO = "mpo";
+  // static const String DOCTORNAME = "doctorName";
+  // static const String DOCTORADDRESS = "doctorAddress";
+  // static const String DOCTORPHONE = "doctorPhone";
+
+  // Future<List<DoctorModel>> getDoctors() async {
+  //   var dbClient? = await db;
+  //
+  //   List<Map> maps = await dbClient?.query(TABLE_DOCTOR_LIST, columns: [ID,MPO, DOCTORNAME, DOCTORADDRESS, DOCTORPHONE]);
+  //   //List<Map> maps = await dbClient?.query(TABLE, columns: [ID, NAME]);
+  //   //final List<Map<String, dynamic?>> QueryResult = await _db!.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
+  //
+  //   List<DoctorModel> users = [];
+  //
+  //   for (Map<String, dynamic> QueryResult in QueryResults) {
+  //     users.add(DoctorModel.fromMap(map));
+  //   }
+  //
+  //   return QueryResult.map((e) => DoctorModel.fromJson(e)).toList();
+  // }
+  //
+  //
   // Future<List<Employee>> getEmployees() async {
   //   var dbClient = await db;
   //   List<Map> maps = await dbClient.query(TABLE, columns: [ID, NAME]);
