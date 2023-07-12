@@ -3,6 +3,7 @@ import 'package:deeplaid_apps_models/model/commision_model.dart';
 import 'package:deeplaid_apps_models/model/doctor_model.dart';
 import 'package:deeplaid_apps_models/model/group_model.dart';
 import 'package:deeplaid_apps_models/model/item_model.dart';
+import 'package:deeplaid_apps_models/model/login_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -149,6 +150,40 @@ class Services {
       return response.body;
     } else {
       return 'POST request failed with status: ${response.statusCode}.';
+    }
+  }
+
+  //for mpo login
+  static Future<List<LoginModel>> getValidLogin(String userID, String Password, String branchid) async {
+    final url = Uri.parse('$root/MPO/post');
+
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: {
+        'UserID': userID,
+        'Password': Password,
+        'branchid': branchid,
+      },
+    );
+
+
+    if (response.statusCode == 200) {
+      print("calld elss");
+      final jsonData = jsonDecode(response.body);
+      print(response.body);
+
+
+
+      //final List<dynamic> dataList = jsonData.cast<dynamic>();
+      final List<LoginModel> myItemList = dataList.map((data) => LoginModel.fromJson(data)).toList();
+      return myItemList;
+
+    } else {
+
+      throw <LoginModel>[];
     }
   }
 

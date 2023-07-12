@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:deeplaid_apps_models/dashboard_deeplaid_apps/home.dart';
+import 'package:deeplaid_apps_models/model/login_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../service/Services.dart';
+
 class Login extends StatefulWidget {
-  const Login({Key? key, required String title, required this.userid}) : super(key: key);
-  final String title = "DropDown Demo";
   final String userid;
+  const Login({Key? key, required String title, required this.userid}) : super(key: key);
+  //final String title = "DropDown Demo";
 
 
   @override
@@ -17,15 +22,71 @@ class _LoginState extends State<Login> {
   bool passwordVisible = false;
   List<Company> _companies = Company.getCompanies();
   late List<DropdownMenuItem<Company>> _dropdownMenuItems;
+  late List<LoginModel> loginList;
   String dropdownValue = 'Select Branch';
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
+    _emailController.value = TextEditingValue(text: widget.userid);
     super.initState();
     passwordVisible = true;
+    _getloginTable();
   }
+
+
+  _getloginTable() {
+
+
+    Services.getValidLogin("85", "001", "0001").then((value) {
+
+        List<LoginModel> dr = value.cast<LoginModel>();
+        Fluttertoast.showToast(msg: "called fro,$dr");
+        Future<List<Map<String, dynamic>>> sdf = value as Future<List<Map<String, dynamic>>>;
+        print("hellot = $dr");
+      //loginList= result;
+      // loginList = jsonDecode(result);
+      // final String dataMapList = jsonData.toString();
+      // userID = dataMapList;
+      // if (userID.isNotEmpty) {
+      //   print("else if called $userID");
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) =>  Login(
+      //             title: "_number", userid: "$dataMapList",
+      //           )));
+      //
+      //   _numberController.clear();
+      //   userID = "";
+      // } else if (userID.isEmpty) {
+      //   Fluttertoast.showToast(msg: "Invalid Mobile Number");
+      // }
+    });
+
+    // Services.getDoctor().then((value) {
+    //   print("Value is = $value");
+    //
+    //   //List<DoctorModel> dr = value.cast<DoctorModel>();
+    //   //Future<List<Map<String, dynamic>>> sdf = value as Future<List<Map<String, dynamic>>>;
+    //   //print("hellot = $dr");
+    //
+    // });
+
+
+
+    // Services.addEmployee(_firstNameController.text, _lastNameController.text)
+    //     .then((result) {
+    //   if ('success' == result) {
+    //     _getEmployees();
+    //   }
+    //   _clearValues();
+    // });
+
+    //rint("responsdfsd$response");
+  }
+
 
   List<DropdownMenuItem<Company>> buildDropdownMenuItems(List companies) {
     List<DropdownMenuItem<Company>> items = [];
@@ -42,6 +103,9 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+
+    String? userID =  widget.userid;
+    //Fluttertoast.showToast(msg: widget.userid);
     final deviceHight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
 
@@ -204,7 +268,7 @@ class _LoginState extends State<Login> {
                                                   width: 1,
                                                   color: Colors.black),
                                             ),
-                                            labelText: 'User ID',
+                                            labelText: "User ID",
                                           ),
                                         ),
                                         const SizedBox(
