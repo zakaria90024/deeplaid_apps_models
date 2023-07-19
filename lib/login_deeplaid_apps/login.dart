@@ -10,8 +10,9 @@ import '../service/Services.dart';
 
 class Login extends StatefulWidget {
   final String userid;
-  const Login({Key? key, required String title, required this.userid}) : super(key: key);
-  //final String title = "DropDown Demo";
+
+  const Login({Key? key, required String title, required this.userid})
+      : super(key: key);
 
 
   @override
@@ -32,37 +33,28 @@ class _LoginState extends State<Login> {
     _emailController.value = TextEditingValue(text: widget.userid);
     super.initState();
     passwordVisible = true;
-    _getloginTable();
+    //_getloginTable();
   }
 
+  _getloginTable( String username, password, branchid) {
 
-  _getloginTable() {
+    Services.getValidLogin(username, password, branchid).then((value) {
+      String? TeritorryName = value.strTeritorryName;
+      String? LedgerName = value.strLedgerName;
+      String? response = value.strResponse;
+      String? strUserId = value.strUserID;
+      String? strPassword = value.strUserPassword;
 
-
-    Services.getValidLogin("85", "001", "0001").then((value) {
-
-        List<LoginModel> dr = value.cast<LoginModel>();
-        Fluttertoast.showToast(msg: "called fro,$dr");
-        Future<List<Map<String, dynamic>>> sdf = value as Future<List<Map<String, dynamic>>>;
-        print("hellot = $dr");
-      //loginList= result;
-      // loginList = jsonDecode(result);
-      // final String dataMapList = jsonData.toString();
-      // userID = dataMapList;
-      // if (userID.isNotEmpty) {
-      //   print("else if called $userID");
-      //   Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (context) =>  Login(
-      //             title: "_number", userid: "$dataMapList",
-      //           )));
-      //
-      //   _numberController.clear();
-      //   userID = "";
-      // } else if (userID.isEmpty) {
-      //   Fluttertoast.showToast(msg: "Invalid Mobile Number");
-      // }
+      String? yes = "Yes";
+      if(response == yes){
+        Navigator.push(
+            (context),
+            MaterialPageRoute(
+                builder: (context) =>
+                     HomePage(title: "" , fullName: "$strPassword: $LedgerName , $TeritorryName")));
+      }else{
+        Fluttertoast.showToast(msg: "Userid/Password/Branch Incorrect");
+      }
     });
 
     // Services.getDoctor().then((value) {
@@ -74,8 +66,6 @@ class _LoginState extends State<Login> {
     //
     // });
 
-
-
     // Services.addEmployee(_firstNameController.text, _lastNameController.text)
     //     .then((result) {
     //   if ('success' == result) {
@@ -86,7 +76,6 @@ class _LoginState extends State<Login> {
 
     //rint("responsdfsd$response");
   }
-
 
   List<DropdownMenuItem<Company>> buildDropdownMenuItems(List companies) {
     List<DropdownMenuItem<Company>> items = [];
@@ -103,8 +92,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-
-    String? userID =  widget.userid;
+    String? userID = widget.userid;
     //Fluttertoast.showToast(msg: widget.userid);
     final deviceHight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
@@ -349,17 +337,26 @@ class _LoginState extends State<Login> {
                                                   _emailController.text;
                                               var passwordText =
                                                   _passwordController.text;
-                                              Fluttertoast.showToast(
-                                                  msg:
-                                                      "User id = $emailText\n Password = $passwordText\n Selected = $dropdownValue",
-                                                  toastLength:
-                                                      Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.BOTTOM,
-                                                  timeInSecForIosWeb: 1,
-                                                  backgroundColor: Colors.green,
-                                                  textColor: Colors.black,
-                                                  fontSize: 12.0);
-                                              Navigator.push((context),MaterialPageRoute(builder: (context)=> HomePage("gome")));
+
+                                              String string = dropdownValue;
+                                              List<String> splitStrings = string.split("-");
+
+                                              _getloginTable(emailText, passwordText, splitStrings[0]);
+                                              // Fluttertoast.showToast(
+                                              //     msg:
+                                              //         "User id = $emailText\n Password = $passwordText\n Selected = $dropdownValue",
+                                              //     toastLength:
+                                              //         Toast.LENGTH_SHORT,
+                                              //     gravity: ToastGravity.BOTTOM,
+                                              //     timeInSecForIosWeb: 1,
+                                              //     backgroundColor: Colors.green,
+                                              //     textColor: Colors.black,
+                                              //     fontSize: 12.0);
+                                              // Navigator.push(
+                                              //     (context),
+                                              //     MaterialPageRoute(
+                                              //         builder: (context) =>
+                                              //             HomePage("gome")));
                                             },
                                             style: ElevatedButton.styleFrom(
                                               shape: RoundedRectangleBorder(

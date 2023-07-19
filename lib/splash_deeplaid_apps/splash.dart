@@ -2,6 +2,9 @@ import 'package:deeplaid_apps_models/login_deeplaid_apps/login.dart';
 import 'package:deeplaid_apps_models/main.dart';
 import 'package:deeplaid_apps_models/otp_deeplaid_apps/otp.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../dashboard_deeplaid_apps/home.dart';
 
 class SplashDeeplaid extends StatefulWidget {
   const SplashDeeplaid({Key? key}) : super(key: key);
@@ -14,7 +17,25 @@ class _SplashDeeplaidState extends State<SplashDeeplaid> {
   @override
   void initState() {
     super.initState();
-    _navigationHome();
+    _loadCounter();
+  }
+
+  // Loading counter value on start
+  void _loadCounter() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // Save a value to SharedPreferences.
+      String? value = prefs.getString('ladgername');
+
+      if (value == null) {
+        _navigationHome();
+      } else {
+        Navigator.push(
+            (context),
+            MaterialPageRoute(
+                builder: (context) => HomePage(title: "", fullName: "$value")));
+      }
+    });
   }
 
   _navigationHome() async {

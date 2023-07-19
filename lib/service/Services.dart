@@ -154,7 +154,7 @@ class Services {
   }
 
   //for mpo login
-  static Future<List<LoginModel>> getValidLogin(String userID, String Password, String branchid) async {
+  static Future<LoginModel> getValidLogin(String userID, String Password, String branchid) async {
     final url = Uri.parse('$root/MPO/post');
 
     final response = await http.post(
@@ -170,16 +170,14 @@ class Services {
     );
 
 
+
     if (response.statusCode == 200) {
-      print("calld elss");
-      final jsonData = jsonDecode(response.body);
-      print(response.body);
+      // Parse the response body as JSON.
+
+      final todo = LoginModel.fromJson(jsonDecode(response.body));
 
 
-
-      //final List<dynamic> dataList = jsonData.cast<dynamic>();
-      final List<LoginModel> myItemList = dataList.map((data) => LoginModel.fromJson(data)).toList();
-      return myItemList;
+      return todo;
 
     } else {
 

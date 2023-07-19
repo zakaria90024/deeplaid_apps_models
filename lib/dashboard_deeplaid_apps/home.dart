@@ -1,20 +1,60 @@
 import 'package:deeplaid_apps_models/doctor_list/doctorlist.dart';
+import 'package:deeplaid_apps_models/login_deeplaid_apps/login.dart';
 import 'package:deeplaid_apps_models/sync_deeplaid_apps/sync.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:io' show Platform;
 
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../custom_alart_dialog/alartdialog.dart';
+
 class HomePage extends StatefulWidget {
-  const HomePage(String s, {Key? key}) : super(key: key);
+
+  final String fullName;
+  const HomePage({Key? key, required String title, required this.fullName})
+      : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
+
+
+
 }
 
 class _HomePageState extends State<HomePage> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCounter();
+  }
+
+  //for put shareprefarance data
+  void _loadCounter() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // Save a value to SharedPreferences.
+      prefs.setString('ladgername', widget.fullName);
+    });
+  }
+
+  //for clear shareprefarance data
+  void _clearShareprefarance() async {
+    // Get an instance of SharedPreferences.
+    final prefs = await SharedPreferences.getInstance();
+    // Clear all preferences.
+    await prefs.clear();
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    final String laderNamefull = widget.fullName;
+    Fluttertoast.showToast(msg: laderNamefull);
     final deviceHight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
     print("height$deviceHight width$deviceWidth");
@@ -355,9 +395,9 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.only(
                               left: 8, top: 25, right: 4, bottom: 4),
                           child: Column(
-                            children: const [
+                            children:  [
                               Text(
-                                "Name: MPO-Jamal Uddin-Jamalpur",
+                                laderNamefull,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black),
@@ -433,33 +473,33 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-
                 GestureDetector(
                   onTap: () {
                     Navigator.push((context),
                         MaterialPageRoute(builder: (context) => DoctorList()));
                   },
-                child:SizedBox(
-                  height: deviceHight * 0.15,
-                  width: deviceWidth * 0.45,
-                  child: Card(
-                    elevation: 2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          CupertinoIcons.square_list,
-                          color: Colors.black,
-                          size: 50,
-                        ),
-                        Text(
-                          "Doctor List",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )
-                      ],
+                  child: SizedBox(
+                    height: deviceHight * 0.15,
+                    width: deviceWidth * 0.45,
+                    child: Card(
+                      elevation: 2,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            CupertinoIcons.square_list,
+                            color: Colors.black,
+                            size: 50,
+                          ),
+                          Text(
+                            "Doctor List",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),)
+                )
               ],
             ),
             Row(
@@ -586,7 +626,40 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                SizedBox(
+
+                GestureDetector(
+                  onTap: () {
+
+
+                    DialogCustomm.showAlertDialog(
+                        context,
+                        "Logout",
+                        "Do you want to Logout?");
+                    _clearShareprefarance();
+
+                    // AlertDialog(
+                    //   title: Text('Do you want Logout?'),
+                    //   actions: [
+                    //     TextButton(
+                    //       child: Text('Yes'),
+                    //       onPressed: () {
+                    //         Navigator.push((context),
+                    //             MaterialPageRoute(builder: (context) => Login(title: "", userid: "")));
+                    //         _clearShareprefarance();
+                    //       },
+                    //     ),
+                    //     TextButton(
+                    //       child: Text('No'),
+                    //       onPressed: () {
+                    //         Navigator.of(context).pop(false);
+                    //       },
+                    //     ),
+                    //   ],
+                    // );
+
+                  },
+
+                child: SizedBox(
                   height: deviceHight * 0.15,
                   width: deviceWidth * 0.45,
                   child: Card(
@@ -606,7 +679,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                ),
+                ) ),
               ],
             ),
           ])))
@@ -630,5 +703,21 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: Colors.blue,
       ),
     );
+  }
+}
+
+class Helper {
+  static String valueSharedPreferences = '';
+
+// Write DATA
+  static Future<bool> saveUserData(value) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return await sharedPreferences.setInt(valueSharedPreferences, value);
+  }
+
+// Read Data
+  static Future getUserData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getInt(valueSharedPreferences);
   }
 }

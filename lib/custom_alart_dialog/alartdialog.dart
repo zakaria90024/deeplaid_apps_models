@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'dart:io' as io;
 import 'package:deeplaid_apps_models/model/doctor_model.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../login_deeplaid_apps/login.dart';
 
 class DialogCustomm {
 
@@ -34,7 +37,9 @@ class DialogCustomm {
                 /// the action's text color to red.
                 isDestructiveAction: true,
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push((context),
+                                 MaterialPageRoute(builder: (context) => Login(title: "", userid: "")));
+
                 },
                 child: const Text('Yes'),
               ),

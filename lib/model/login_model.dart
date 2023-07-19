@@ -17,16 +17,16 @@ class LoginModel {
 
   factory LoginModel.fromJson(Map<String, dynamic> json) {
     return LoginModel(
-      intMpoType: json['intMpoType'],
-      lngUniqueNo: json['lngUniqueNo'],
-      strLedgerName: json['strLedgerName'],
-      strMobileNo: json['strMobileNo'],
-      strResponse: json['strResponse'],
-      strSecurityCode: json['strSecurityCode'],
-      strTeritorryCode: json['strTeritorryCode'],
-      strTeritorryName: json['strTeritorryName'],
-      strUserID: json['strUserID'],
-      strUserPassword: json['strUserPassword'],
+      intMpoType: json['intMpoType'].toString(),
+      lngUniqueNo: json['lngUniqueNo'].toString(),
+      strLedgerName: json['strLedgerName'].toString(),
+      strMobileNo: json['strMobileNo'].toString(),
+      strResponse: json['strResponse'].toString(),
+      strSecurityCode: json['strSecurityCode'].toString(),
+      strTeritorryCode: json['strTeritorryCode'].toString(),
+      strTeritorryName: json['strTeritorryName'].toString(),
+      strUserID: json['strUserID'].toString(),
+      strUserPassword: json['strUserPassword'].toString(),
     );
   }
 
