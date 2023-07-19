@@ -37,8 +37,7 @@ class DialogCustomm {
                 /// the action's text color to red.
                 isDestructiveAction: true,
                 onPressed: () {
-                  Navigator.push((context),
-                                 MaterialPageRoute(builder: (context) => Login(title: "", userid: "")));
+                  Navigator.pop(context);
 
                 },
                 child: const Text('Yes'),

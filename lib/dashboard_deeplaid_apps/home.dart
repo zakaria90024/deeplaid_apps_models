@@ -631,11 +631,37 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
 
 
-                    DialogCustomm.showAlertDialog(
-                        context,
-                        "Logout",
-                        "Do you want to Logout?");
-                    _clearShareprefarance();
+                    showCupertinoModalPopup<void>(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          CupertinoAlertDialog(
+                            title:  Text("Logout"),
+                            content: Text("Do you want to Logout?"),
+                            actions: <CupertinoDialogAction>[
+                              CupertinoDialogAction(
+                                isDefaultAction: true,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('No'),
+                              ),
+                              CupertinoDialogAction(
+                                isDestructiveAction: true,
+                                onPressed: () {
+                                  Navigator.push((context),
+                                      MaterialPageRoute(builder: (context) => Login(title: "", userid: "")));
+
+                                  _clearShareprefarance();
+
+                                },
+                                child: const Text('Yes'),
+                              ),
+                            ],
+                          ),
+                    );
+
+
+
 
                     // AlertDialog(
                     //   title: Text('Do you want Logout?'),
