@@ -151,7 +151,11 @@ class DBHelper {
 
   Future<List<DoctorModel>> getDoctors() async {
 
-    final List<Map<String, dynamic>> maps = await _db!.rawQuery('SELECT FROM $TABLE_DOCTOR_LIST');
+    var dbClient = await db;
+
+    final List<Map<String, dynamic>> maps = await dbClient!.query(TABLE_DOCTOR_LIST, columns: [ID, DOCTORNAME]);
+
+    //final List<Map<String, dynamic>> maps = await dbClient!.query('SELECT * FROM $TABLE_DOCTOR_LIST');
     //final List<Map<String, dynamic>> maps = await _database.query(TABLE_DOCTOR_LIST, Matrix4.columns(ID, arg1, arg2, arg3));
 
     List<DoctorModel> employees = [];
@@ -161,7 +165,6 @@ class DBHelper {
         employees.add(DoctorModel.fromMap(maps[i]));
       }
     }
-    print("map$maps");
 
     // List<DoctorModel> users = [];
     // for (Map<String, dynamic> map in maps) {

@@ -29,6 +29,7 @@ class _DoctorListState extends State<DoctorList> {
     setState(() {
 
       doctors = dbHelper.getDoctors();
+      print("doctor$doctors");
 
     });
   }
@@ -53,31 +54,33 @@ class _DoctorListState extends State<DoctorList> {
         ),
       ),
       body: Center(
-        child: Column(
-          children: [
-            listDoctor(),
-            // SizedBox(
-            //   height: deviceHight - 90,
-            //   width: deviceWidth - 12,
+        child: Container(
+          child: Column(
+            children: [
+              listDoctor(),
+              // SizedBox(
+              //   height: deviceHight - 90,
+              //   width: deviceWidth - 12,
 
-              // child: ListView.builder(
-              //   itemCount: doctors,
-              //   itemBuilder: (context, position) {
-              //     Fluttertoast.showToast(msg: "total ${doctors.length}");
-              //     return Card(
-              //       child: Padding(
-              //         padding: const EdgeInsets.all(20.0),
-              //         child: Text(
-              //           doctors[position].toString(),
-              //           //position.toString(),
-              //           style: TextStyle(fontSize: 22.0),
-              //         ),
-              //       ),
-              //     );
-              //   },
-              // ),
-           // )
-          ],
+                // child: ListView.builder(
+                //   itemCount: doctors,
+                //   itemBuilder: (context, position) {
+                //     Fluttertoast.showToast(msg: "total ${doctors.length}");
+                //     return Card(
+                //       child: Padding(
+                //         padding: const EdgeInsets.all(20.0),
+                //         child: Text(
+                //           doctors[position].toString(),
+                //           //position.toString(),
+                //           style: TextStyle(fontSize: 22.0),
+                //         ),
+                //       ),
+                //     );
+                //   },
+                // ),
+             // )
+            ],
+          ),
         ),
       ),
     );
@@ -89,7 +92,6 @@ class _DoctorListState extends State<DoctorList> {
         future: doctors,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-
             return dataTablee(snapshot.data as List<DoctorModel>);
           }
 
@@ -104,13 +106,14 @@ class _DoctorListState extends State<DoctorList> {
   }
 
   SingleChildScrollView dataTablee (List<DoctorModel> doctors){
-    Fluttertoast.showToast(msg: "total ${doctors.length}");
+    Fluttertoast.showToast(msg: "${doctors[1].strCustomerName}");
     return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
+      scrollDirection: Axis.horizontal,
         child: ListView.builder(
-          itemCount: doctors.length,
+          itemCount: 20,
           itemBuilder: (context, position) {
-            Fluttertoast.showToast(msg: "total ${doctors.length}");
+
+            Fluttertoast.showToast(msg: "total  sdfsdfs ${doctors.length}");
             return Card(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),

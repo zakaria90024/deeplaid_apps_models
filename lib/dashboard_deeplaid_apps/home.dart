@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                   // width: deviceWidth,
                   child: Column(children: [
             SizedBox(
-              height: deviceHight * 0.10,
+              height: deviceHight * 0.11,
               width: deviceWidth,
               child: SizedBox(
                 child: Container(
@@ -386,7 +386,7 @@ class _HomePageState extends State<HomePage> {
                           padding: EdgeInsets.only(
                               left: 24, top: 0, right: 0, bottom: 5),
                           child: Icon(
-                            CupertinoIcons.person_alt_circle,
+                            CupertinoIcons.person_crop_square,
                             color: Colors.black,
                             size: 80,
                           ),
