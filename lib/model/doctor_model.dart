@@ -29,12 +29,21 @@ class DoctorModel {
     return map;
   }
 
-  DoctorModel.fromMap(Map<String, dynamic> res)
-      : mpo = res["mpo"],
-        strCustomerName = res["doctorName"],
-        straddress = res["doctorAddress"],
-        strPhone = res["doctorPhone"];
+  DoctorModel.fromMap(dynamic res)
+  {     this.mpo = res['mpo'];
+        this.strCustomerName = res['doctorName'].toString();
+        this.straddress = res['doctorAddress'].toString();
+        this.strPhone = res['doctorPhone'].toString();
+  }
 
+
+
+  // DoctorModel.fromObject(dynamic res) {
+  //   this.mpo = res["mpo"],
+  //   this.strCustomerName = res["name"],
+  //   this.description = res["description"],
+  //   this.unitPrice = res);
+  // }
 
 
 }

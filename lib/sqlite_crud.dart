@@ -53,7 +53,6 @@ class _DBTestPageState extends State<DBTestPage> {
         isUpdating = false;
       });
     } else {
-
       //DoctorModel e = DoctorModel(mpo: 'sdf', strCustomerName:name, straddress: "sdf", strPhone: "sd");
       //dbHelper.save(e);
     }
@@ -160,8 +159,6 @@ class _DBTestPageState extends State<DBTestPage> {
       ),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {

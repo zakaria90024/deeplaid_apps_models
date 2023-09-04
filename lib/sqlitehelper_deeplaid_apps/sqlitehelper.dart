@@ -55,6 +55,8 @@ class DBHelper {
     return _db;
   }
 
+
+
   initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, DB_NAME);
@@ -149,30 +151,54 @@ class DBHelper {
     return result;
   }
 
-  Future<List<DoctorModel>> getDoctors() async {
+
+  Future<List> getProductvs() async {
+    //Database db = await this.db;
 
     var dbClient = await db;
 
-    final List<Map<String, dynamic>> maps = await dbClient!.query(TABLE_DOCTOR_LIST, columns: [ID, DOCTORNAME]);
-
-    //final List<Map<String, dynamic>> maps = await dbClient!.query('SELECT * FROM $TABLE_DOCTOR_LIST');
-    //final List<Map<String, dynamic>> maps = await _database.query(TABLE_DOCTOR_LIST, Matrix4.columns(ID, arg1, arg2, arg3));
-
-    List<DoctorModel> employees = [];
-
-    if (maps.length > 0) {
-      for (int i = 0; i < maps.length; i++) {
-        employees.add(DoctorModel.fromMap(maps[i]));
-      }
-    }
-
-    // List<DoctorModel> users = [];
-    // for (Map<String, dynamic> map in maps) {
-    //   users.add(DoctorModel.fromMap(map));
-    // }
-
-    return employees;
+    var result = await dbClient?.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
+    //return result;
+    return List.generate(result!.length, (i) {
+      return DoctorModel.fromMap(result[i]);
+    });
   }
+
+
+
+
+
+  //
+  // Future<List<Map<String, dynamic>>> getDoneTodos() async {
+  //   //var dbClient = await db;
+  //   final db = await openDatabase(DB_NAME);
+  //   final List<Map<String, dynamic>> todos = await db.query(TABLE_DOCTOR_LIST, columns: [ID, DOCTORNAME]);
+  //   return todos;
+  // }
+  // Future<List<DoctorModel>> getDoctors() async {
+  //
+  //   var dbClient = await db;
+  //
+  //   final List<Map<String, dynamic>> maps = await dbClient!.query(TABLE_DOCTOR_LIST, columns: [ID, DOCTORNAME]);
+  //
+  //   //final List<Map<String, dynamic>> maps = await dbClient!.query('SELECT * FROM $TABLE_DOCTOR_LIST');
+  //   //final List<Map<String, dynamic>> maps = await _database.query(TABLE_DOCTOR_LIST, Matrix4.columns(ID, arg1, arg2, arg3));
+  //
+  //   List<DoctorModel> employees = [];
+  //
+  //   if (maps.length > 0) {
+  //     for (int i = 0; i < maps.length; i++) {
+  //       employees.add(DoctorModel.fromMap(maps[i]));
+  //     }
+  //   }
+  //
+  //   // List<DoctorModel> users = [];
+  //   // for (Map<String, dynamic> map in maps) {
+  //   //   users.add(DoctorModel.fromMap(map));
+  //   // }
+  //
+  //   return employees;
+  // }
   // commission slab
   // static const String ID = "id";
   // static const String MPO = "mpo";

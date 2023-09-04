@@ -384,11 +384,11 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         const Padding(
                           padding: EdgeInsets.only(
-                              left: 24, top: 0, right: 0, bottom: 5),
+                              left: 16, top: 0, right: 0, bottom: 5),
                           child: Icon(
                             CupertinoIcons.person_crop_square,
                             color: Colors.black,
-                            size: 80,
+                            size: 60,
                           ),
                         ),
                         Padding(
@@ -399,18 +399,21 @@ class _HomePageState extends State<HomePage> {
                               Text(
                                 laderNamefull,
                                 style: TextStyle(
+                                    fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black),
                               ),
                               Text(
                                 "Date: 20.12.1998",
                                 style: TextStyle(
+                                    fontSize: 11,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black),
                               ),
                               Text(
                                 "Version: 22.68",
                                 style: TextStyle(
+                                    fontSize: 11,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black),
                               )
