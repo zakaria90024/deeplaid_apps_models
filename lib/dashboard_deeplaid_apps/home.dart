@@ -1,5 +1,6 @@
 import 'package:deeplaid_apps_models/doctor_list/doctorlist.dart';
 import 'package:deeplaid_apps_models/login_deeplaid_apps/login.dart';
+import 'package:deeplaid_apps_models/order_functionality/order_type.dart';
 import 'package:deeplaid_apps_models/sync_deeplaid_apps/sync.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -452,7 +453,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    print("clicked");
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => OrderType()));
                   },
                   child: SizedBox(
                     height: deviceHight * 0.15,

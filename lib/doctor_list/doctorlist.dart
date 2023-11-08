@@ -1,7 +1,5 @@
-import 'package:deeplaid_apps_models/service/Services.dart';
-import 'package:deeplaid_apps_models/sqlitehelper_deeplaid_apps/sqlitehelper.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:deeplaid_apps_models/sqlitehelper_deeplaid_apps/sqlitehelper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../model/doctor_model.dart';
@@ -86,10 +84,9 @@ class _DoctorListState extends State<DoctorList> {
                     color: Colors.black),
               ),
               subtitle: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(doctors[position].straddress,style: TextStyle(fontSize: 13,color: Colors.black),),
-                  Text(doctors[position].strPhone, style: TextStyle(fontSize: 13,color: Colors.black)),
+                  Text(doctors[position].straddress,textAlign: TextAlign.left,style: TextStyle(fontSize: 13,color: Colors.black),),
+                  Text(doctors[position].strPhone, textAlign: TextAlign.left,style: TextStyle(fontSize: 13,color: Colors.black)),
                 ],
               ),
               onTap: () async {
