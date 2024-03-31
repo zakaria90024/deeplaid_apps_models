@@ -30,6 +30,7 @@ class _DoctorListState extends State<DoctorList> {
 
   void getDoctorFromLdb() async {
     var productsFuture = dbHelper.getProductvs();
+
     productsFuture.then((data) {
       setState(() {
         this.doctors = data;
@@ -69,7 +70,7 @@ class _DoctorListState extends State<DoctorList> {
             color: Colors.white,
             elevation: 2.0,
             child: ListTile(
-              leading: CircleAvatar(
+              leading: const CircleAvatar(
                 backgroundColor: Colors.black12,
                 child: Icon(
                   Icons.call,
@@ -78,15 +79,21 @@ class _DoctorListState extends State<DoctorList> {
               ),
               title: Text(
                 this.doctors[position].strCustomerName,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 15,
                     color: Colors.black),
               ),
               subtitle: Column(
                 children: <Widget>[
-                  Text(doctors[position].straddress,textAlign: TextAlign.left,style: TextStyle(fontSize: 13,color: Colors.black),),
-                  Text(doctors[position].strPhone, textAlign: TextAlign.left,style: TextStyle(fontSize: 13,color: Colors.black)),
+                  Text(
+                    doctors[position].straddress,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 13, color: Colors.black),
+                  ),
+                  Text(doctors[position].strPhone,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 13, color: Colors.black)),
                 ],
               ),
               onTap: () async {
