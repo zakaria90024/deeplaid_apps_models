@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Services {
-  static const root = 'http://192.168.1.83:8080/api';
+  static const root = 'http://192.168.1.63:8080/api';
   static const urlPrefix = 'http://localhost:8086/EmployesDB';
 
 

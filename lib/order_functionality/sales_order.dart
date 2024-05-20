@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../model/customar_model.dart';
 import '../sqlitehelper_deeplaid_apps/sqlitehelper.dart';
 
 class SalesOrder extends StatefulWidget {
@@ -17,13 +18,18 @@ class _SalesOrderState extends State<SalesOrder> {
   late List<dynamic> doctors;
   late List<String> suggestons;
   final TextEditingController _textEditingController = TextEditingController();
-
   final List<String> _countries = [
     'Afghanistan',
     'Albania',
     'Algeria',
     // ... (more countries)
   ];
+
+  static late List<Customar> _userOptions ;
+    // Customar(strCustomerName: 'Alice', strPhone: '01700712772'),
+    // Customar(strCustomerName: 'Bob', strPhone: '01700712774'),
+    // Customar(strCustomerName: 'Charlie', strPhone: '01700712775'),
+  //];
   String _selectedCountry = '';
 
   @override
@@ -40,38 +46,69 @@ class _SalesOrderState extends State<SalesOrder> {
     //refreshDRList();
   }
 
+  // void getDoctorFromLdb() async {
+  //   var productsFuture = dbHelper.getProductvs();
+  //   productsFuture.then((data) {
+  //     setState(() {
+  //       this.doctors = data;
+  //       this.suggestons = doctors.cast<String>();
+  //       //productCount = data.length;
+  //
+  //
+  //
+  //
+  //
+  //
+  //       print(data);
+  //       Fluttertoast.showToast(msg: "dd"+data.length.toString());
+  //
+  //
+  //
+  //       _userOptions = data.map((item) => Customar(
+  //           strCustomerName: item['strCustomerName'],
+  //           strPhone: item['strPhone']
+  //       )).toList();
+  //
+  //
+  //       //_userOptions.add(data as Customar);
+  //       // for(var item in data) {
+  //       //   _userOptions.add(data as Customar);
+  //       // }
+  //
+  //     });
+  //   });
+  //
+  // }
+
   void getDoctorFromLdb() async {
     var productsFuture = dbHelper.getProductvs();
+
     productsFuture.then((data) {
       setState(() {
-        this.doctors = data;
-        this.suggestons = doctors.cast<String>();
+        doctors = data.toList();
 
 
-        //productCount = data.length;
+
       });
     });
 
 
-
+    //productCount = data.length;
+    for(int a = 0; a < doctors.length; a++){
+      _userOptions.add(Customar(mpo: 'fsdf', strCustomerName: ''+doctors[a].toString(), straddress:'dfgfdg', strPhone: 'fdgfdg'));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final deviceHight = MediaQuery
-        .of(context)
-        .size
-        .height;
-    final deviceWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final deviceHight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
           child: Column(
-            children: [
+            children: <Widget>[
               SizedBox(
                 height: deviceHight * 0.10,
                 width: deviceWidth,
@@ -101,215 +138,20 @@ class _SalesOrderState extends State<SalesOrder> {
                 child: Row(
                   children: [
                     Text(
-                      "Customar:★ ",
+                      "Customar:★  ",
                       style: TextStyle(
                           fontSize: 17,
                           color: Colors.black,
                           fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: deviceHight * 0.80,
+                      height: deviceHight * 0.70,
                       width: deviceWidth * 0.7,
-                      // child: RawAutocomplete(
-                      //   optionsBuilder: (TextEditingValue textEditingValue) {
-                      //     if (textEditingValue.text == '') {
-                      //       return const Iterable<String>.empty();
-                      //     } else {
-                      //       List<String> matches = <String>[];
-                      //       matches.add("he");
-                      //       matches.add("go");
-                      //       matches.add("gooo");
-                      //       matches.addAll(doctors as Iterable<String>);
-                      //
-                      //       matches.retainWhere((s) {
-                      //         return s.toLowerCase().contains(
-                      //             textEditingValue.text.toLowerCase());
-                      //       });
-                      //       return matches;
-                      //     }
-                      //   },
-                      //   onSelected: (String selection) {
-                      //     Fluttertoast.showToast(msg: "$selection"); //for customar
-                      //   },
-                      //   fieldViewBuilder: (BuildContext context,
-                      //       TextEditingController textEditingController,
-                      //       FocusNode focusNode,
-                      //       VoidCallback onFieldSubmitted) {
-                      //     return TextField(
-                      //       decoration:
-                      //           InputDecoration(border: OutlineInputBorder()),
-                      //       controller: textEditingController,
-                      //       focusNode: focusNode,
-                      //       onSubmitted: (String value) {},
-                      //     );
-                      //   },
-                      //   optionsViewBuilder: (BuildContext context,
-                      //       void Function(String) onSelected,
-                      //       Iterable<String> options) {
-                      //     return Material(
-                      //         child: SizedBox(
-                      //             height: 200,
-                      //             width: 10,
-                      //             child: SingleChildScrollView(
-                      //                 child: Column(
-                      //               children: options.map((opt) {
-                      //                 return InkWell(
-                      //                     onTap: () {
-                      //                       onSelected(opt);
-                      //                     },
-                      //                     child: Container(
-                      //                         padding:
-                      //                             EdgeInsets.only(right: 120),
-                      //                         child: Card(
-                      //                             child: Container(
-                      //                           width: double.infinity,
-                      //                           padding: EdgeInsets.all(10),
-                      //                           child: Text(opt),
-                      //                         ))));
-                      //               }).toList(),
-                      //             ))));
-                      //   },
-                      // ),
-                      child: Autocomplete<String>(
-                        optionsBuilder: (TextEditingValue textEditingValue) {
-                          // In a real scenario, you would fetch options from an API or local data source.
-                          // Here, we're using a static list of options for demonstration.
-                          return <String>[
-                            'Apple',
-                            'Banana',
-                            'Orange',
-                            'Pineapple',
-                            'Mango',
-                          ].where((String option) {
-                            return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
-                          }).toList();
-                        },
-                        onSelected: (String selection) {
-                          setState(() {
-                            _selectedCountry = selection;
-                          });
-                        },
-                        fieldViewBuilder: (BuildContext context, TextEditingController fieldTextEditingController, FocusNode fieldFocusNode, VoidCallback onFieldSubmitted) {
-                          _textEditingController.value = fieldTextEditingController.value;
-                          return TextField(
-                            controller: _textEditingController,
-                            focusNode: fieldFocusNode,
-                            decoration: InputDecoration(
-                              hintText: 'Type a fruit...',
-                            ),
-                            onChanged: (String value) {
-                              onFieldSubmitted();
-                            },
-                          );
-                        },
-                        optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
-                          return Align(
-                            alignment: Alignment.topLeft,
-                            child: Material(
-                              elevation: 4.0,
-                              child: SizedBox(
-                                height: 200.0,
-                                child: ListView.builder(
-                                  padding: EdgeInsets.all(8.0),
-                                  itemCount: options.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    final String option = options.elementAt(index);
-                                    return GestureDetector(
-                                      onTap: () {
-                                        onSelected(option);
-                                      },
-                                      child: ListTile(
-                                        title: Text(option),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-
+                      child: AutocompleteBasicUserExample(),
                     )
                   ],
                 ),
               ),
-              // SizedBox(
-              //   height: deviceHight * 0.08,
-              //   width: deviceWidth,
-              //   child: Row(
-              //     children: [
-              //       Text(
-              //         "Group:★        ",
-              //         style: TextStyle(
-              //             fontSize: 17,
-              //             color: Colors.black,
-              //             fontWeight: FontWeight.bold),
-              //       ),
-              //       SizedBox(
-              //         height: deviceHight * 0.80,
-              //         width: deviceWidth * 0.7,
-              //         child: RawAutocomplete(
-              //           optionsBuilder: (TextEditingValue textEditingValue) {
-              //             if (textEditingValue.text == '') {
-              //               return const Iterable<String>.empty();
-              //             } else {
-              //               List<String> matches = <String>[];
-              //               matches.addAll(suggestons);
-              //
-              //               matches.retainWhere((s) {
-              //                 return s.toLowerCase().contains(
-              //                     textEditingValue.text.toLowerCase());
-              //               });
-              //               return matches;
-              //             }
-              //           },
-              //           onSelected: (String selection) {
-              //             Fluttertoast.showToast(msg: "$selection"); // for group
-              //           },
-              //           fieldViewBuilder: (BuildContext context,
-              //               TextEditingController textEditingController,
-              //               FocusNode focusNode,
-              //               VoidCallback onFieldSubmitted) {
-              //             return TextField(
-              //               decoration:
-              //               InputDecoration(border: OutlineInputBorder()),
-              //               controller: textEditingController,
-              //               focusNode: focusNode,
-              //               onSubmitted: (String value) {},
-              //             );
-              //           },
-              //           optionsViewBuilder: (BuildContext context,
-              //               void Function(String) onSelected,
-              //               Iterable<String> options) {
-              //             return Material(
-              //                 child: SizedBox(
-              //                     height: 180,
-              //                     width: 10,
-              //                     child: SingleChildScrollView(
-              //                         child: Column(
-              //                           children: options.map((opt) {
-              //                             return InkWell(
-              //                                 onTap: () {
-              //                                   onSelected(opt);
-              //                                 },
-              //                                 child: Container(
-              //                                     padding:
-              //                                     EdgeInsets.only(right: 120),
-              //                                     child: Card(
-              //                                         child: Container(
-              //                                           width: double.infinity,
-              //                                           padding: EdgeInsets.all(10),
-              //                                           child: Text(opt),
-              //                                         ))));
-              //                           }).toList(),
-              //                         ))));
-              //           },
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // )
             ],
           ),
         ),
@@ -318,4 +160,44 @@ class _SalesOrderState extends State<SalesOrder> {
   }
 }
 
+class AutocompleteBasicUserExample extends StatelessWidget {
+  const AutocompleteBasicUserExample({super.key});
 
+  // static const List<Customar> _userOptions = <Customar>[
+  //   Customar(strCustomerName: 'Alice', strPhone: '01700712772'),
+  //   Customar(strCustomerName: 'Bob', strPhone: '01700712774'),
+  //   Customar(strCustomerName: 'Charlie', strPhone: '01700712775'),
+  // ];
+  //
+
+  //Populate the _userOptions list using a loop
+  // for(var item in data) {
+  //     _userOptions.add(Customar(item['name'], item['age']));
+  // }
+
+  static String _displayStringForOption(Customar option) => option.strCustomerName;
+
+  //static String _displayStringForOption(Customar option) => option.strPhone;
+
+  @override
+  Widget build(BuildContext context) {
+    return Autocomplete<Customar>(
+      displayStringForOption: _displayStringForOption,
+      optionsBuilder: (TextEditingValue textEditingValue) {
+        if (textEditingValue.text == '') {
+          return const Iterable<Customar>.empty();
+        }
+        return _SalesOrderState._userOptions.where((Customar option) {
+          return option
+              .toString()
+              .contains(textEditingValue.text.toLowerCase());
+        });
+      },
+      onSelected: (Customar selection) {
+        Fluttertoast.showToast(
+            msg: 'You just selected ${_displayStringForOption(selection)}');
+        //debugPrint('You just selected ${_displayStringForOption(selection)}');
+      },
+    );
+  }
+}
