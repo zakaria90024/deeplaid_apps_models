@@ -25,7 +25,7 @@ class _SalesOrderState extends State<SalesOrder> {
     // ... (more countries)
   ];
 
-  static late List<Customar> _userOptions ;
+  static late List<Customar> _userOptions  =  <Customar> [];
     // Customar(strCustomerName: 'Alice', strPhone: '01700712772'),
     // Customar(strCustomerName: 'Bob', strPhone: '01700712774'),
     // Customar(strCustomerName: 'Charlie', strPhone: '01700712775'),
@@ -81,22 +81,35 @@ class _SalesOrderState extends State<SalesOrder> {
   // }
 
   void getDoctorFromLdb() async {
-    var productsFuture = dbHelper.getProductvs();
+    var productsFuture = dbHelper.getProductvsList();
 
     productsFuture.then((data) {
       setState(() {
-        doctors = data.toList();
+        //doctors = data.toList();
+        _userOptions.addAll(data);
 
+        //_userOptions.d
+
+
+        // //productCount = data.length;
+        // for(int a = 0; a < 140; a++){
+        //   //_userOptions.add(Customar(mpo: 'fsdf', strCustomerName: ''+doctors[a].toString(), straddress:'dfgfdg', strPhone: 'fdgfdg'));
+        //   _userOptions.add(Customar("sdfsdf", "sdfsdf" as int));
+        // }
 
 
       });
     });
 
 
-    //productCount = data.length;
-    for(int a = 0; a < doctors.length; a++){
-      _userOptions.add(Customar(mpo: 'fsdf', strCustomerName: ''+doctors[a].toString(), straddress:'dfgfdg', strPhone: 'fdgfdg'));
-    }
+    // for(int a = 0; a < doctors.length; a++){
+    //   //_userOptions.add(Customar(mpo: 'fsdf', strCustomerName: ''+doctors[a].toString(), straddress:'dfgfdg', strPhone: 'fdgfdg'));
+    //   _userOptions.add(Customar, doctors[a].toString()));
+    // }
+
+    //
+
+
   }
 
   @override

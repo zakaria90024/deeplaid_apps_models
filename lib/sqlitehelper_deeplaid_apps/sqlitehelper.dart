@@ -9,6 +9,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../model/customar_model.dart';
+
 class DBHelper {
   static Database? _db;
   static const String DB_NAME = 'dbdeeplaid';
@@ -31,7 +33,6 @@ class DBHelper {
   static const String TORANGE = "dblToRange";
   static const String STRDATE = "strDate";
 
-
   //for Item list table
   static const String commgroupgame = "commgroupgame";
   static const String dblPartyvalue = "dblPartyvalue";
@@ -42,7 +43,6 @@ class DBHelper {
   static const String itemName = "itemName";
   static const String itemcode = "itemcode";
   static const String itemdepot = "depot";
-
 
   //for Doctor list table
   static const String GROUPNAME = "GroupName";
@@ -55,32 +55,30 @@ class DBHelper {
     return _db;
   }
 
-
-
   initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, DB_NAME);
-    var db = await openDatabase(path, version:1, onCreate: _onCreate);
+    var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
   }
 
-
   _onCreate(Database db, int version) async {
-
     //party or doctor
-    await db.execute("CREATE TABLE IF NOT EXISTS $TABLE_DOCTOR_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $MPO TEXT, $DOCTORNAME TEXT, $DOCTORADDRESS TEXT, $DOCTORPHONE TEXT)");
+    await db.execute(
+        "CREATE TABLE IF NOT EXISTS $TABLE_DOCTOR_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $MPO TEXT, $DOCTORNAME TEXT, $DOCTORADDRESS TEXT, $DOCTORPHONE TEXT)");
 
     //stock items
-    await db.execute("CREATE TABLE IF NOT EXISTS $TABLE_ITEM_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $commgroupgame TEXT, $dblPartyvalue TEXT, $dblRate TEXT, "
+    await db.execute(
+        "CREATE TABLE IF NOT EXISTS $TABLE_ITEM_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $commgroupgame TEXT, $dblPartyvalue TEXT, $dblRate TEXT, "
         "$dblcomboMaxvalue TEXT, $dblcomboMinqty TEXT, $groupName TEXT, $itemName TEXT, $itemcode TEXT, $itemdepot TEXT)");
 
     //stockgroup
-    await db.execute("CREATE TABLE IF NOT EXISTS $TABLE_GROUP_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $GROUPNAME TEXT )");
+    await db.execute(
+        "CREATE TABLE IF NOT EXISTS $TABLE_GROUP_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $GROUPNAME TEXT )");
 
     //commisonslab
-    await db.execute("CREATE TABLE IF NOT EXISTS $TABLE_COMMISSION_SLAB_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $SLABGROUP TEXT, $FROMRANGE TEXT, $PERCENTAGE TEXT, $TORANGE TEXT, $STRDATE TEXT)");
-
-
+    await db.execute(
+        "CREATE TABLE IF NOT EXISTS $TABLE_COMMISSION_SLAB_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $SLABGROUP TEXT, $FROMRANGE TEXT, $PERCENTAGE TEXT, $TORANGE TEXT, $STRDATE TEXT)");
   }
 
   Future<DoctorModel> sqfliteSaveDoctor(DoctorModel doctors) async {
@@ -97,7 +95,6 @@ class DBHelper {
        var query = "INSERT INTO $TABLE_DOCTOR_LIST ($MPO, $DOCTORNAME, $DOCTORADDRESS, $DOCTORPHONE) VALUES ('" + doctors.mpo + "')";
        return await txn.rawInsert(query);
     // });*/
-
   }
 
   Future<int?> deleteDoctor() async {
@@ -106,13 +103,11 @@ class DBHelper {
     return result;
   }
 
-
   //for group sqlite
   Future<GroupModel> sqflitesaveGroup(GroupModel groups) async {
     var dbClient = await db;
     await dbClient?.insert(TABLE_GROUP_LIST, groups.toMap());
     return groups;
-
   }
 
   Future<int?> sqlitedeleteGroup() async {
@@ -121,13 +116,11 @@ class DBHelper {
     return result;
   }
 
-
   //for ITEM sqlite
   Future<ItemModel> sqfliteSaveItem(ItemModel items) async {
     var dbClient = await db;
     await dbClient?.insert(TABLE_ITEM_LIST, items.toMap());
     return items;
-
   }
 
   Future<int?> sqlitedeleteItem() async {
@@ -136,10 +129,9 @@ class DBHelper {
     return result;
   }
 
-
-
   //for Commision sqlite
-  Future<CommissionSlabModel> sqfliteSaveCommision(CommissionSlabModel items) async {
+  Future<CommissionSlabModel> sqfliteSaveCommision(
+      CommissionSlabModel items) async {
     var dbClient = await db;
     await dbClient?.insert(TABLE_COMMISSION_SLAB_LIST, items.toMap());
     return items;
@@ -147,10 +139,10 @@ class DBHelper {
 
   Future<int?> sqlitedeleteCommission() async {
     var dbClient = await db;
-    int? result = await dbClient?.rawDelete('DELETE FROM $TABLE_COMMISSION_SLAB_LIST');
+    int? result =
+        await dbClient?.rawDelete('DELETE FROM $TABLE_COMMISSION_SLAB_LIST');
     return result;
   }
-
 
   Future<List> getProductvs() async {
     //Database db = await this.db;
@@ -159,10 +151,26 @@ class DBHelper {
 
     var result = await dbClient?.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
     //return result;
-    return List.generate(result!.length, (i) {
+    return List.generate(result!. length, (i) {
       return DoctorModel.fromMap(result[i]);
     });
   }
+
+
+  Future<List<Customar>> getProductvsList() async {
+    // Assuming 'db' is an already initialized database instance
+
+    var dbClient = await db;
+
+    var result = await dbClient?.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
+    // Execute the query to fetch data from the databas
+
+    // Generate the list of Customar instances from the query result
+    return List.generate(result!.length, (i) {
+      return Customar(result[i]['strCustomerName'].toString() , result[i]['strPhone'].toString());
+    });
+  }
+
 
 
 
@@ -238,7 +246,8 @@ class DBHelper {
 
   Future<int?> delete(String mpo) async {
     var dbClient = await db;
-    return await dbClient?.delete(TABLE_DOCTOR_LIST, where: '$MPO = ?', whereArgs: [mpo]);
+    return await dbClient
+        ?.delete(TABLE_DOCTOR_LIST, where: '$MPO = ?', whereArgs: [mpo]);
   }
 
   // Future<int?> update(DoctorModel doctors) async {
