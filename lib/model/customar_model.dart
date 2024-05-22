@@ -59,21 +59,21 @@ class Customar {
   }
 
 
-  @override
-  String toString() {
-    return '$strCustomerName, $strPhone';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) {
-      return false;
-    }
-    return other is Customar && other.strCustomerName == strCustomerName && other.strPhone == strPhone;
-  }
-
-  @override
-  int get hashCode => Object.hash(strPhone, strCustomerName);
+  // @override
+  // String toString() {
+  //   return '$strCustomerName, $strPhone';
+  // }
+  //
+  // @override
+  // bool operator ==(Object other) {
+  //   if (other.runtimeType != runtimeType) {
+  //     return false;
+  //   }
+  //   return other is Customar && other.strCustomerName == strCustomerName && other.strPhone == strPhone;
+  // }
+  //
+  // @override
+  // int get hashCode => Object.hash(strPhone, strCustomerName);
 
 }
 
