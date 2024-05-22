@@ -151,30 +151,47 @@ class DBHelper {
 
     var result = await dbClient?.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
     //return result;
-    return List.generate(result!. length, (i) {
+    return List.generate(result!.length, (i) {
       return DoctorModel.fromMap(result[i]);
     });
   }
 
+  // Future<List<Customar>> getProductvsList() async {
+  //   // Assuming 'db' is an already initialized database instance
+  //
+  //   var dbClient = await db;
+  //
+  //   var result = await dbClient?.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
+  //   // Execute the query to fetch data from the databas
+  //
+  //   // Generate the list of Customar instances from the query result
+  //   return List.generate(result!.length, (i) {
+  //     return Customar(result[i]['strCustomerName'].toString() , result[i]['strPhone'].toString());
+  //   });
+  // }
+  //
 
-  Future<List<Customar>> getProductvsList() async {
-    // Assuming 'db' is an already initialized database instance
+  // Future<List<Customar>> getDoctorsList() async {
+  //   final curDB = await db;
+  //   //query to get all students into a Map list
+  //   final List<Map<String, dynamic>> studentMaps = await curDB!.query('$TABLE_DOCTOR_LIST');
+  //   //converting the map list to student list
+  //   return List.generate(studentMaps.length, (i) {
+  //     //loop to traverse the list and return student object
+  //     return Customar(
+  //       strCustomerName: studentMaps[i]['strCustomerName'],
+  //       strPhone: studentMaps[i]['strPhone'],
+  //     );
+  //   });
+  // }
 
-    var dbClient = await db;
 
-    var result = await dbClient?.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
-    // Execute the query to fetch data from the databas
 
-    // Generate the list of Customar instances from the query result
-    return List.generate(result!.length, (i) {
-      return Customar(result[i]['strCustomerName'].toString() , result[i]['strPhone'].toString());
-    });
+
+  Future<List<Map<String, dynamic>>> getDoctorsList() async {
+    final curDB = await db;
+    return await curDB!.query('$TABLE_DOCTOR_LIST');
   }
-
-
-
-
-
 
   //
   // Future<List<Map<String, dynamic>>> getDoneTodos() async {

@@ -30,7 +30,21 @@ class Customar {
   late String strCustomerName;
   late String strPhone;
 
-  Customar(this.strCustomerName, this.strPhone);
+  Customar({ required this.strCustomerName, required this.strPhone});
+
+  Map<String, dynamic> mapStudent() {
+    return {
+      'strCustomerName': strCustomerName,
+      'strPhone': strPhone,
+
+    };
+  }
+  factory Customar.fromMap(Map<String, dynamic> map) {
+    return Customar(
+      strCustomerName: map['strCustomerName'],
+      strPhone: map['strPhone'],
+    );
+  }
 
   String get getStrMerzeName => strCustomerName;
 
