@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Deeplaid',
       theme: ThemeData(
+
         primarySwatch: Colors.blue,
       ),
       home: const SplashDeeplaid(),
