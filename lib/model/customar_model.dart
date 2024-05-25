@@ -1,5 +1,27 @@
 import 'package:flutter/cupertino.dart';
 
+class Customar {
+  String strCustomerName;
+  String strPhone;
+
+  Customar({required this.strCustomerName, required this.strPhone});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'strCustomerName': strCustomerName,
+      'strPhone': strPhone,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'Customar{strCustomerName: $strCustomerName, strPhone: $strPhone}';
+  }
+}
+
+
+
+
 // @immutable
 // class Customar {
 //   const Customar({
@@ -26,56 +48,56 @@ import 'package:flutter/cupertino.dart';
 //   @override
 //   int get hashCode => Object.hash(strPhone, strCustomerName);
 // }
-class Customar {
-  late String strCustomerName;
-  late String strPhone;
-
-  Customar({ required this.strCustomerName, required this.strPhone});
-
-  Map<String, dynamic> mapStudent() {
-    return {
-      'strCustomerName': strCustomerName,
-      'strPhone': strPhone,
-
-    };
-  }
-  factory Customar.fromMap(Map<String, dynamic> map) {
-    return Customar(
-      strCustomerName: map['strCustomerName'],
-      strPhone: map['strPhone'],
-    );
-  }
-
-  String get getStrMerzeName => strCustomerName;
-
-  set setStrMerzeName(String value) {
-    strCustomerName = value;
-  }
-
-  String get getInttype => strPhone;
-
-  set setInttype(String value) {
-    strPhone = value;
-  }
-
-
-  // @override
-  // String toString() {
-  //   return '$strCustomerName, $strPhone';
-  // }
-  //
-  // @override
-  // bool operator ==(Object other) {
-  //   if (other.runtimeType != runtimeType) {
-  //     return false;
-  //   }
-  //   return other is Customar && other.strCustomerName == strCustomerName && other.strPhone == strPhone;
-  // }
-  //
-  // @override
-  // int get hashCode => Object.hash(strPhone, strCustomerName);
-
-}
+// class Customar {
+//   late String strCustomerName;
+//   late String strPhone;
+//
+//   Customar({ required this.strCustomerName, required this.strPhone});
+//
+//   Map<String, dynamic> mapStudent() {
+//     return {
+//       'strCustomerName': strCustomerName,
+//       'strPhone': strPhone,
+//
+//     };
+//   }
+//   factory Customar.fromMap(Map<String, dynamic> map) {
+//     return Customar(
+//       strCustomerName: map['strCustomerName'],
+//       strPhone: map['strPhone'],
+//     );
+//   }
+//
+//   String get getStrMerzeName => strCustomerName;
+//
+//   set setStrMerzeName(String value) {
+//     strCustomerName = value;
+//   }
+//
+//   String get getInttype => strPhone;
+//
+//   set setInttype(String value) {
+//     strPhone = value;
+//   }
+//
+//
+//   // @override
+//   // String toString() {
+//   //   return '$strCustomerName, $strPhone';
+//   // }
+//   //
+//   // @override
+//   // bool operator ==(Object other) {
+//   //   if (other.runtimeType != runtimeType) {
+//   //     return false;
+//   //   }
+//   //   return other is Customar && other.strCustomerName == strCustomerName && other.strPhone == strPhone;
+//   // }
+//   //
+//   // @override
+//   // int get hashCode => Object.hash(strPhone, strCustomerName);
+//
+// }
 
 
 // class Customar {

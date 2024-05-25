@@ -148,13 +148,13 @@ class DBHelper {
     //Database db = await this.db;
 
     var dbClient = await db;
-
     var result = await dbClient?.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
     //return result;
     return List.generate(result!.length, (i) {
       return DoctorModel.fromMap(result[i]);
     });
   }
+
 
   // Future<List<Customar>> getProductvsList() async {
   //   // Assuming 'db' is an already initialized database instance
@@ -169,29 +169,57 @@ class DBHelper {
   //     return Customar(result[i]['strCustomerName'].toString() , result[i]['strPhone'].toString());
   //   });
   // }
-  //
 
-  // Future<List<Customar>> getDoctorsList() async {
-  //   final curDB = await db;
-  //   //query to get all students into a Map list
-  //   final List<Map<String, dynamic>> studentMaps = await curDB!.query('$TABLE_DOCTOR_LIST');
-  //   //converting the map list to student list
-  //   return List.generate(studentMaps.length, (i) {
-  //     //loop to traverse the list and return student object
-  //     return Customar(
-  //       strCustomerName: studentMaps[i]['strCustomerName'],
-  //       strPhone: studentMaps[i]['strPhone'],
-  //     );
-  //   });
-  // }
+//
+//   Future<List> getDoctorsList() async {
+//
+// //     final curDB = await db;
+// //     //query to get all students into a Map list
+// //     final List<Map<String, dynamic>> studentMaps = await curDB!.query('$TABLE_DOCTOR_LIST');
+// //
+// //     //var dbClient = await db;
+// //     //
+// //     //   var result = await dbClient?.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
+// //
+// //
+// // // Convert the rows into a list of objects
+// //     final List<Customar> customers = studentMaps.map((row) {
+// //       return Customar(
+// //         strCustomerName: row['strCustomerName'].toString(),
+// //         strPhone: row['strPhone'].toString(),
+// //       );
+// //     }).toList();
+// //
+// //     return customers;
+//
+//     var dbClient = await db;
+//     var result = await dbClient?.rawQuery('SELECT * FROM $TABLE_DOCTOR_LIST');
+//     //return result;
+//     return List.generate(result!.length, (i) {
+//       return DoctorModel.fromMap(result[i]);
+//     });
+//
+//   }
 
 
-
-
-  Future<List<Map<String, dynamic>>> getDoctorsList() async {
+  Future<List<Customar>> getDoctorsList() async {
     final curDB = await db;
-    return await curDB!.query('$TABLE_DOCTOR_LIST');
+    final List<Map<String, dynamic>> doctorMaps = await curDB!.query('$TABLE_DOCTOR_LIST');
+
+    return List.generate(doctorMaps.length, (i) {
+      return Customar(
+        strCustomerName: doctorMaps[i]['strCustomerName'],
+        strPhone: doctorMaps[i]['strPhone'],
+      );
+    });
   }
+
+
+
+  // Future<List<Map<String, dynamic>>> getDoctorsList() async {
+  //   final curDB = await db;
+  //   return await curDB!.query('$TABLE_DOCTOR_LIST');
+  // }
 
   //
   // Future<List<Map<String, dynamic>>> getDoneTodos() async {
@@ -263,8 +291,7 @@ class DBHelper {
 
   Future<int?> delete(String mpo) async {
     var dbClient = await db;
-    return await dbClient
-        ?.delete(TABLE_DOCTOR_LIST, where: '$MPO = ?', whereArgs: [mpo]);
+    return await dbClient?.delete(TABLE_DOCTOR_LIST, where: '$MPO = ?', whereArgs: [mpo]);
   }
 
   // Future<int?> update(DoctorModel doctors) async {

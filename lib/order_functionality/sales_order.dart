@@ -24,15 +24,15 @@ class _SalesOrderState extends State<SalesOrder> {
     'Algeria',
     // ... (more countries)
   ];
+  List<String> suggestions = [];
 
   List<Customar> _items = [];
 
   static late List<Customar> _userOptions = [];
-
-  // Customar(strCustomerName: 'Alice', strPhone: '01700712772'),
-  // Customar(strCustomerName: 'Bob', strPhone: '01700712774'),
-  // Customar(strCustomerName: 'Charlie', strPhone: '01700712775'),
-  //];
+  //     Customar(strCustomerName: 'Alice', strPhone: '01700712772'),
+  //     Customar(strCustomerName: 'Bob', strPhone: '01700712774'),
+  //     Customar(strCustomerName: 'Charlie', strPhone: '01700712775'),
+  // ];
   String _selectedCountry = '';
 
   @override
@@ -49,6 +49,7 @@ class _SalesOrderState extends State<SalesOrder> {
 
     //print(getStudents());
     //refreshDRList();
+    getDoctorFromLdb();
   }
 
   // Future<void> getStudents() async {
@@ -82,37 +83,98 @@ class _SalesOrderState extends State<SalesOrder> {
   //   return _userOptions;
   // }
 
+
+
+
+  // void getDoctorFromLdb() async {
+  //   var productsFuture = dbHelper.getDoctorsList();
+  //
+  //   _userOptions = productsFuture;
+  //
+  //   productsFuture.then((data) {
+  //     setState(() {
+  //       this.doctors = data;
+  //       this.suggestons = doctors.cast<String>();
+  //       //productCount = data.length;
+  //
+  //
+  //
+  //
+  //       print(data);
+  //       Fluttertoast.showToast(msg: "dd"+data.length.toString());
+  //
+  //
+  //
+  //       // _userOptions = data.map((item) => Customar(
+  //       //     strCustomerName: item['strCustomerName'],
+  //       //     strPhone: item['strPhone']
+  //       // )).toList();
+  //
+  //
+  //       //_userOptions.add(data as Customar);
+  //       // for(var item in data) {
+  //       //   _userOptions.add(data as Customar);
+  //       // }
+  //
+  //     });
+  //   });
+  //
+  // }
+
+
+
   void getDoctorFromLdb() async {
-    var productsFuture = dbHelper.getProductvs();
-    productsFuture.then((data) {
+    var doctorsFuture = dbHelper.getDoctorsList();
+
+    // Handling the future when it completes
+    doctorsFuture.then((data) {
       setState(() {
+        // Updating the state with the fetched doctors list
         this.doctors = data;
-        this.suggestons = doctors.cast<String>();
-        //productCount = data.length;
 
-
-
-
+        // Logging the data
         print(data);
-        Fluttertoast.showToast(msg: "dd"+data.length.toString());
 
-
-
-        // _userOptions = data.map((item) => Customar(
-        //     strCustomerName: item['strCustomerName'],
-        //     strPhone: item['strPhone']
-        // )).toList();
-
-
-        //_userOptions.add(data as Customar);
-        // for(var item in data) {
-        //   _userOptions.add(data as Customar);
-        // }
-
+        // Displaying a toast with the number of doctors fetched
+        Fluttertoast.showToast(msg: "Number of doctors: " + data.length.toString());
       });
     });
-
   }
+
+
+  // void getDoctorFromLdb() async {
+  //   //try {
+  //     // Fetching the list of doctors asynchronously
+  //     var doctorsList = await dbHelper.getDoctorsList();
+  //
+  //     setState(() {
+  //       // Updating the state with the fetched doctors list
+  //       this.doctors = doctorsList;
+  //
+  //       // Creating a list of doctor names for suggestions
+  //       //this.suggestions = doctorsList.map((doctor) => doctor.strCustomerName).toList();
+  //
+  //
+  //
+  //       for(int a = 0; a <= 29; a++){
+  //         _userOptions[a].strCustomerName = doctors[a].toString();
+  //       }
+  //
+  //
+  //       //_userOptions = doctorsList;
+  //
+  //       // Logging the data
+  //       print(doctorsList);
+  //
+  //       // Displaying a toast with the number of doctors fetched
+  //       Fluttertoast.showToast(msg: "Number of doctors: " + doctorsList.length.toString());
+  //     });
+  //   // } catch (error) {
+  //   //   // Handling any errors that occur during fetching
+  //   //   print("Error fetching doctors: $error");
+  //   //   Fluttertoast.showToast(msg: "Failed to fetch doctors");
+  //   // }
+  // }
 
   // void getDoctorFromLdb() async {
   //   var productsFuture = dbHelper.getProductvsList();
