@@ -1,21 +1,29 @@
 import 'package:flutter/cupertino.dart';
 
 class Customar {
-  String strCustomerName;
-  String strPhone;
+  String doctorName;
+  String doctorPhone;
 
-  Customar({required this.strCustomerName, required this.strPhone});
+  Customar({required this.doctorName, required this.doctorPhone});
 
   Map<String, dynamic> toMap() {
     return {
-      'strCustomerName': strCustomerName,
-      'strPhone': strPhone,
+      'doctorName': doctorName,
+      'doctorPhone': doctorPhone,
     };
+  }
+
+  // Assumes a factory constructor to create an instance from a map
+  factory Customar.fromMap(Map<String, dynamic> map) {
+    return Customar(
+      doctorName: map['doctorName'],
+      doctorPhone: map['doctorPhone'],
+    );
   }
 
   @override
   String toString() {
-    return 'Customar{strCustomerName: $strCustomerName, strPhone: $strPhone}';
+    return 'Customar{strCustomerName: $doctorName, strPhone: $doctorPhone}';
   }
 }
 

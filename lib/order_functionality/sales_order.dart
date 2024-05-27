@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../model/customar_model.dart';
 import '../sqlitehelper_deeplaid_apps/sqlitehelper.dart';
@@ -29,6 +30,7 @@ class _SalesOrderState extends State<SalesOrder> {
   List<Customar> _items = [];
 
   static late List<Customar> _userOptions = [];
+
   //     Customar(strCustomerName: 'Alice', strPhone: '01700712772'),
   //     Customar(strCustomerName: 'Bob', strPhone: '01700712774'),
   //     Customar(strCustomerName: 'Charlie', strPhone: '01700712775'),
@@ -37,30 +39,27 @@ class _SalesOrderState extends State<SalesOrder> {
 
   @override
   void initState() {
-    super.initState();
-
-    // dbHelper = DBHelper();
-    // doctors = dbHelper!.getDoctors();
-    // Fluttertoast.showToast(msg: "todls${doctors}");
-
-    //getDoctorFromLdb();
-    //_fetchItems();
-    //suggestons = doctors.cast<String>();
-
-    //print(getStudents());
-    //refreshDRList();
-    getDoctorFromLdb();
+    getStudents();
   }
 
-  // Future<void> getStudents() async {
-  //   final _items = await dbHelper.getDoctorsList();
-  //   setState(() {
-  //
-  //     _userOptions.addAll(_items.toList())
-  //
-  //     _items = items.map((item) => Customar.fromMap(item as Map<String, dynamic>)).toList();
-  //   });
-  // }
+  Future<void> getStudents() async {
+    List<Customar> employees = await dbHelper.getEmployees();
+
+    if(_userOptions.isEmpty){
+      for (int a = 0; a < employees.length; a++) {
+        //print('Customer Name: ${employee.doctorName}, Phone: ${employee.doctorPhone}');
+        _userOptions.add(Customar(
+            doctorName: employees[a].doctorName,
+            doctorPhone: employees[a].doctorPhone));
+      }
+    }else{
+
+     print("Already Added");
+
+    }
+
+
+  }
 
   // Future<void> _fetchItems() async {
   //
@@ -82,9 +81,6 @@ class _SalesOrderState extends State<SalesOrder> {
   //   _userOptions = dbHelper.getDoctorsList();
   //   return _userOptions;
   // }
-
-
-
 
   // void getDoctorFromLdb() async {
   //   var productsFuture = dbHelper.getDoctorsList();
@@ -121,26 +117,32 @@ class _SalesOrderState extends State<SalesOrder> {
   //
   // }
 
-
-
-  void getDoctorFromLdb() async {
-    var doctorsFuture = dbHelper.getDoctorsList();
-
-    // Handling the future when it completes
-    doctorsFuture.then((data) {
-      setState(() {
-        // Updating the state with the fetched doctors list
-        this.doctors = data;
-
-        // Logging the data
-        print(data);
-
-        // Displaying a toast with the number of doctors fetched
-        Fluttertoast.showToast(msg: "Number of doctors: " + data.length.toString());
-      });
-    });
-  }
-
+  // void getDoctorFromLdb() async {
+  //
+  //
+  //
+  //   var doctorsFuture = dbHelper.getDoctorsList();
+  //
+  //
+  //   for(int a = 0; a < 4; a++){
+  //     _userOptions.add(Customar(strCustomerName: "helo", strPhone: "go"));
+  //   }
+  //
+  //
+  //   // Handling the future when it completes
+  //   // doctorsFuture.then((data) {
+  //   //   setState(() {
+  //   //     // Updating the state with the fetched doctors list
+  //   //     this.doctors = data;
+  //   //
+  //   //     // Logging the data
+  //   //     print(data);
+  //   //
+  //   //     // Displaying a toast with the number of doctors fetched
+  //   //     Fluttertoast.showToast(msg: "Number of doctors: " + data.length.toString());
+  //   //   });
+  //   // });
+  // }
 
   // void getDoctorFromLdb() async {
   //   //try {
@@ -284,8 +286,7 @@ class AutocompleteBasicUserExample extends StatelessWidget {
   //     _userOptions.add(Customar(item['name'], item['age']));
   // }
 
-  static String _displayStringForOption(Customar option) =>
-      option.strCustomerName;
+  static String _displayStringForOption(Customar option) => option.doctorName;
 
   //static String _displayStringForOption(Customar option) => option.strPhone;
 

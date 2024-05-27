@@ -202,17 +202,17 @@ class DBHelper {
 //   }
 
 
-  Future<List<Customar>> getDoctorsList() async {
-    final curDB = await db;
-    final List<Map<String, dynamic>> doctorMaps = await curDB!.query('$TABLE_DOCTOR_LIST');
-
-    return List.generate(doctorMaps.length, (i) {
-      return Customar(
-        strCustomerName: doctorMaps[i]['strCustomerName'],
-        strPhone: doctorMaps[i]['strPhone'],
-      );
-    });
-  }
+  //  Future<List<Map<String, dynamic>>> getDoctorsList()  async {
+  //
+  //
+  //   final database = await openDatabase('dbdeeplaid.db');
+  //   // Query the table for all rows
+  //   final List<Map<String, dynamic>> rows = await database.query('TABLE_DOCTOR_LIST');
+  //
+  //
+  //   return rows;
+  //
+  // }
 
 
 
@@ -274,20 +274,41 @@ class DBHelper {
   //
   //   return QueryResult.map((e) => DoctorModel.fromJson(e)).toList();
   // }
-  //
-  //
-  // Future<List<Employee>> getEmployees() async {
+  // //
+  // //
+  // Future<List<Customar>> getEmployees() async {
   //   var dbClient = await db;
-  //   List<Map> maps = await dbClient.query(TABLE, columns: [ID, NAME]);
+  //   List<Map> maps = await dbClient.query(TABLE_DOCTOR_LIST, columns: ['strCustomerName', 'strPhone']);
   //   //List<Map> maps = await dbClient.rawQuery("SELECT * FROM $TABLE");
-  //   List<Employee> employees = [];
+  //   List<Customar> employees = [];
   //   if (maps.length > 0) {
   //     for (int i = 0; i < maps.length; i++) {
-  //       employees.add(Employee.fromMap(maps[i]));
+  //       employees.add(Customar.fromMap(maps[i]));
   //     }
   //   }
   //   return employees;
   // }
+
+  Future<List<Customar>> getEmployees() async {
+    try {
+      var dbClient = await db;
+      List<Map<String, dynamic>> maps = await dbClient!.query(
+        '$TABLE_DOCTOR_LIST',
+        columns: ['doctorName', 'doctorPhone'],
+      );
+
+      List<Customar> employees = [];
+      if (maps.isNotEmpty) {
+        for (var map in maps) {
+          employees.add(Customar.fromMap(map));
+        }
+      }
+      return employees;
+    } catch (e) {
+      print('Error in getEmployees: $e');
+      return [];
+    }
+  }
 
   Future<int?> delete(String mpo) async {
     var dbClient = await db;

@@ -384,6 +384,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  searchfield:
+    dependency: "direct dev"
+    description:
+      name: searchfield
+      sha256: "891b6c9fc6415777293e4bfde45094c31f876e50eafd941f7a916d130235a645"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   shared_preferences:
     dependency: "direct main"
     description:
