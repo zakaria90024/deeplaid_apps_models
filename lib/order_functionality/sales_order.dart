@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:searchfield/searchfield.dart';
 
 import '../model/customar_model.dart';
 import '../sqlitehelper_deeplaid_apps/sqlitehelper.dart';
@@ -15,10 +16,12 @@ class SalesOrder extends StatefulWidget {
 class _SalesOrderState extends State<SalesOrder> {
   late var totalAmount = "0.0";
   late var tc = "085";
+  static late String selectd = "";
   var dbHelper = DBHelper();
   late List<dynamic> doctors;
   late List<String> suggestons;
   final TextEditingController _textEditingController = TextEditingController();
+  static TextEditingController searchControllers = TextEditingController();
   final List<String> _countries = [
     'Afghanistan',
     'Albania',
@@ -39,25 +42,23 @@ class _SalesOrderState extends State<SalesOrder> {
 
   @override
   void initState() {
-    getStudents();
+    if (_userOptions.isEmpty){
+      getStudents();
+      print("called ");
+    }
+
   }
 
   Future<void> getStudents() async {
     List<Customar> employees = await dbHelper.getEmployees();
 
-    if(_userOptions.isEmpty){
+
       for (int a = 0; a < employees.length; a++) {
         //print('Customer Name: ${employee.doctorName}, Phone: ${employee.doctorPhone}');
         _userOptions.add(Customar(
             doctorName: employees[a].doctorName,
             doctorPhone: employees[a].doctorPhone));
       }
-    }else{
-
-     print("Already Added");
-
-    }
-
 
   }
 
@@ -212,8 +213,14 @@ class _SalesOrderState extends State<SalesOrder> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceHight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    final deviceWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -251,7 +258,7 @@ class _SalesOrderState extends State<SalesOrder> {
                     Text(
                       "Customar:★  ",
                       style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.bold),
                     ),
@@ -259,10 +266,13 @@ class _SalesOrderState extends State<SalesOrder> {
                       height: deviceHight * 0.70,
                       width: deviceWidth * 0.7,
                       child: AutocompleteBasicUserExample(),
+
                     )
                   ],
                 ),
               ),
+
+
             ],
           ),
         ),
@@ -279,7 +289,6 @@ class AutocompleteBasicUserExample extends StatelessWidget {
   //   Customar(strCustomerName: 'Bob', strPhone: '01700712774'),
   //   Customar(strCustomerName: 'Charlie', strPhone: '01700712775'),
   // ];
-  //
 
   //Populate the _userOptions list using a loop
   // for(var item in data) {
@@ -292,23 +301,113 @@ class AutocompleteBasicUserExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Autocomplete<Customar>(
-      displayStringForOption: _displayStringForOption,
-      optionsBuilder: (TextEditingValue textEditingValue) {
-        if (textEditingValue.text == '') {
-          return const Iterable<Customar>.empty();
-        }
-        return _SalesOrderState._userOptions.where((Customar option) {
-          return option
-              .toString()
-              .contains(textEditingValue.text.toLowerCase());
-        });
-      },
-      onSelected: (Customar selection) {
+    // return Autocomplete<Customar>(
+    //   displayStringForOption: _displayStringForOption,
+    //   optionsBuilder: (TextEditingValue textEditingValue) {
+    //     if (textEditingValue.text == '') {
+    //       return const Iterable<Customar>.empty();
+    //     }
+    //     return _SalesOrderState._userOptions.where((Customar option) {
+    //       return option
+    //           .toString()
+    //           .contains(textEditingValue.text.toLowerCase());
+    //     });
+    //   },
+    //   onSelected: (Customar selection) {
+    //     Fluttertoast.showToast(
+    //         msg: 'You just selected ${_displayStringForOption(selection)}');
+    //     //debugPrint('You just selected ${_displayStringForOption(selection)}');
+    //   },
+    // );
+
+
+    return SearchField<Customar>(
+      suggestions: _SalesOrderState._userOptions
+          .map((e) =>
+          SearchFieldListItem<Customar>(
+            e.doctorName,
+            item: e,
+
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Row(
+                  children: [
+                    Text(e.doctorName, style: TextStyle(fontSize: 14) ,),
+                  ],
+                ),
+              ),
+            ),
+
+            // child: Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     children: [
+            //       // CircleAvatar(
+            //       //   backgroundImage: NetworkImage(e.doctorName),
+            //       // ),
+            //       SizedBox(width: 3),
+            //       Text(e.doctorName),
+            //     ],
+            //   ),
+            // ),
+          ))
+          .toList(),
+      suggestionState: Suggestion.expand,
+      onSuggestionTap: (SearchFieldListItem<Customar> item) {
         Fluttertoast.showToast(
-            msg: 'You just selected ${_displayStringForOption(selection)}');
-        //debugPrint('You just selected ${_displayStringForOption(selection)}');
+
+
+
+
+          msg: 'You just selected ${item.item?.doctorName}',
+        );
       },
     );
+
+
+    // return SearchField<Customar>(
+    //
+    //
+    //   suggestions: _SalesOrderState._userOptions
+    //       .map((e) => SearchFieldListItem<Customar>(
+    //       e.doctorName,
+    //       item: e,
+    //
+    //
+    //       // Use child to show Custom Widgets in the suggestions
+    //       // defaults to Text widget
+    //       child: Padding(
+    //         padding: const EdgeInsets.all(16.0),
+    //         child: Row(
+    //           children: [
+    //             // CircleAvatar(
+    //             //   backgroundImage: NetworkImage(e.doctorName),
+    //             // ),
+    //             SizedBox(
+    //               width: 03,
+    //             ),
+    //             Text(e.doctorName),
+    //             //selectd = e.doctorName.toString();
+    //
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   ).toList(),
+    //
+    //   suggestionState: Suggestion.expand,
+    //
+    //
+    //
+    //   onTap: (){
+    //     Fluttertoast.showToast(
+    //                 msg: 'You just selected ');
+    //             //debugPrint('You just selected ${_displayStringForOption(selection)}');
+    //   },
+    // );
+
+
   }
 }

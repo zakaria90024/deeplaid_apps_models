@@ -310,6 +310,10 @@ class DBHelper {
     }
   }
 
+
+
+
+
   Future<int?> delete(String mpo) async {
     var dbClient = await db;
     return await dbClient?.delete(TABLE_DOCTOR_LIST, where: '$MPO = ?', whereArgs: [mpo]);

@@ -18,6 +18,10 @@ class GroupModel {
     return map;
   }
 
+  GroupModel.fromMap(dynamic res) {
+    this.GroupName = res['GroupName'];
+  }
+
 // DoctorModel.fromMap(Map<String, dynamic> res)
 //     : mpo = res["mpo"],
 //       strCustomerName = res["doctorName"],
