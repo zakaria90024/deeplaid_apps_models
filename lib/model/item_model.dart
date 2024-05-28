@@ -61,5 +61,18 @@ class ItemModel {
   //       strPhone = res["doctorPhone"];
 
 
+  ItemModel.fromMap(dynamic res) {
+
+    this.commgroupgame = res['commgroupgame'];
+    this.dblPartyvalue = res['dblPartyvalue'];
+    this.dblRate = res['dblRate'];
+    this.dblcomboMaxvalue = res['dblcomboMaxvalue'];
+    this.dblcomboMinqty = res['dblcomboMinqty'];
+    this.groupName = res['groupName'];
+    this.itemName = res['itemName'];
+    this.itemcode = res['itemcode'];
+    this.depot = res['depot'];
+  }
+
 
 }

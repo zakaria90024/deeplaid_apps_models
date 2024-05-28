@@ -289,7 +289,7 @@ class DBHelper {
   //   return employees;
   // }
 
-  Future<List<Customar>> getEmployees() async {
+  Future<List<Customar>> getDoctorOrParty() async {
     try {
       var dbClient = await db;
       List<Map<String, dynamic>> maps = await dbClient!.query(
@@ -310,6 +310,59 @@ class DBHelper {
     }
   }
 
+  //for group name
+  Future<List<GroupModel>> getGroups() async {
+    try {
+      var dbClient = await db;
+      List<Map<String, dynamic>> maps = await dbClient!.query(
+        '$TABLE_GROUP_LIST',
+        columns: ['GroupName'],
+      );
+
+      List<GroupModel> employees = [];
+      if (maps.isNotEmpty) {
+        for (var map in maps) {
+          employees.add(GroupModel.fromMap(map));
+        }
+      }
+      return employees;
+    } catch (e) {
+      print('Error in getEmployees: $e');
+      return [];
+    }
+  }
+
+  //for grouwise products
+  Future<List<ItemModel>> getProducts() async {
+    try {
+      var dbClient = await db;
+      List<Map<String, dynamic>> maps = await dbClient!.query(
+        '$TABLE_ITEM_LIST',
+        columns: ['commgroupgame',
+          'dblPartyvalue',
+          'dblRate',
+          'dblcomboMaxvalue',
+          'dblcomboMinqty',
+          'groupName',
+          'itemName',
+          'itemcode',
+          'depot'],
+
+
+      );
+
+      List<ItemModel> employees = [];
+      if (maps.isNotEmpty) {
+        for (var map in maps) {
+          employees.add(ItemModel.fromMap(map));
+        }
+      }
+      return employees;
+    } catch (e) {
+      print('Error in getEmployees: $e');
+      return [];
+    }
+  }
 
 
 

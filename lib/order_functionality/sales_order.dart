@@ -1,3 +1,4 @@
+import 'package:deeplaid_apps_models/model/group_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sqflite/sqflite.dart';
@@ -29,27 +30,20 @@ class _SalesOrderState extends State<SalesOrder> {
     // ... (more countries)
   ];
   List<String> suggestions = [];
-
   List<Customar> _items = [];
-
   static late List<Customar> _userOptions = [];
-
-  //     Customar(strCustomerName: 'Alice', strPhone: '01700712772'),
-  //     Customar(strCustomerName: 'Bob', strPhone: '01700712774'),
-  //     Customar(strCustomerName: 'Charlie', strPhone: '01700712775'),
-  // ];
-  String _selectedCountry = '';
+  static late List<GroupModel> _userGroup = [];
 
   @override
   void initState() {
     if (_userOptions.isEmpty) {
-      getStudents();
+      getCustomars();
       print("called ");
     }
   }
 
-  Future<void> getStudents() async {
-    List<Customar> employees = await dbHelper.getEmployees();
+  Future<void> getCustomars() async {
+    List<Customar> employees = await dbHelper.getDoctorOrParty();
 
     for (int a = 0; a < employees.length; a++) {
       //print('Customer Name: ${employee.doctorName}, Phone: ${employee.doctorPhone}');
@@ -57,6 +51,18 @@ class _SalesOrderState extends State<SalesOrder> {
           doctorName: employees[a].doctorName,
           doctorPhone: employees[a].doctorPhone));
     }
+  }
+
+
+  Future<void> getGroups() async {
+
+    List<GroupModel> employees = await dbHelper.getGroups();
+    for (int a = 0; a < employees.length; a++) {
+      //print('Customer Name: ${employee.doctorName}, Phone: ${employee.doctorPhone}');
+      _userGroup.add(GroupModel(
+           GroupName: employees[a].GroupName));
+    }
+
   }
 
   // Future<void> _fetchItems() async {
@@ -247,7 +253,7 @@ class _SalesOrderState extends State<SalesOrder> {
                 child: Row(
                   children: [
                     Text(
-                      "Customar:★  ",
+                      "Customar: ★  ",
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
@@ -256,7 +262,28 @@ class _SalesOrderState extends State<SalesOrder> {
                     SizedBox(
                       height: deviceHight * 0.70,
                       width: deviceWidth * 0.7,
-                      child: AutocompleteBasicUserExample(),
+                      child: CustomarAComplate(),
+                    )
+                  ],
+                ),
+              ),
+
+              SizedBox(
+                height: deviceHight * 0.08,
+                width: deviceWidth,
+                child: Row(
+                  children: [
+                    Text(
+                      "Group:        ★ ",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: deviceHight * 0.70,
+                      width: deviceWidth * 0.7,
+                      child: GroupAComplate(),
                     )
                   ],
                 ),
@@ -269,44 +296,11 @@ class _SalesOrderState extends State<SalesOrder> {
   }
 }
 
-class AutocompleteBasicUserExample extends StatelessWidget {
-  const AutocompleteBasicUserExample({super.key});
-
-  // static const List<Customar> _userOptions = <Customar>[
-  //   Customar(strCustomerName: 'Alice', strPhone: '01700712772'),
-  //   Customar(strCustomerName: 'Bob', strPhone: '01700712774'),
-  //   Customar(strCustomerName: 'Charlie', strPhone: '01700712775'),
-  // ];
-
-  //Populate the _userOptions list using a loop
-  // for(var item in data) {
-  //     _userOptions.add(Customar(item['name'], item['age']));
-  // }
-
-  static String _displayStringForOption(Customar option) => option.doctorName;
-
-  //static String _displayStringForOption(Customar option) => option.strPhone;
+class CustomarAComplate extends StatelessWidget {
+  const CustomarAComplate({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // return Autocomplete<Customar>(
-    //   displayStringForOption: _displayStringForOption,
-    //   optionsBuilder: (TextEditingValue textEditingValue) {
-    //     if (textEditingValue.text == '') {
-    //       return const Iterable<Customar>.empty();
-    //     }
-    //     return _SalesOrderState._userOptions.where((Customar option) {
-    //       return option
-    //           .toString()
-    //           .contains(textEditingValue.text.toLowerCase());
-    //     });
-    //   },
-    //   onSelected: (Customar selection) {
-    //     Fluttertoast.showToast(
-    //         msg: 'You just selected ${_displayStringForOption(selection)}');
-    //     //debugPrint('You just selected ${_displayStringForOption(selection)}');
-    //   },
-    // );
 
     return SearchField<Customar>(
       suggestions: _SalesOrderState._userOptions
@@ -351,45 +345,63 @@ class AutocompleteBasicUserExample extends StatelessWidget {
       },
     );
 
-    // return SearchField<Customar>(
-    //
-    //
-    //   suggestions: _SalesOrderState._userOptions
-    //       .map((e) => SearchFieldListItem<Customar>(
-    //       e.doctorName,
-    //       item: e,
-    //
-    //
-    //       // Use child to show Custom Widgets in the suggestions
-    //       // defaults to Text widget
-    //       child: Padding(
-    //         padding: const EdgeInsets.all(16.0),
-    //         child: Row(
-    //           children: [
-    //             // CircleAvatar(
-    //             //   backgroundImage: NetworkImage(e.doctorName),
-    //             // ),
-    //             SizedBox(
-    //               width: 03,
-    //             ),
-    //             Text(e.doctorName),
-    //             //selectd = e.doctorName.toString();
-    //
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   ).toList(),
-    //
-    //   suggestionState: Suggestion.expand,
-    //
-    //
-    //
-    //   onTap: (){
-    //     Fluttertoast.showToast(
-    //                 msg: 'You just selected ');
-    //             //debugPrint('You just selected ${_displayStringForOption(selection)}');
-    //   },
-    // );
+
+
+
+
+
   }
 }
+
+class GroupAComplate extends StatelessWidget {
+  const GroupAComplate({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return SearchField<Customar>(
+      suggestions: _SalesOrderState._userOptions
+          .map((e) => SearchFieldListItem<Customar>(
+        e.doctorName,
+        item: e,
+
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Row(
+              children: [
+                Text(
+                  e.doctorName,
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // child: Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: Row(
+        //     children: [
+        //       // CircleAvatar(
+        //       //   backgroundImage: NetworkImage(e.doctorName),
+        //       // ),
+        //       SizedBox(width: 3),
+        //       Text(e.doctorName),
+        //     ],
+        //   ),
+        // ),
+      ))
+          .toList(),
+      suggestionState: Suggestion.expand,
+      onSuggestionTap: (SearchFieldListItem<Customar> item) {
+
+        _SalesOrderState().dbHelper.getGroups();
+        Fluttertoast.showToast(
+          msg: 'You just selected ${item.item?.doctorName}',
+        );
+      },
+    );
+
+
