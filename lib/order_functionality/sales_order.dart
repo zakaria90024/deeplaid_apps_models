@@ -42,24 +42,21 @@ class _SalesOrderState extends State<SalesOrder> {
 
   @override
   void initState() {
-    if (_userOptions.isEmpty){
+    if (_userOptions.isEmpty) {
       getStudents();
       print("called ");
     }
-
   }
 
   Future<void> getStudents() async {
     List<Customar> employees = await dbHelper.getEmployees();
 
-
-      for (int a = 0; a < employees.length; a++) {
-        //print('Customer Name: ${employee.doctorName}, Phone: ${employee.doctorPhone}');
-        _userOptions.add(Customar(
-            doctorName: employees[a].doctorName,
-            doctorPhone: employees[a].doctorPhone));
-      }
-
+    for (int a = 0; a < employees.length; a++) {
+      //print('Customer Name: ${employee.doctorName}, Phone: ${employee.doctorPhone}');
+      _userOptions.add(Customar(
+          doctorName: employees[a].doctorName,
+          doctorPhone: employees[a].doctorPhone));
+    }
   }
 
   // Future<void> _fetchItems() async {
@@ -213,14 +210,8 @@ class _SalesOrderState extends State<SalesOrder> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHight = MediaQuery
-        .of(context)
-        .size
-        .height;
-    final deviceWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final deviceHight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -266,13 +257,10 @@ class _SalesOrderState extends State<SalesOrder> {
                       height: deviceHight * 0.70,
                       width: deviceWidth * 0.7,
                       child: AutocompleteBasicUserExample(),
-
                     )
                   ],
                 ),
               ),
-
-
             ],
           ),
         ),
@@ -320,52 +308,48 @@ class AutocompleteBasicUserExample extends StatelessWidget {
     //   },
     // );
 
-
     return SearchField<Customar>(
       suggestions: _SalesOrderState._userOptions
-          .map((e) =>
-          SearchFieldListItem<Customar>(
-            e.doctorName,
-            item: e,
+          .map((e) => SearchFieldListItem<Customar>(
+                e.doctorName,
+                item: e,
 
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Row(
-                  children: [
-                    Text(e.doctorName, style: TextStyle(fontSize: 14) ,),
-                  ],
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          e.doctorName,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
 
-            // child: Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     children: [
-            //       // CircleAvatar(
-            //       //   backgroundImage: NetworkImage(e.doctorName),
-            //       // ),
-            //       SizedBox(width: 3),
-            //       Text(e.doctorName),
-            //     ],
-            //   ),
-            // ),
-          ))
+                // child: Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Row(
+                //     children: [
+                //       // CircleAvatar(
+                //       //   backgroundImage: NetworkImage(e.doctorName),
+                //       // ),
+                //       SizedBox(width: 3),
+                //       Text(e.doctorName),
+                //     ],
+                //   ),
+                // ),
+              ))
           .toList(),
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<Customar> item) {
         Fluttertoast.showToast(
-
-
-
-
           msg: 'You just selected ${item.item?.doctorName}',
         );
       },
     );
-
 
     // return SearchField<Customar>(
     //
@@ -407,7 +391,5 @@ class AutocompleteBasicUserExample extends StatelessWidget {
     //             //debugPrint('You just selected ${_displayStringForOption(selection)}');
     //   },
     // );
-
-
   }
 }

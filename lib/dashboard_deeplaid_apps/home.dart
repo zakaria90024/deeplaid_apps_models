@@ -15,8 +15,7 @@ import '../custom_alart_dialog/alartdialog.dart';
 class HomePage extends StatefulWidget {
 
   final String fullName;
-  const HomePage({Key? key, required String title, required this.fullName})
-      : super(key: key);
+  const HomePage({Key? key, required String title, required this.fullName}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
