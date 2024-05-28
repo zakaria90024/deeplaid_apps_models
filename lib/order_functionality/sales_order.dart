@@ -1,4 +1,5 @@
 import 'package:deeplaid_apps_models/model/group_model.dart';
+import 'package:deeplaid_apps_models/model/item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:searchfield/searchfield.dart';
@@ -22,6 +23,7 @@ class _SalesOrderState extends State<SalesOrder> {
   List<String> suggestions = [];
   static late List<Customar> _userOptions = [];
   static late List<GroupModel> _userGroup = [];
+  static late List<ItemModel> _userProducets = [];
 
   @override
   void initState() {
@@ -32,7 +34,37 @@ class _SalesOrderState extends State<SalesOrder> {
     if (_userGroup.isEmpty) {
       getGroups();
     }
+
+
+    if (_userProducets.isEmpty) {
+      getProducts();
+    }
+
+
+
   }
+
+
+  Future<void> getProducts() async {
+    List<ItemModel> employees = await dbHelper.getProducts();
+
+    for (int a = 0; a < employees.length; a++) {
+      _userProducets.add(ItemModel(
+        commgroupgame: employees[a].commgroupgame,
+        dblPartyvalue: employees[a].dblPartyvalue,
+        dblRate: employees[a].dblRate,
+        dblcomboMaxvalue: employees[a].dblcomboMaxvalue,
+        dblcomboMinqty: employees[a].dblcomboMinqty,
+        groupName: employees[a].groupName,
+        itemName: employees[a].itemName,
+        itemcode: employees[a].itemcode,
+        depot: employees[a].depot,
+
+      ),
+      );
+    }
+  }
+
 
   Future<void> getCustomars() async {
     List<Customar> employees = await dbHelper.getDoctorOrParty();
@@ -53,8 +85,14 @@ class _SalesOrderState extends State<SalesOrder> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceHight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    final deviceWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -139,38 +177,39 @@ class CustomarAComplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return SearchField<Customar>(
       suggestions: _SalesOrderState._userOptions
-          .map((e) => SearchFieldListItem<Customar>(
-                e.doctorName,
-                item: e,
+          .map((e) =>
+          SearchFieldListItem<Customar>(
+            e.doctorName,
+            item: e,
 
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          e.doctorName,
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Row(
+                  children: [
+                    Text(
+                      e.doctorName,
+                      style: TextStyle(fontSize: 14),
                     ),
-                  ),
+                  ],
                 ),
+              ),
+            ),
 
-                // child: Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Row(
-                //     children: [
-                //       // CircleAvatar(
-                //       //   backgroundImage: NetworkImage(e.doctorName),
-                //       // ),
-                //       SizedBox(width: 3),
-                //       Text(e.doctorName),
-                //     ],
-                //   ),
-                // ),
-              ))
+            // child: Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     children: [
+            //       // CircleAvatar(
+            //       //   backgroundImage: NetworkImage(e.doctorName),
+            //       // ),
+            //       SizedBox(width: 3),
+            //       Text(e.doctorName),
+            //     ],
+            //   ),
+            // ),
+          ))
           .toList(),
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<Customar> item) {
@@ -192,38 +231,39 @@ class GroupAComplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return SearchField<GroupModel>(
       suggestions: _SalesOrderState._userGroup
-          .map((e) => SearchFieldListItem<GroupModel>(
-                e.GroupName,
-                item: e,
+          .map((e) =>
+          SearchFieldListItem<GroupModel>(
+            e.GroupName,
+            item: e,
 
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          e.GroupName,
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Row(
+                  children: [
+                    Text(
+                      e.GroupName,
+                      style: TextStyle(fontSize: 14),
                     ),
-                  ),
+                  ],
                 ),
+              ),
+            ),
 
-                // child: Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Row(
-                //     children: [
-                //       // CircleAvatar(
-                //       //   backgroundImage: NetworkImage(e.doctorName),
-                //       // ),
-                //       SizedBox(width: 3),
-                //       Text(e.doctorName),
-                //     ],
-                //   ),
-                // ),
-              ))
+            // child: Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     children: [
+            //       // CircleAvatar(
+            //       //   backgroundImage: NetworkImage(e.doctorName),
+            //       // ),
+            //       SizedBox(width: 3),
+            //       Text(e.doctorName),
+            //     ],
+            //   ),
+            // ),
+          ))
           .toList(),
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<GroupModel> item) {
