@@ -300,48 +300,72 @@ class GroupAComplate extends StatelessWidget {
 class ItemAComplate extends StatelessWidget {
   const ItemAComplate({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Add Item'),
-      content: TextField(
-        controller: _SalesOrderState()._controller,
-        decoration: InputDecoration(hintText: 'Enter item name'),
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Cancel'),
+  Widget contentBox(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(
+            top: 16,
+            left: 16,
+            right: 16,
+            bottom: 16 + MediaQuery.of(context).viewInsets.bottom,
+          ),
+          margin: EdgeInsets.only(top: 16),
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                'Custom Dialog Title',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'This is a custom dialog example in Flutter. You can customize its content and appearance according to your needs.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 24),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  child: Text('Close'),
+                ),
+              ),
+            ],
+          ),
         ),
-        TextButton(
-          onPressed: () {
-            String itemName = _SalesOrderState()._controller.text.trim();
-            if (itemName.isNotEmpty) {
-              // Add the item to your data source or perform any necessary actions
-              // For example, you can call a function to add the item to a list
-              addItem(itemName);
-              Navigator.of(context).pop();
-            } else {
-              // Show a message indicating that the item name is empty
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Please enter a valid item name')),
-              );
-            }
-          },
-          child: Text('Add'),
+        Positioned(
+          top: 0,
+          left: 16,
+          right: 16,
+          child: CircleAvatar(
+            backgroundColor: Colors.blueAccent,
+            radius: 16,
+            child: Icon(Icons.info, color: Colors.white),
+          ),
         ),
       ],
     );
   }
 
-  // Function to add the item to your data source
-  void addItem(String itemName) {
-    // Add the logic to add the item to your data source (e.g., list, database)
-    print('Added item: $itemName');
-  }
-
-
 }
+
+
+
+
 
