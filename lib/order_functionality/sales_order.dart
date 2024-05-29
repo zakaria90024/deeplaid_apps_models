@@ -20,6 +20,7 @@ class _SalesOrderState extends State<SalesOrder> {
   late List<dynamic> doctors;
   late List<String> suggestons;
   final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   List<String> suggestions = [];
   static late List<Customar> _userOptions = [];
   static late List<GroupModel> _userGroup = [];
@@ -35,36 +36,30 @@ class _SalesOrderState extends State<SalesOrder> {
       getGroups();
     }
 
-
     if (_userProducets.isEmpty) {
       getProducts();
     }
-
-
-
   }
-
 
   Future<void> getProducts() async {
     List<ItemModel> employees = await dbHelper.getProducts();
 
     for (int a = 0; a < employees.length; a++) {
-      _userProducets.add(ItemModel(
-        commgroupgame: employees[a].commgroupgame,
-        dblPartyvalue: employees[a].dblPartyvalue,
-        dblRate: employees[a].dblRate,
-        dblcomboMaxvalue: employees[a].dblcomboMaxvalue,
-        dblcomboMinqty: employees[a].dblcomboMinqty,
-        groupName: employees[a].groupName,
-        itemName: employees[a].itemName,
-        itemcode: employees[a].itemcode,
-        depot: employees[a].depot,
-
-      ),
+      _userProducets.add(
+        ItemModel(
+          commgroupgame: employees[a].commgroupgame,
+          dblPartyvalue: employees[a].dblPartyvalue,
+          dblRate: employees[a].dblRate,
+          dblcomboMaxvalue: employees[a].dblcomboMaxvalue,
+          dblcomboMinqty: employees[a].dblcomboMinqty,
+          groupName: employees[a].groupName,
+          itemName: employees[a].itemName,
+          itemcode: employees[a].itemcode,
+          depot: employees[a].depot,
+        ),
       );
     }
   }
-
 
   Future<void> getCustomars() async {
     List<Customar> employees = await dbHelper.getDoctorOrParty();
@@ -162,6 +157,26 @@ class _SalesOrderState extends State<SalesOrder> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: deviceHight * 0.08,
+                width: deviceWidth,
+                child: Row(
+                  children: [
+                    Text(
+                      "Group:        ★ ",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: deviceHight * 0.70,
+                      width: deviceWidth * 0.7,
+                      child: ItemAComplate(),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -213,7 +228,7 @@ class CustomarAComplate extends StatelessWidget {
           .toList(),
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<Customar> item) {
-        _SalesOrderState().dbHelper.getGroups();
+        //_SalesOrderState().dbHelper.getGroups();
         GroupAComplate();
 
         Fluttertoast.showToast(
@@ -267,10 +282,66 @@ class GroupAComplate extends StatelessWidget {
           .toList(),
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<GroupModel> item) {
-        Fluttertoast.showToast(
-          msg: 'Your Group ${item.item?.GroupName}',
-        );
+        //ItemAComplate();
+
+        // Fluttertoast.showToast(msg: ""+this.);
+
+
+        // Fluttertoast.showToast(
+        //   msg: 'Your Group ${item.item?.GroupName}',
+        // );
       },
     );
   }
+
+
 }
+
+class ItemAComplate extends StatelessWidget {
+  const ItemAComplate({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Add Item'),
+      content: TextField(
+        controller: _SalesOrderState()._controller,
+        decoration: InputDecoration(hintText: 'Enter item name'),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            String itemName = _SalesOrderState()._controller.text.trim();
+            if (itemName.isNotEmpty) {
+              // Add the item to your data source or perform any necessary actions
+              // For example, you can call a function to add the item to a list
+              addItem(itemName);
+              Navigator.of(context).pop();
+            } else {
+              // Show a message indicating that the item name is empty
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Please enter a valid item name')),
+              );
+            }
+          },
+          child: Text('Add'),
+        ),
+      ],
+    );
+  }
+
+  // Function to add the item to your data source
+  void addItem(String itemName) {
+    // Add the logic to add the item to your data source (e.g., list, database)
+    print('Added item: $itemName');
+  }
+
+
+}
+
