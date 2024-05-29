@@ -80,14 +80,8 @@ class _SalesOrderState extends State<SalesOrder> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHight = MediaQuery
-        .of(context)
-        .size
-        .height;
-    final deviceWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final deviceHight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -192,39 +186,38 @@ class CustomarAComplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return SearchField<Customar>(
       suggestions: _SalesOrderState._userOptions
-          .map((e) =>
-          SearchFieldListItem<Customar>(
-            e.doctorName,
-            item: e,
+          .map((e) => SearchFieldListItem<Customar>(
+                e.doctorName,
+                item: e,
 
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Row(
-                  children: [
-                    Text(
-                      e.doctorName,
-                      style: TextStyle(fontSize: 14),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          e.doctorName,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
 
-            // child: Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     children: [
-            //       // CircleAvatar(
-            //       //   backgroundImage: NetworkImage(e.doctorName),
-            //       // ),
-            //       SizedBox(width: 3),
-            //       Text(e.doctorName),
-            //     ],
-            //   ),
-            // ),
-          ))
+                // child: Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Row(
+                //     children: [
+                //       // CircleAvatar(
+                //       //   backgroundImage: NetworkImage(e.doctorName),
+                //       // ),
+                //       SizedBox(width: 3),
+                //       Text(e.doctorName),
+                //     ],
+                //   ),
+                // ),
+              ))
           .toList(),
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<Customar> item) {
@@ -246,39 +239,38 @@ class GroupAComplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return SearchField<GroupModel>(
       suggestions: _SalesOrderState._userGroup
-          .map((e) =>
-          SearchFieldListItem<GroupModel>(
-            e.GroupName,
-            item: e,
+          .map((e) => SearchFieldListItem<GroupModel>(
+                e.GroupName,
+                item: e,
 
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Row(
-                  children: [
-                    Text(
-                      e.GroupName,
-                      style: TextStyle(fontSize: 14),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          e.GroupName,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
 
-            // child: Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     children: [
-            //       // CircleAvatar(
-            //       //   backgroundImage: NetworkImage(e.doctorName),
-            //       // ),
-            //       SizedBox(width: 3),
-            //       Text(e.doctorName),
-            //     ],
-            //   ),
-            // ),
-          ))
+                // child: Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Row(
+                //     children: [
+                //       // CircleAvatar(
+                //       //   backgroundImage: NetworkImage(e.doctorName),
+                //       // ),
+                //       SizedBox(width: 3),
+                //       Text(e.doctorName),
+                //     ],
+                //   ),
+                // ),
+              ))
           .toList(),
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<GroupModel> item) {
@@ -286,6 +278,59 @@ class GroupAComplate extends StatelessWidget {
 
         // Fluttertoast.showToast(msg: ""+this.);
 
+        // Fluttertoast.showToast(
+        //   msg: 'Your Group ${item.item?.GroupName}',
+        // );
+      },
+    );
+  }
+}
+
+class ItemAComplate extends StatelessWidget {
+  const ItemAComplate({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SearchField<GroupModel>(
+      suggestions: _SalesOrderState._userGroup
+          .map((e) => SearchFieldListItem<GroupModel>(
+        e.GroupName,
+        item: e,
+
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Row(
+              children: [
+                Text(
+                  e.GroupName,
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // child: Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: Row(
+        //     children: [
+        //       // CircleAvatar(
+        //       //   backgroundImage: NetworkImage(e.doctorName),
+        //       // ),
+        //       SizedBox(width: 3),
+        //       Text(e.doctorName),
+        //     ],
+        //   ),
+        // ),
+      ))
+          .toList(),
+      suggestionState: Suggestion.expand,
+      onSuggestionTap: (SearchFieldListItem<GroupModel> item) {
+        //ItemAComplate();
+
+        // Fluttertoast.showToast(msg: ""+this.);
 
         // Fluttertoast.showToast(
         //   msg: 'Your Group ${item.item?.GroupName}',
@@ -293,79 +338,5 @@ class GroupAComplate extends StatelessWidget {
       },
     );
   }
-
-
 }
-
-class ItemAComplate extends StatelessWidget {
-  const ItemAComplate({super.key});
-
-  Widget contentBox(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(
-            top: 16,
-            left: 16,
-            right: 16,
-            bottom: 16 + MediaQuery.of(context).viewInsets.bottom,
-          ),
-          margin: EdgeInsets.only(top: 16),
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 10,
-                offset: Offset(0, 10),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                'Custom Dialog Title',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 16),
-              Text(
-                'This is a custom dialog example in Flutter. You can customize its content and appearance according to your needs.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 24),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
-                  },
-                  child: Text('Close'),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Positioned(
-          top: 0,
-          left: 16,
-          right: 16,
-          child: CircleAvatar(
-            backgroundColor: Colors.blueAccent,
-            radius: 16,
-            child: Icon(Icons.info, color: Colors.white),
-          ),
-        ),
-      ],
-    );
-  }
-
-}
-
-
-
-
 
