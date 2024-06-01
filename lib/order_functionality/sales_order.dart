@@ -179,6 +179,8 @@ class _SalesOrderState extends State<SalesOrder> {
   }
 }
 
+
+//for Customer Autocomplete=====================================================
 class CustomarAComplate extends StatelessWidget {
   const CustomarAComplate({super.key});
 
@@ -224,14 +226,15 @@ class CustomarAComplate extends StatelessWidget {
         //_SalesOrderState().dbHelper.getGroups();
         GroupAComplate();
 
-        Fluttertoast.showToast(
-          msg: 'Your Customer  ${item.item?.doctorName}',
-        );
+        // Fluttertoast.showToast(
+        //   msg: 'Your Customer  ${item.item?.doctorName}',
+        // );
       },
     );
   }
 }
 
+//for Group Autocomplete=====================================================
 class GroupAComplate extends StatelessWidget {
   const GroupAComplate({super.key});
 
@@ -278,23 +281,26 @@ class GroupAComplate extends StatelessWidget {
 
         // Fluttertoast.showToast(msg: ""+this.);
 
-        // Fluttertoast.showToast(
-        //   msg: 'Your Group ${item.item?.GroupName}',
-        // );
+        Fluttertoast.showToast(
+          msg: 'Your Group ${item.item?.GroupName}',
+        );
       },
     );
   }
 }
 
+
+//for Item Autocomplete=====================================================
 class ItemAComplate extends StatelessWidget {
   const ItemAComplate({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SearchField<GroupModel>(
-      suggestions: _SalesOrderState._userGroup
-          .map((e) => SearchFieldListItem<GroupModel>(
-                e.GroupName,
+    return SearchField<ItemModel>(
+      suggestions: _SalesOrderState._userProducets
+          .map((e) => SearchFieldListItem<ItemModel>(
+
+                e.itemName.toString(),
                 item: e,
 
                 child: SingleChildScrollView(
@@ -304,7 +310,7 @@ class ItemAComplate extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          e.GroupName,
+                          e.itemName.toString(),
                           style: TextStyle(fontSize: 14),
                         ),
                       ],
@@ -327,7 +333,7 @@ class ItemAComplate extends StatelessWidget {
               ))
           .toList(),
       suggestionState: Suggestion.expand,
-      onSuggestionTap: (SearchFieldListItem<GroupModel> item) {
+      onSuggestionTap: (SearchFieldListItem<ItemModel> item) {
         //ItemAComplate();
 
         // Fluttertoast.showToast(msg: ""+this.);
