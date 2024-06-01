@@ -157,7 +157,7 @@ class _SalesOrderState extends State<SalesOrder> {
                 child: Row(
                   children: [
                     Text(
-                      "Group:        ★ ",
+                      "Item:        ★ ",
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
@@ -294,37 +294,37 @@ class ItemAComplate extends StatelessWidget {
     return SearchField<GroupModel>(
       suggestions: _SalesOrderState._userGroup
           .map((e) => SearchFieldListItem<GroupModel>(
-        e.GroupName,
-        item: e,
+                e.GroupName,
+                item: e,
 
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Row(
-              children: [
-                Text(
-                  e.GroupName,
-                  style: TextStyle(fontSize: 14),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          e.GroupName,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ],
-            ),
-          ),
-        ),
 
-        // child: Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: Row(
-        //     children: [
-        //       // CircleAvatar(
-        //       //   backgroundImage: NetworkImage(e.doctorName),
-        //       // ),
-        //       SizedBox(width: 3),
-        //       Text(e.doctorName),
-        //     ],
-        //   ),
-        // ),
-      ))
+                // child: Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Row(
+                //     children: [
+                //       // CircleAvatar(
+                //       //   backgroundImage: NetworkImage(e.doctorName),
+                //       // ),
+                //       SizedBox(width: 3),
+                //       Text(e.doctorName),
+                //     ],
+                //   ),
+                // ),
+              ))
           .toList(),
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<GroupModel> item) {
@@ -339,4 +339,3 @@ class ItemAComplate extends StatelessWidget {
     );
   }
 }
-
