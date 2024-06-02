@@ -1,8 +1,10 @@
 import 'package:deeplaid_apps_models/model/group_model.dart';
 import 'package:deeplaid_apps_models/model/item_model.dart';
+import 'package:deeplaid_apps_models/order_functionality/dialog_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:searchfield/searchfield.dart';
+import '../main.dart';
 import '../model/customar_model.dart';
 import '../sqlitehelper_deeplaid_apps/sqlitehelper.dart';
 
@@ -179,7 +181,6 @@ class _SalesOrderState extends State<SalesOrder> {
   }
 }
 
-
 //for Customer Autocomplete=====================================================
 class CustomarAComplate extends StatelessWidget {
   const CustomarAComplate({super.key});
@@ -281,14 +282,51 @@ class GroupAComplate extends StatelessWidget {
 
         // Fluttertoast.showToast(msg: ""+this.);
 
+        showCustomDialog(context);
+
         Fluttertoast.showToast(
           msg: 'Your Group ${item.item?.GroupName}',
         );
       },
     );
   }
-}
 
+  void showCustomDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select an Item'),
+          content: Container(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: 20, // Number of items in the ListView
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text('Item $index'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    // Handle item selection
+                    print('Selected Item $index');
+                  },
+                );
+              },
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
 
 //for Item Autocomplete=====================================================
 class ItemAComplate extends StatelessWidget {
@@ -299,7 +337,6 @@ class ItemAComplate extends StatelessWidget {
     return SearchField<ItemModel>(
       suggestions: _SalesOrderState._userProducets
           .map((e) => SearchFieldListItem<ItemModel>(
-
                 e.itemName.toString(),
                 item: e,
 
@@ -344,4 +381,6 @@ class ItemAComplate extends StatelessWidget {
       },
     );
   }
+
+//custom dialog
 }
