@@ -154,26 +154,26 @@ class _SalesOrderState extends State<SalesOrder> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: deviceHight * 0.08,
-                width: deviceWidth,
-                child: Row(
-                  children: [
-                    Text(
-                      "Item:        ★ ",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: deviceHight * 0.70,
-                      width: deviceWidth * 0.7,
-                      // child: ItemAComplate(),
-                    )
-                  ],
-                ),
-              ),
+              // SizedBox(
+              //   height: deviceHight * 0.08,
+              //   width: deviceWidth,
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         "Item:        ★ ",
+              //         style: TextStyle(
+              //             fontSize: 14,
+              //             color: Colors.black,
+              //             fontWeight: FontWeight.bold),
+              //       ),
+              //       SizedBox(
+              //         height: deviceHight * 0.70,
+              //         width: deviceWidth * 0.7,
+              //         // child: ItemAComplate(),
+              //       )
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -283,33 +283,26 @@ class GroupAComplate extends StatelessWidget {
 
         // Fluttertoast.showToast(msg: ""+this.);
 
-
-
-
         // Fluttertoast.showToast(
         //   msg: 'Your Group ${item.item?.GroupName}',
         // );
 
 
+        _SalesOrderState._userProducetsGroupWise.clear();
 
-        for(int a = 0; a < _SalesOrderState._userProducets.length; a++){
-
-          if(_SalesOrderState._userProducets[a].groupName == item.item?.GroupName) {
-            _SalesOrderState._userProducetsGroupWise.add(_SalesOrderState._userProducets[a]);
+        for (int a = 0; a < _SalesOrderState._userProducets.length; a++) {
+          if (_SalesOrderState._userProducets[a].groupName ==
+              item.item?.GroupName) {
+            _SalesOrderState._userProducetsGroupWise
+                .add(_SalesOrderState._userProducets[a]);
           }
         }
 
-
         showCustomDialog(context, _SalesOrderState._userProducetsGroupWise);
-
       },
     );
   }
-
-
 }
-
-
 
 //for Item Autocomplete=====================================================
 // class ItemAComplate extends StatelessWidget {
