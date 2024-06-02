@@ -24,12 +24,17 @@ class CustomDialog extends StatefulWidget {
 class _CustomDialogState extends State<CustomDialog> {
   TextEditingController searchController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
+  TextEditingController newProductNameController = TextEditingController();
+  TextEditingController newProductQtyController = TextEditingController();
   List<ItemModel> filteredList = [];
+  List<TextEditingController> quantityControllers = [];
 
   @override
   void initState() {
     super.initState();
     filteredList = widget.userProducetsGroupWise;
+    quantityControllers = List.generate(
+        widget.userProducetsGroupWise.length, (_) => TextEditingController());
     searchController.addListener(_filterList);
   }
 
@@ -42,10 +47,28 @@ class _CustomDialogState extends State<CustomDialog> {
     });
   }
 
+  void _addNewProduct() {
+    if (newProductNameController.text.isNotEmpty && newProductQtyController.text.isNotEmpty) {
+      setState(() {
+        //widget.userProducetsGroupWise.add(ItemModel(newProductNameController.text));
+        quantityControllers.add(TextEditingController(text: newProductQtyController.text));
+        filteredList = widget.userProducetsGroupWise; // Refresh the filtered list
+      });
+      newProductNameController.clear();
+      newProductQtyController.clear();
+      Fluttertoast.showToast(msg: "Product added");
+    } else {
+      Fluttertoast.showToast(msg: "Please enter both product name and quantity");
+    }
+  }
+
   @override
   void dispose() {
     searchController.removeListener(_filterList);
     searchController.dispose();
+    for (var controller in quantityControllers) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -78,6 +101,9 @@ class _CustomDialogState extends State<CustomDialog> {
                 shrinkWrap: true,
                 itemCount: filteredList.length,
                 itemBuilder: (BuildContext context, int index) {
+                  int originalIndex = widget.userProducetsGroupWise
+                      .indexOf(filteredList[index]);
+
                   return ListTile(
                     title: Row(
                       children: [
@@ -87,10 +113,10 @@ class _CustomDialogState extends State<CustomDialog> {
                         Container(
                           width: 50,
                           child: TextField(
-                            controller: quantityController,
+                            controller: quantityControllers[originalIndex],
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                              hintText: 'Qty',
+                              hintText: '0',
                               contentPadding: EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 10.0),
                               border: OutlineInputBorder(),
@@ -102,7 +128,8 @@ class _CustomDialogState extends State<CustomDialog> {
                     onTap: () {
                       Navigator.of(context).pop();
                       // Handle item selection
-                      print('Selected Item ${filteredList[index].itemName}');
+                      print('Selected Item ${filteredList[index].itemName} with quantity ${quantityControllers[originalIndex].text}');
+
                     },
                   );
                 },
@@ -113,19 +140,20 @@ class _CustomDialogState extends State<CustomDialog> {
       ),
       actions: <Widget>[
         TextButton(
+          child: Text('Add Product'),
+          onPressed: _addNewProduct,
+        ),
+        TextButton(
           child: Text('Close'),
           onPressed: () {
             Navigator.of(context).pop();
             //Fluttertoast.showToast(msg: "Add item");
           },
         ),
-        TextButton(
-          child: Text('Add Product'),
-          onPressed: () {
-            Fluttertoast.showToast(msg: "Add item");
-          },
-        ),
+
       ],
     );
   }
+
+
 }

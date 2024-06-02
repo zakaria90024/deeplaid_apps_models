@@ -9,7 +9,7 @@ class ItemModel {
   String? itemcode;
   String? depot;
 
-  ItemModel({
+  ItemModel( {
     required this.commgroupgame,
     required this.dblPartyvalue,
     required this.dblRate,
