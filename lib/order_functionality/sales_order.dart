@@ -27,6 +27,7 @@ class _SalesOrderState extends State<SalesOrder> {
   static late List<Customar> _userOptions = [];
   static late List<GroupModel> _userGroup = [];
   static late List<ItemModel> _userProducets = [];
+  static late List<ItemModel> _userProducetsGroupWise = [];
 
   @override
   void initState() {
@@ -168,7 +169,7 @@ class _SalesOrderState extends State<SalesOrder> {
                     SizedBox(
                       height: deviceHight * 0.70,
                       width: deviceWidth * 0.7,
-                      child: ItemAComplate(),
+                      // child: ItemAComplate(),
                     )
                   ],
                 ),
@@ -282,105 +283,87 @@ class GroupAComplate extends StatelessWidget {
 
         // Fluttertoast.showToast(msg: ""+this.);
 
-        showCustomDialog(context);
 
-        Fluttertoast.showToast(
-          msg: 'Your Group ${item.item?.GroupName}',
-        );
-      },
-    );
-  }
 
-  void showCustomDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Select an Item'),
-          content: Container(
-            width: double.maxFinite,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 20, // Number of items in the ListView
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text('Item $index'),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    // Handle item selection
-                    print('Selected Item $index');
-                  },
-                );
-              },
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Close'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-//for Item Autocomplete=====================================================
-class ItemAComplate extends StatelessWidget {
-  const ItemAComplate({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SearchField<ItemModel>(
-      suggestions: _SalesOrderState._userProducets
-          .map((e) => SearchFieldListItem<ItemModel>(
-                e.itemName.toString(),
-                item: e,
-
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          e.itemName.toString(),
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                // child: Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Row(
-                //     children: [
-                //       // CircleAvatar(
-                //       //   backgroundImage: NetworkImage(e.doctorName),
-                //       // ),
-                //       SizedBox(width: 3),
-                //       Text(e.doctorName),
-                //     ],
-                //   ),
-                // ),
-              ))
-          .toList(),
-      suggestionState: Suggestion.expand,
-      onSuggestionTap: (SearchFieldListItem<ItemModel> item) {
-        //ItemAComplate();
-
-        // Fluttertoast.showToast(msg: ""+this.);
 
         // Fluttertoast.showToast(
         //   msg: 'Your Group ${item.item?.GroupName}',
         // );
+
+
+
+        for(int a = 0; a < _SalesOrderState._userProducets.length; a++){
+
+          if(_SalesOrderState._userProducets[a].groupName == item.item?.GroupName) {
+            _SalesOrderState._userProducetsGroupWise.add(_SalesOrderState._userProducets[a]);
+          }
+        }
+
+
+        showCustomDialog(context, _SalesOrderState._userProducetsGroupWise);
+
       },
     );
   }
 
-//custom dialog
+
 }
+
+
+
+//for Item Autocomplete=====================================================
+// class ItemAComplate extends StatelessWidget {
+//   const ItemAComplate({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SearchField<ItemModel>(
+//       suggestions: _SalesOrderState._userProducets
+//           .map((e) => SearchFieldListItem<ItemModel>(
+//                 e.itemName.toString(),
+//                 item: e,
+//
+//                 child: SingleChildScrollView(
+//                   scrollDirection: Axis.horizontal,
+//                   child: Padding(
+//                     padding: const EdgeInsets.all(6.0),
+//                     child: Row(
+//                       children: [
+//                         Text(
+//                           e.itemName.toString(),
+//                           style: TextStyle(fontSize: 14),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//
+//                 // child: Padding(
+//                 //   padding: const EdgeInsets.all(8.0),
+//                 //   child: Row(
+//                 //     children: [
+//                 //       // CircleAvatar(
+//                 //       //   backgroundImage: NetworkImage(e.doctorName),
+//                 //       // ),
+//                 //       SizedBox(width: 3),
+//                 //       Text(e.doctorName),
+//                 //     ],
+//                 //   ),
+//                 // ),
+//               ))
+//           .toList(),
+//       suggestionState: Suggestion.expand,
+//       onSuggestionTap: (SearchFieldListItem<ItemModel> item) {
+//         //ItemAComplate();
+//
+//         // Fluttertoast.showToast(msg: ""+this.);
+//
+//         // Fluttertoast.showToast(
+//         //   msg: 'Your Group ${item.item?.GroupName}',
+//         // );
+//       },
+//     );
+//   }
+//
+// //custom dialog
+// }
