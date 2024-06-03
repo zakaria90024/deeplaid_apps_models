@@ -31,8 +31,11 @@ class _CustomDialogState extends State<CustomDialog> {
   List<ItemModel> filteredList = [];
   List<TextEditingController> quantityControllers = [];
 
-  //for submit order lists 
-  List<Detail> orderdetailsList = [];
+  //for submit order lists
+  List<BranchID> list_BranchID = [];
+  List<Detail> list_Details = [];
+  List<DoctorInfo> list_DoctorInfo = [];
+  List<Summary> list_Summary = [];
 
   @override
   void initState() {
@@ -167,7 +170,10 @@ class _CustomDialogState extends State<CustomDialog> {
           onPressed: (){
             for(int i = 0; i < filteredList.length; i++){
               if(quantityControllers[i].text.isNotEmpty){
+
                 print('Selected Item ${filteredList[i].itemName} with quantity ${quantityControllers[i].text}');
+
+
               }
             }
           }
