@@ -103,7 +103,7 @@ class _CustomDialogState extends State<CustomDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsets.all(6.0), // Add padding around the TextField
+              padding: const EdgeInsets.all(6.0), // Add padding around the TextField
               child: TextField(
                 controller: searchController,
                 decoration: const InputDecoration(
@@ -137,7 +137,7 @@ class _CustomDialogState extends State<CustomDialog> {
                           child: TextField(
                             controller: quantityControllers[originalIndex],
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: '0',
                               contentPadding: EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 10.0),
@@ -163,7 +163,7 @@ class _CustomDialogState extends State<CustomDialog> {
       ),
       actions: <Widget>[
         TextButton(
-            child: Text('Add Product'),
+            child: const Text('Add Product'),
             onPressed: () {
               for (int i = 0; i < filteredList.length; i++) {
                 if (quantityControllers[i].text.isNotEmpty) {
@@ -176,7 +176,7 @@ class _CustomDialogState extends State<CustomDialog> {
             //_addNewProduct,
             ),
         TextButton(
-          child: Text('Close'),
+          child: const Text('Close'),
           onPressed: () {
             Navigator.of(context).pop();
             //Fluttertoast.showToast(msg: "Add item");
