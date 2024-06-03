@@ -32,10 +32,10 @@ class _CustomDialogState extends State<CustomDialog> {
   List<TextEditingController> quantityControllers = [];
 
   //for submit order lists
-  List<BranchID> list_BranchID = [];
-  List<Detail> list_Details = [];
-  List<DoctorInfo> list_DoctorInfo = [];
-  List<Summary> list_Summary = [];
+  List<BranchID> listBranchId = [];
+  List<Detail> listDetails = [];
+  List<DoctorInfo> listDoctorInfo = [];
+  List<Summary> listSummary = [];
 
   @override
   void initState() {
@@ -56,8 +56,6 @@ class _CustomDialogState extends State<CustomDialog> {
   }
 
   void _addNewProduct() {
-
-
     if (newProductNameController.text.isNotEmpty &&
         newProductQtyController.text.isNotEmpty) {
       setState(() {
@@ -153,9 +151,8 @@ class _CustomDialogState extends State<CustomDialog> {
                       Navigator.of(context).pop();
                       // Handle item selection
 
+                      print('Selected Item ${filteredList[index].itemName} with quantity ${quantityControllers[originalIndex].text}');
 
-                      print(
-                          'Selected Item ${filteredList[index].itemName} with quantity ${quantityControllers[originalIndex].text}');
                     },
                   );
                 },
@@ -166,21 +163,18 @@ class _CustomDialogState extends State<CustomDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: Text('Add Product'),
-          onPressed: (){
-            for(int i = 0; i < filteredList.length; i++){
-              if(quantityControllers[i].text.isNotEmpty){
+            child: Text('Add Product'),
+            onPressed: () {
+              for (int i = 0; i < filteredList.length; i++) {
+                if (quantityControllers[i].text.isNotEmpty) {
+                  print('Selected Item ${filteredList[i].itemName} with quantity ${quantityControllers[i].text}');
 
-                print('Selected Item ${filteredList[i].itemName} with quantity ${quantityControllers[i].text}');
-
-
+                }
               }
             }
-          }
 
-
-          //_addNewProduct,
-        ),
+            //_addNewProduct,
+            ),
         TextButton(
           child: Text('Close'),
           onPressed: () {
