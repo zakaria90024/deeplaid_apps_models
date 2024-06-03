@@ -13,20 +13,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../custom_alart_dialog/alartdialog.dart';
 
 class HomePage extends StatefulWidget {
-
   final String fullName;
+
   const HomePage({Key? key, required String title, required this.fullName}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
-
-
-
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   @override
   void initState() {
     super.initState();
@@ -49,7 +44,6 @@ class _HomePageState extends State<HomePage> {
     // Clear all preferences.
     await prefs.clear();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -395,7 +389,7 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.only(
                               left: 8, top: 25, right: 4, bottom: 4),
                           child: Column(
-                            children:  [
+                            children: [
                               Text(
                                 laderNamefull,
                                 style: TextStyle(
@@ -452,7 +446,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => OrderType()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => OrderType()));
                   },
                   child: SizedBox(
                     height: deviceHight * 0.15,
@@ -629,86 +624,79 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-
                 GestureDetector(
-                  onTap: () {
+                    onTap: () {
+                      showCupertinoModalPopup<void>(
+                        context: context,
+                        builder: (BuildContext context) => CupertinoAlertDialog(
+                          title: Text("Logout"),
+                          content: Text("Do you want to Logout?"),
+                          actions: <CupertinoDialogAction>[
+                            CupertinoDialogAction(
+                              isDefaultAction: true,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('No'),
+                            ),
+                            CupertinoDialogAction(
+                              isDestructiveAction: true,
+                              onPressed: () {
+                                Navigator.push(
+                                    (context),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Login(title: "", userid: "")));
 
-
-                    showCupertinoModalPopup<void>(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          CupertinoAlertDialog(
-                            title:  Text("Logout"),
-                            content: Text("Do you want to Logout?"),
-                            actions: <CupertinoDialogAction>[
-                              CupertinoDialogAction(
-                                isDefaultAction: true,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('No'),
-                              ),
-                              CupertinoDialogAction(
-                                isDestructiveAction: true,
-                                onPressed: () {
-                                  Navigator.push((context),
-                                      MaterialPageRoute(builder: (context) => Login(title: "", userid: "")));
-
-                                  _clearShareprefarance();
-
-                                },
-                                child: const Text('Yes'),
-                              ),
-                            ],
-                          ),
-                    );
-
-
-
-
-                    // AlertDialog(
-                    //   title: Text('Do you want Logout?'),
-                    //   actions: [
-                    //     TextButton(
-                    //       child: Text('Yes'),
-                    //       onPressed: () {
-                    //         Navigator.push((context),
-                    //             MaterialPageRoute(builder: (context) => Login(title: "", userid: "")));
-                    //         _clearShareprefarance();
-                    //       },
-                    //     ),
-                    //     TextButton(
-                    //       child: Text('No'),
-                    //       onPressed: () {
-                    //         Navigator.of(context).pop(false);
-                    //       },
-                    //     ),
-                    //   ],
-                    // );
-
-                  },
-
-                child: SizedBox(
-                  height: deviceHight * 0.15,
-                  width: deviceWidth * 0.45,
-                  child: Card(
-                    elevation: 2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          CupertinoIcons.loop,
-                          color: Colors.black,
-                          size: 50,
+                                _clearShareprefarance();
+                              },
+                              child: const Text('Yes'),
+                            ),
+                          ],
                         ),
-                        Text(
-                          "Logout",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                ) ),
+                      );
+
+                      // AlertDialog(
+                      //   title: Text('Do you want Logout?'),
+                      //   actions: [
+                      //     TextButton(
+                      //       child: Text('Yes'),
+                      //       onPressed: () {
+                      //         Navigator.push((context),
+                      //             MaterialPageRoute(builder: (context) => Login(title: "", userid: "")));
+                      //         _clearShareprefarance();
+                      //       },
+                      //     ),
+                      //     TextButton(
+                      //       child: Text('No'),
+                      //       onPressed: () {
+                      //         Navigator.of(context).pop(false);
+                      //       },
+                      //     ),
+                      //   ],
+                      // );
+                    },
+                    child: SizedBox(
+                      height: deviceHight * 0.15,
+                      width: deviceWidth * 0.45,
+                      child: Card(
+                        elevation: 2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              CupertinoIcons.loop,
+                              color: Colors.black,
+                              size: 50,
+                            ),
+                            Text(
+                              "Logout",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                    )),
               ],
             ),
           ])))
