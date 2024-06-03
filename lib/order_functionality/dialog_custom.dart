@@ -2,6 +2,8 @@ import 'package:deeplaid_apps_models/model/item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../model/final_order_model.dart';
+
 void showCustomDialog(
     BuildContext context, List<ItemModel> userProducetsGroupWise) {
   showDialog(
@@ -28,6 +30,9 @@ class _CustomDialogState extends State<CustomDialog> {
   TextEditingController newProductQtyController = TextEditingController();
   List<ItemModel> filteredList = [];
   List<TextEditingController> quantityControllers = [];
+
+  //for submit order lists 
+  List<Detail> orderdetailsList = [];
 
   @override
   void initState() {
@@ -146,7 +151,6 @@ class _CustomDialogState extends State<CustomDialog> {
                       // Handle item selection
 
 
-
                       print(
                           'Selected Item ${filteredList[index].itemName} with quantity ${quantityControllers[originalIndex].text}');
                     },
@@ -167,6 +171,8 @@ class _CustomDialogState extends State<CustomDialog> {
               }
             }
           }
+
+
           //_addNewProduct,
         ),
         TextButton(
