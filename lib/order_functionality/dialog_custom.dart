@@ -48,17 +48,33 @@ class _CustomDialogState extends State<CustomDialog> {
   }
 
   void _addNewProduct() {
-    if (newProductNameController.text.isNotEmpty && newProductQtyController.text.isNotEmpty) {
+
+
+    if (newProductNameController.text.isNotEmpty &&
+        newProductQtyController.text.isNotEmpty) {
       setState(() {
-        //widget.userProducetsGroupWise.add(ItemModel(newProductNameController.text));
-        quantityControllers.add(TextEditingController(text: newProductQtyController.text));
-        filteredList = widget.userProducetsGroupWise; // Refresh the filtered list
+        widget.userProducetsGroupWise.add(ItemModel(
+            commgroupgame: "",
+            dblPartyvalue: "",
+            dblRate: "",
+            dblcomboMaxvalue: "",
+            dblcomboMinqty: "",
+            groupName: "",
+            itemName: quantityControllers[0].text,
+            itemcode: "",
+            depot: ""));
+
+        quantityControllers
+            .add(TextEditingController(text: newProductQtyController.text));
+        filteredList =
+            widget.userProducetsGroupWise; // Refresh the filtered list
       });
       newProductNameController.clear();
       newProductQtyController.clear();
       Fluttertoast.showToast(msg: "Product added");
     } else {
-      Fluttertoast.showToast(msg: "Please enter both product name and quantity");
+      Fluttertoast.showToast(
+          msg: "Please enter both product name and quantity");
     }
   }
 
@@ -128,8 +144,11 @@ class _CustomDialogState extends State<CustomDialog> {
                     onTap: () {
                       Navigator.of(context).pop();
                       // Handle item selection
-                      print('Selected Item ${filteredList[index].itemName} with quantity ${quantityControllers[originalIndex].text}');
 
+
+
+                      print(
+                          'Selected Item ${filteredList[index].itemName} with quantity ${quantityControllers[originalIndex].text}');
                     },
                   );
                 },
@@ -141,7 +160,14 @@ class _CustomDialogState extends State<CustomDialog> {
       actions: <Widget>[
         TextButton(
           child: Text('Add Product'),
-          onPressed: _addNewProduct,
+          onPressed: (){
+            for(int i = 0; i < filteredList.length; i++){
+              if(quantityControllers[i].text.isNotEmpty){
+                print('Selected Item ${filteredList[i].itemName} with quantity ${quantityControllers[i].text}');
+              }
+            }
+          }
+          //_addNewProduct,
         ),
         TextButton(
           child: Text('Close'),
@@ -150,10 +176,7 @@ class _CustomDialogState extends State<CustomDialog> {
             //Fluttertoast.showToast(msg: "Add item");
           },
         ),
-
       ],
     );
   }
-
-
 }
