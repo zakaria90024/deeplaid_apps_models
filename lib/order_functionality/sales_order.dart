@@ -21,13 +21,14 @@ class _SalesOrderState extends State<SalesOrder> {
   var dbHelper = DBHelper();
   late List<dynamic> doctors;
   late List<String> suggestons;
-  final TextEditingController _textEditingController = TextEditingController();
-  final TextEditingController _controller = TextEditingController();
+
   List<String> suggestions = [];
   static late List<Customar> _userOptions = [];
   static late List<GroupModel> _userGroup = [];
   static late List<ItemModel> _userProducets = [];
   static late List<ItemModel> _userProducetsGroupWise = [];
+
+  static String?  selectedDoctor = "";
 
   @override
   void initState() {
@@ -186,6 +187,7 @@ class _SalesOrderState extends State<SalesOrder> {
 class CustomarAComplate extends StatelessWidget {
   const CustomarAComplate({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return SearchField<Customar>(
@@ -227,9 +229,11 @@ class CustomarAComplate extends StatelessWidget {
       onSuggestionTap: (SearchFieldListItem<Customar> item) {
         //_SalesOrderState().dbHelper.getGroups();
         GroupAComplate();
+        Doctor.selectedDoctor = item.item?.doctorName;
+
 
         // Fluttertoast.showToast(
-        //   msg: 'Your Customer  ${item.item?.doctorName}',
+        //   msg: 'Your Customer  ${selectedDoctor}',
         // );
       },
     );
@@ -279,6 +283,9 @@ class GroupAComplate extends StatelessWidget {
           .toList(),
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<GroupModel> item) {
+
+        Doctor.selectedGroup = item.item?.GroupName;
+
         //ItemAComplate();
 
         // Fluttertoast.showToast(msg: ""+this.);
@@ -360,3 +367,7 @@ class GroupAComplate extends StatelessWidget {
 //
 // //custom dialog
 // }
+class Doctor {
+  static String? selectedDoctor = "";
+  static String? selectedGroup = "";
+}

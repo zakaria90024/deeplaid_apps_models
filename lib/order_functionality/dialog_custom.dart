@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:deeplaid_apps_models/model/item_model.dart';
+import 'package:deeplaid_apps_models/order_functionality/sales_order.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 import '../model/final_order_model.dart';
 
@@ -36,6 +41,9 @@ class _CustomDialogState extends State<CustomDialog> {
   List<Detail> listDetails = [];
   List<DoctorInfo> listDoctorInfo = [];
   List<Summary> listSummary = [];
+
+  //uniqid
+  int? milisec;
 
   @override
   void initState() {
@@ -103,7 +111,8 @@ class _CustomDialogState extends State<CustomDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.all(6.0), // Add padding around the TextField
+              padding: const EdgeInsets.all(6.0),
+              // Add padding around the TextField
               child: TextField(
                 controller: searchController,
                 decoration: const InputDecoration(
@@ -147,13 +156,13 @@ class _CustomDialogState extends State<CustomDialog> {
                         ),
                       ],
                     ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      // Handle item selection
-
-                      print('Selected Item ${filteredList[index].itemName} with quantity ${quantityControllers[originalIndex].text}');
-
-                    },
+                    // onTap: () {
+                    //   Navigator.of(context).pop();
+                    //   // Handle item selection
+                    //
+                    //   print(
+                    //       'Selected Item ${filteredList[index].itemName} with quantity ${quantityControllers[originalIndex].text}');
+                    // },
                   );
                 },
               ),
@@ -165,14 +174,86 @@ class _CustomDialogState extends State<CustomDialog> {
         TextButton(
             child: const Text('Add Product'),
             onPressed: () {
+              DateTime now = DateTime.now();
+              String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+
+              //UUID make orderid unique =======================================
+              if (milisec == null) {
+                DateTime now = DateTime.now();
+                int year = now.year;
+                int month = now.month;
+                int day = now.day;
+                int hh = now.hour;
+                int mm = now.minute;
+                int ss = now.second;
+
+                month = month +
+                    1; // Dart's DateTime month is already 1-based, no need to adjust
+                hh = (hh + 12) % 24; // Ensuring 24-hour format
+                String currentDate = "$day-$month-$year $hh:$mm:$ss";
+                // Format current date and time to 'dd-MM-yyyy HH:mm:ss'
+                String formattedDate =
+                    "$day-${month.toString().padLeft(2, '0')}-${year.toString()} "
+                    "${hh.toString().padLeft(2, '0')}:${mm.toString().padLeft(2, '0')}:${ss.toString().padLeft(2, '0')}";
+
+                // Generate a unique order ID
+                int max = 9;
+                int min = 1;
+                Random random = Random();
+                int b = min + random.nextInt(max - min + 1);
+                String x = b.toString();
+                int orderId = now.millisecondsSinceEpoch;
+                String oid = orderId.toString().substring(4, 13);
+                // Construct the final order ID
+                int p = int.parse(x + oid);
+
+                // Print the values
+                print("Current Date: $currentDate");
+                print("Formatted Date: $formattedDate");
+                print("Order ID: $p");
+
+                milisec = p;
+              }
+              //end UUID make orderid unique ===================================
+
+              print("Final milisec: $milisec");
+
               for (int i = 0; i < filteredList.length; i++) {
                 if (quantityControllers[i].text.isNotEmpty) {
-                  print('Selected Item ${filteredList[i].itemName} with quantity ${quantityControllers[i].text}');
-
+                  listDetails.add(Detail(
+                      date: formattedDate,
+                      doctorName: Doctor.selectedDoctor.toString(),
+                      groupName: Doctor.selectedGroup.toString(),
+                      itemName: filteredList[i].itemName.toString(),
+                      itemPrice: double.parse(filteredList[i].dblRate.toString()),
+                      itemQuentity: int.parse(quantityControllers[i].text),
+                      itemTotalPrice: double.parse(filteredList[i].dblRate.toString()) * int.parse(quantityControllers[i].text), //single price * qty
+                      mpo: "",
+                      newCustomer: "",
+                      orderid: int.parse(milisec.toString()),
+                      slabgroupName: filteredList[i].commgroupgame.toString()));
                 }
-              }
-            }
 
+                //print('Selected Item ${listDetails[i].itemName} with quantity ${listDetails[i].itemQuentity}');
+              }
+
+              // for (var item in listDetails) {
+              //   print(item.itemName+"-"+item.itemQuentity.toString()); // This will call the toString() method of the Detail class
+              // }
+
+              // Create the final JSON object
+              Map<String, dynamic> jsonData = {
+                //"branchID": branchID.map((e) => e.toJson()).toList(),
+                "details": listDetails.map((e) => e.toJson()).toList(),
+                //"doctorinfo": doctorinfo.map((e) => e.toJson()).toList(),
+                //"summary": summary.map((e) => e.toJson()).toList(),
+              };
+
+              // Convert to JSON string
+              String jsonString = jsonEncode(jsonData);
+              print(jsonString);
+              Navigator.of(context).pop();
+            }
             //_addNewProduct,
             ),
         TextButton(
