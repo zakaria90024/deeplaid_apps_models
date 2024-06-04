@@ -252,6 +252,7 @@ class _CustomDialogState extends State<CustomDialog> {
               // Convert to JSON string
               String jsonString = jsonEncode(jsonData);
               print(jsonString);
+              Fluttertoast.showToast(msg: ""+jsonString);
               Navigator.of(context).pop();
             }
             //_addNewProduct,
