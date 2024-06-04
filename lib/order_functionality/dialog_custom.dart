@@ -42,7 +42,7 @@ class _CustomDialogState extends State<CustomDialog> {
   List<DoctorInfo> listDoctorInfo = [];
   List<Summary> listSummary = [];
 
-  //uniqid
+  //unique
   int? milisec;
 
   @override

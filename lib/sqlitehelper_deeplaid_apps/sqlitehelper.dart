@@ -4,11 +4,10 @@ import 'package:deeplaid_apps_models/model/commision_model.dart';
 import 'package:deeplaid_apps_models/model/doctor_model.dart';
 import 'package:deeplaid_apps_models/model/group_model.dart';
 import 'package:deeplaid_apps_models/model/item_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-
 import '../model/customar_model.dart';
 
 class DBHelper {
@@ -55,12 +54,30 @@ class DBHelper {
     return _db;
   }
 
+  String path = "";
+
   initDb() async {
-    io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, DB_NAME);
+    if (kIsWeb) {
+      path = "/assets/db";
+    } else {
+      io.Directory documentsDirectory =
+          await getApplicationDocumentsDirectory();
+      path = join(documentsDirectory.path, DB_NAME);
+    }
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
   }
+
+//   Future<Database> initDb() async {
+// //here
+//     if (kIsWeb) {
+//       String path = "/assets/db";
+//     } else {
+//       Directory directory = await getApplicationDocumentsDirectory();
+//       String path = join(directory.path, 'annonce_database.db');
+//     }
+//     return await openDatabase(path, version: 1, onCreate: _onCreate);
+//   }
 
   _onCreate(Database db, int version) async {
     //party or doctor
@@ -155,7 +172,6 @@ class DBHelper {
     });
   }
 
-
   // Future<List<Customar>> getProductvsList() async {
   //   // Assuming 'db' is an already initialized database instance
   //
@@ -201,7 +217,6 @@ class DBHelper {
 //
 //   }
 
-
   //  Future<List<Map<String, dynamic>>> getDoctorsList()  async {
   //
   //
@@ -213,8 +228,6 @@ class DBHelper {
   //   return rows;
   //
   // }
-
-
 
   // Future<List<Map<String, dynamic>>> getDoctorsList() async {
   //   final curDB = await db;
@@ -338,7 +351,8 @@ class DBHelper {
       var dbClient = await db;
       List<Map<String, dynamic>> maps = await dbClient!.query(
         '$TABLE_ITEM_LIST',
-        columns: ['commgroupgame',
+        columns: [
+          'commgroupgame',
           'dblPartyvalue',
           'dblRate',
           'dblcomboMaxvalue',
@@ -346,9 +360,8 @@ class DBHelper {
           'groupName',
           'itemName',
           'itemcode',
-          'depot'],
-
-
+          'depot'
+        ],
       );
 
       List<ItemModel> employees = [];
@@ -364,12 +377,10 @@ class DBHelper {
     }
   }
 
-
-
-
   Future<int?> delete(String mpo) async {
     var dbClient = await db;
-    return await dbClient?.delete(TABLE_DOCTOR_LIST, where: '$MPO = ?', whereArgs: [mpo]);
+    return await dbClient
+        ?.delete(TABLE_DOCTOR_LIST, where: '$MPO = ?', whereArgs: [mpo]);
   }
 
   // Future<int?> update(DoctorModel doctors) async {

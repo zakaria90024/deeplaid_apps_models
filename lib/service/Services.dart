@@ -169,18 +169,11 @@ class Services {
       },
     );
 
-
-
     if (response.statusCode == 200) {
       // Parse the response body as JSON.
-
       final todo = LoginModel.fromJson(jsonDecode(response.body));
-
-
       return todo;
-
     } else {
-
       throw <LoginModel>[];
     }
   }
@@ -199,8 +192,7 @@ class Services {
     }
   }
 
-  static Future<String> updateEmployee(
-      String empId, String firstName, String lastName) async {
+  static Future<String> updateEmployee(String empId, String firstName, String lastName) async {
     try {
       var map = new Map<String, dynamic>();
       map["action"] = _UPDATE_EMP_ACTION;
