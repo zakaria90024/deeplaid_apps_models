@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import '../model/final_order_model.dart';
+import '../sqlitehelper_deeplaid_apps/sqlitehelper.dart';
 
 void showCustomDialog(
     BuildContext context, List<ItemModel> userProducetsGroupWise) {
@@ -35,6 +36,8 @@ class _CustomDialogState extends State<CustomDialog> {
   TextEditingController newProductQtyController = TextEditingController();
   List<ItemModel> filteredList = [];
   List<TextEditingController> quantityControllers = [];
+
+  var dbHelper = DBHelper();
 
   //for submit order lists
   List<BranchID> listBranchId = [];
@@ -175,7 +178,21 @@ class _CustomDialogState extends State<CustomDialog> {
             child: const Text('Add Product'),
             onPressed: () {
               DateTime now = DateTime.now();
-              String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+              String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+
+                var productsFuture = dbHelper.getUserInfo();
+                productsFuture.then((data) {
+                  setState(() {
+
+                    productsFuture.toString();
+                    listBranchId.add(BranchID(strBranchID: "0001"));
+
+                    // this.doctors = data;
+                    // productCount = data.length;
+
+                  });
+                });
+
 
               //UUID make orderid unique =======================================
               if (milisec == null) {
@@ -228,7 +245,7 @@ class _CustomDialogState extends State<CustomDialog> {
                       itemPrice: double.parse(filteredList[i].dblRate.toString()),
                       itemQuentity: int.parse(quantityControllers[i].text),
                       itemTotalPrice: double.parse(filteredList[i].dblRate.toString()) * int.parse(quantityControllers[i].text), //single price * qty
-                      mpo: "",
+                      mpo: listBranchId[0].strBranchID,
                       newCustomer: "",
                       orderid: int.parse(milisec.toString()),
                       slabgroupName: filteredList[i].commgroupgame.toString()));
@@ -243,7 +260,7 @@ class _CustomDialogState extends State<CustomDialog> {
 
               // Create the final JSON object
               Map<String, dynamic> jsonData = {
-                //"branchID": branchID.map((e) => e.toJson()).toList(),
+                "branchID": listBranchId.map((e) => e.toJson()).toList(),
                 "details": listDetails.map((e) => e.toJson()).toList(),
                 //"doctorinfo": doctorinfo.map((e) => e.toJson()).toList(),
                 //"summary": summary.map((e) => e.toJson()).toList(),

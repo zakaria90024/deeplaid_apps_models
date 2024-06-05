@@ -28,7 +28,7 @@ class _LoginState extends State<Login> {
   String dropdownValue = 'Select Branch';
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  var h = DBHelper();
+  var dbHelper = DBHelper();
 
   @override
   void initState() {
@@ -45,12 +45,9 @@ class _LoginState extends State<Login> {
       String? TeritorryName = value.strTeritorryName;
       String? LedgerName = value.strLedgerName;
       String? response = value.strResponse;
-      String? strUserId = value.strUserID;
       String? strPassword = value.strUserPassword;
-      String? branchid = value.strbranchID;
       String? intMpoType = value.intMpoType;
       String? strMobileNo = value.strMobileNo;
-      String? strSecurityCode = value.strSecurityCode;
       String? strTeritorryCode = value.strTeritorryCode;
       String? strTeritorryName = value.strTeritorryName;
       String? strUserID = value.strUserID;
@@ -68,8 +65,8 @@ class _LoginState extends State<Login> {
                 builder: (context) =>
                      HomePage(title: "" , fullName: "$strPassword: $LedgerName , $TeritorryName")));
 
-        h.loginUserDelete();
-        h.loginInfoSave(LoginModel(intMpoType: intMpoType, strLedgerName: LedgerName, strMobileNo: strMobileNo, strResponse: yes, strTeritorryCode: strTeritorryCode, strTeritorryName: strTeritorryName, strUserID: strUserID, strUserPassword: strUserPassword, strRole: strRole, strTeamZone: strTeamZone, strbranchID: strbranchID, strMerzeName: strMerzeName));
+        dbHelper.loginUserDelete();
+        dbHelper.loginInfoSave(LoginModel(intMpoType: intMpoType, strLedgerName: LedgerName, strMobileNo: strMobileNo, strResponse: yes, strTeritorryCode: strTeritorryCode, strTeritorryName: strTeritorryName, strUserID: strUserID, strUserPassword: strUserPassword, strRole: strRole, strTeamZone: strTeamZone, strbranchID: strbranchID, strMerzeName: strMerzeName));
 
       }else{
         Fluttertoast.showToast(msg: "Userid/Password/Branch Incorrect");
