@@ -4,6 +4,7 @@ import 'package:deeplaid_apps_models/model/commision_model.dart';
 import 'package:deeplaid_apps_models/model/doctor_model.dart';
 import 'package:deeplaid_apps_models/model/group_model.dart';
 import 'package:deeplaid_apps_models/model/item_model.dart';
+import 'package:deeplaid_apps_models/model/login_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -17,6 +18,53 @@ class DBHelper {
   static const String TABLE_GROUP_LIST = "STOCKGROUP";
   static const String TABLE_ITEM_LIST = "STOCKITEM";
   static const String TABLE_COMMISSION_SLAB_LIST = "COMMISSIONSLAB";
+  static const String TABLE_LOGIN = "LOGIN";
+
+
+  // private static final String CREATE_LOGIN_TABLE = " CREATE TABLE IF NOT EXISTS " + TABLE_LOGIN + "(" + USER_LOGIN_SERIAL + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " + USER_LOGIN_ID + " TEXT, " + USER_PASSWORD + " TEXT,"
+  //     + USER_NAME + " TEXT," + USERTYPE + " TEXT," + MOBILENO + " TEXT," + SECURITYCODE + " TEXT," + TERITORYCODE + " TEXT," + TERITORYNAME + " TEXT," + UNIQNO + " TEXT," + STATUS + " TEXT)";
+  //
+
+  // {
+  //   "intMpoType": 0,
+  //   //"lngUniqueNo": 500,
+  //   "strArea": "AH-AM-Asraful Haque Suhak-Habiganj",
+  //   "strCardNo": "M-12495",
+  //   "strDivision": "DH-DSM-Mohiuddin Ahmed-Sylhet",
+  //
+  //   //"strLedgerName": "Md. Sharif Hossain Suhag",
+  //   "strMerzeName": "353-Md. Sharif Hossain Suhag-Nasirnagar",
+  //   "strMobileNo": "01741784300",
+  //   //"strResponse": "Yes",
+  //   "strRole": "MPO       ",
+  //   "strTeam": "FIGHTER",
+  //   "strTeritorryCode": "353",
+  //   "strTeritorryName": "Nasirnagar",
+  //   //"strUserID": "500",
+  //   //"strUserPassword": "353",
+  //   "strZone": "EAST ZONE",
+  //   "strbranchID": "0001"
+  // }
+
+  //for Login list table
+  static const String strUserID = "strUserID";
+  static const String strLedgerName = "strLedgerName";
+  static const String strTeritorryCode = "strTeritorryCode";
+  static const String strResponse = "strResponse";
+  static const String intMpoType = "intMpoType";
+  static const String strCardNo = "strCardNo";
+  static const String strArea = "strArea";
+  static const String strDivision = "strDivision";
+  static const String strMerzeName = "strMerzeName";
+  static const String strMobileNo = "strMobileNo";
+  static const String strUserPassword = "strUserPassword";
+  static const String strRole = "strRole";
+  static const String strTeamZone = "strTeamZone";
+  static const String strbranchID = "strbranchID";
+  static const String strTeritorryName = "strTeritorryName";
+
+
+
 
   //for Doctor list table
   static const String ID = "id";
@@ -24,6 +72,7 @@ class DBHelper {
   static const String DOCTORNAME = "doctorName";
   static const String DOCTORADDRESS = "doctorAddress";
   static const String DOCTORPHONE = "doctorPhone";
+
 
   //commission slab
   static const String SLABGROUP = "groupName";
@@ -80,9 +129,13 @@ class DBHelper {
 //   }
 
   _onCreate(Database db, int version) async {
+
+
     //party or doctor
-    await db.execute(
-        "CREATE TABLE IF NOT EXISTS $TABLE_DOCTOR_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $MPO TEXT, $DOCTORNAME TEXT, $DOCTORADDRESS TEXT, $DOCTORPHONE TEXT)");
+    await db.execute("CREATE TABLE IF NOT EXISTS $TABLE_LOGIN ($strUserID TEXT, $strLedgerName TEXT, $strTeritorryName TEXT, $strResponse TEXT, $strTeritorryCode TEXT, $intMpoType TEXT,  $strCardNo TEXT, $strArea TEXT, $strDivision TEXT, $strMerzeName TEXT, $strMobileNo TEXT, $strUserPassword TEXT, $strRole TEXT, $strTeamZone TEXT, $strbranchID TEXT)");
+
+    //party or doctor
+    await db.execute("CREATE TABLE IF NOT EXISTS $TABLE_DOCTOR_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $MPO TEXT, $DOCTORNAME TEXT, $DOCTORADDRESS TEXT, $DOCTORPHONE TEXT)");
 
     //stock items
     await db.execute(
@@ -97,6 +150,35 @@ class DBHelper {
     await db.execute(
         "CREATE TABLE IF NOT EXISTS $TABLE_COMMISSION_SLAB_LIST ($ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $SLABGROUP TEXT, $FROMRANGE TEXT, $PERCENTAGE TEXT, $TORANGE TEXT, $STRDATE TEXT)");
   }
+
+
+  //for login table insert update delete =======================================
+  Future<LoginModel> loginInfoSave(LoginModel items) async {
+    var dbClient = await db;
+    await dbClient?.insert(TABLE_LOGIN, items.toMap());
+    return items;
+  }
+
+  Future<int?> loginUserDelete() async {
+    var dbClient = await db;
+    int? result = await dbClient?.rawDelete('DELETE FROM $TABLE_LOGIN');
+    return result;
+  }
+
+  Future<List> getUserInfo() async {
+    //Database db = await this.db;
+
+    var dbClient = await db;
+    var result = await dbClient?.rawQuery('SELECT * FROM $TABLE_LOGIN');
+    //return result;
+    return List.generate(result!.length, (i) {
+      return DoctorModel.fromMap(result[i]);
+    });
+  }
+  //end for login table insert update delete ===================================
+
+
+
 
   Future<DoctorModel> sqfliteSaveDoctor(DoctorModel doctors) async {
     var dbClient = await db;
@@ -133,6 +215,7 @@ class DBHelper {
     return result;
   }
 
+
   //for ITEM sqlite
   Future<ItemModel> sqfliteSaveItem(ItemModel items) async {
     var dbClient = await db;
@@ -147,8 +230,7 @@ class DBHelper {
   }
 
   //for Commision sqlite
-  Future<CommissionSlabModel> sqfliteSaveCommision(
-      CommissionSlabModel items) async {
+  Future<CommissionSlabModel> sqfliteSaveCommision(CommissionSlabModel items) async {
     var dbClient = await db;
     await dbClient?.insert(TABLE_COMMISSION_SLAB_LIST, items.toMap());
     return items;
@@ -345,7 +427,7 @@ class DBHelper {
     }
   }
 
-  //for grouwise products
+  //for groupwise products
   Future<List<ItemModel>> getProducts() async {
     try {
       var dbClient = await db;

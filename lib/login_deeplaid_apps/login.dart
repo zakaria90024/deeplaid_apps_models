@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:deeplaid_apps_models/dashboard_deeplaid_apps/home.dart';
 import 'package:deeplaid_apps_models/model/login_model.dart';
+import 'package:deeplaid_apps_models/sqlitehelper_deeplaid_apps/sqlitehelper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,6 +28,7 @@ class _LoginState extends State<Login> {
   String dropdownValue = 'Select Branch';
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  var h = DBHelper();
 
   @override
   void initState() {
@@ -34,6 +36,7 @@ class _LoginState extends State<Login> {
     super.initState();
     passwordVisible = true;
     //_getloginTable();
+
   }
 
   _getloginTable( String username, password, branchid) {
@@ -44,6 +47,18 @@ class _LoginState extends State<Login> {
       String? response = value.strResponse;
       String? strUserId = value.strUserID;
       String? strPassword = value.strUserPassword;
+      String? branchid = value.strbranchID;
+      String? intMpoType = value.intMpoType;
+      String? strMobileNo = value.strMobileNo;
+      String? strSecurityCode = value.strSecurityCode;
+      String? strTeritorryCode = value.strTeritorryCode;
+      String? strTeritorryName = value.strTeritorryName;
+      String? strUserID = value.strUserID;
+      String? strUserPassword = value.strUserPassword;
+      String? strRole = value.strRole;
+      String? strTeamZone = value.strTeamZone;
+      String? strbranchID = value.strbranchID;
+      String? strMerzeName = value.strMerzeName;
 
       String? yes = "Yes";
       if(response == yes){
@@ -52,6 +67,10 @@ class _LoginState extends State<Login> {
             MaterialPageRoute(
                 builder: (context) =>
                      HomePage(title: "" , fullName: "$strPassword: $LedgerName , $TeritorryName")));
+
+        h.loginUserDelete();
+        h.loginInfoSave(LoginModel(intMpoType: intMpoType, strLedgerName: LedgerName, strMobileNo: strMobileNo, strResponse: yes, strTeritorryCode: strTeritorryCode, strTeritorryName: strTeritorryName, strUserID: strUserID, strUserPassword: strUserPassword, strRole: strRole, strTeamZone: strTeamZone, strbranchID: strbranchID, strMerzeName: strMerzeName));
+
       }else{
         Fluttertoast.showToast(msg: "Userid/Password/Branch Incorrect");
       }

@@ -284,6 +284,8 @@ class GroupAComplate extends StatelessWidget {
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<GroupModel> item) {
 
+
+
         Doctor.selectedGroup = item.item?.GroupName;
 
         //ItemAComplate();
@@ -300,8 +302,7 @@ class GroupAComplate extends StatelessWidget {
         for (int a = 0; a < _SalesOrderState._userProducets.length; a++) {
           if (_SalesOrderState._userProducets[a].groupName ==
               item.item?.GroupName) {
-            _SalesOrderState._userProducetsGroupWise
-                .add(_SalesOrderState._userProducets[a]);
+            _SalesOrderState._userProducetsGroupWise.add(_SalesOrderState._userProducets[a]);
           }
         }
 

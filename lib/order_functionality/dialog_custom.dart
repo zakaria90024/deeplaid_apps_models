@@ -38,7 +38,7 @@ class _CustomDialogState extends State<CustomDialog> {
 
   //for submit order lists
   List<BranchID> listBranchId = [];
-  List<Detail> listDetails = [];
+  static List<Detail> listDetails = [];
   List<DoctorInfo> listDoctorInfo = [];
   List<Summary> listSummary = [];
 
