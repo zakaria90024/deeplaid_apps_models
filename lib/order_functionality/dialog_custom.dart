@@ -184,11 +184,11 @@ class _CustomDialogState extends State<CustomDialog> {
                 productsFuture.then((data) {
                   setState(() {
 
-                    productsFuture.toString();
+                    //productsFuture.toString();
                     listBranchId.add(BranchID(strBranchID: "0001"));
 
-                    // this.doctors = data;
-                    // productCount = data.length;
+                    //this.doctors = data;
+                    //productCount = data.length;
 
                   });
                 });
