@@ -8,7 +8,7 @@ class DoctorList extends StatefulWidget {
   @override
   State<DoctorList> createState() => _DoctorListState();
 }
-//try to new thing for coding
+
 class _DoctorListState extends State<DoctorList> {
   late List<dynamic> doctors;
   var dbHelper = DBHelper();
