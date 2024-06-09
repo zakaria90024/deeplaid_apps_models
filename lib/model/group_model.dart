@@ -1,6 +1,5 @@
 class GroupModel {
   String GroupName;
-//group comment
   GroupModel({required this.GroupName});
 
   factory GroupModel.fromJson(Map<String, dynamic> json) {
