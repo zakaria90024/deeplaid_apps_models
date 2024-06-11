@@ -175,7 +175,7 @@ class _SalesOrderState extends State<SalesOrder> {
 
 
               SizedBox(
-                height: deviceHight * 0.08,
+                height: deviceHight * 0.04,
                 width: deviceWidth,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -203,7 +203,7 @@ class _SalesOrderState extends State<SalesOrder> {
                     ),
 
                     Text(
-                      "Sub-Total",
+                      "Sub-Total ",
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
@@ -211,7 +211,7 @@ class _SalesOrderState extends State<SalesOrder> {
                     ),
 
                     Text(
-                      "Total",
+                      "Total ",
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
