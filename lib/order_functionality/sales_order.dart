@@ -155,6 +155,73 @@ class _SalesOrderState extends State<SalesOrder> {
                   ],
                 ),
               ),
+
+              SizedBox(
+                height: deviceHight * 0.08,
+                width: deviceWidth,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Items Details",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+
+
+              SizedBox(
+                height: deviceHight * 0.08,
+                width: deviceWidth,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Group",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Item",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Qty",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+
+                    Text(
+                      "Sub-Total",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+
+                    Text(
+                      "Total",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+
+
               // SizedBox(
               //   height: deviceHight * 0.08,
               //   width: deviceWidth,
