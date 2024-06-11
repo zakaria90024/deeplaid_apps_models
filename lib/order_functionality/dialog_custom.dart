@@ -258,6 +258,8 @@ class _CustomDialogState extends State<CustomDialog> {
               //   print(item.itemName+"-"+item.itemQuentity.toString()); // This will call the toString() method of the Detail class
               // }
 
+
+
               // Create the final JSON object
               Map<String, dynamic> jsonData = {
                 "branchID": listBranchId.map((e) => e.toJson()).toList(),
@@ -271,6 +273,8 @@ class _CustomDialogState extends State<CustomDialog> {
               print(jsonString);
               Fluttertoast.showToast(msg: ""+jsonString);
               Navigator.of(context).pop();
+              ProductListDetails.listDetailsCopy = listDetails;
+              ShowItemListViewCall();
             }
             //_addNewProduct,
             ),
@@ -284,4 +288,8 @@ class _CustomDialogState extends State<CustomDialog> {
       ],
     );
   }
+}
+
+class ProductListDetails {
+  static List<Detail> listDetailsCopy = [];
 }

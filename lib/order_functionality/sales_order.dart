@@ -28,7 +28,7 @@ class _SalesOrderState extends State<SalesOrder> {
   static late List<ItemModel> _userProducets = [];
   static late List<ItemModel> _userProducetsGroupWise = [];
 
-  static String?  selectedDoctor = "";
+  static String? selectedDoctor = "";
 
   @override
   void initState() {
@@ -84,8 +84,14 @@ class _SalesOrderState extends State<SalesOrder> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceHight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    final deviceWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -248,7 +254,119 @@ class _SalesOrderState extends State<SalesOrder> {
       ),
     );
   }
+
 }
+
+
+
+//   LoadItemRecycler() {
+//
+//     SizedBox(
+//       height: deviceHight * 0.8, // Adjust height as needed
+//       width: deviceWidth,
+//       child: ListView.builder(
+//         itemCount: ProductListDetails.listDetailsCopy.length,
+//         itemBuilder: (context, index) {
+//           final item = ProductListDetails.listDetailsCopy[index];
+//           return Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: Row(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               // Center the text horizontally
+//               children: [
+//                 Text(
+//                   "group: ${item.groupName} ★ ",
+//                   style: TextStyle(
+//                     fontSize: 14,
+//                     color: Colors.black,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
+
+class ShowItemListViewCall extends StatelessWidget {
+  const ShowItemListViewCall({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Calculate device dimensions
+    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
+
+    return SizedBox(
+      height: deviceHeight * 0.8, // Adjust height as needed
+      width: deviceWidth,
+      child: ListView.builder(
+        itemCount: ProductListDetails.listDetailsCopy.length,
+        itemBuilder: (context, index) {
+          final item = ProductListDetails.listDetailsCopy[index];
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Center the text horizontally
+              children: [
+                Text(
+                  "group: ${item.groupName} ★ ",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+
+
+// class ShowItemListViewCall extends StatelessWidget{
+//   const ShowItemListViewCall({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     SizedBox(
+//       height: deviceHight * 0.8, // Adjust height as needed
+//       width: deviceWidth,
+//       child: ListView.builder(
+//         itemCount: ProductListDetails.listDetailsCopy.length,
+//         itemBuilder: (context, index) {
+//           final item = ProductListDetails.listDetailsCopy[index];
+//           return Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: Row(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               // Center the text horizontally
+//               children: [
+//                 Text(
+//                   "group: ${item.groupName} ★ ",
+//                   style: TextStyle(
+//                     fontSize: 14,
+//                     color: Colors.black,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
+
+
 
 //for Customer Autocomplete=====================================================
 class CustomarAComplate extends StatelessWidget {
@@ -259,38 +377,39 @@ class CustomarAComplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return SearchField<Customar>(
       suggestions: _SalesOrderState._userOptions
-          .map((e) => SearchFieldListItem<Customar>(
-                e.doctorName,
-                item: e,
+          .map((e) =>
+          SearchFieldListItem<Customar>(
+            e.doctorName,
+            item: e,
 
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          e.doctorName,
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Row(
+                  children: [
+                    Text(
+                      e.doctorName,
+                      style: TextStyle(fontSize: 14),
                     ),
-                  ),
+                  ],
                 ),
+              ),
+            ),
 
-                // child: Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Row(
-                //     children: [
-                //       // CircleAvatar(
-                //       //   backgroundImage: NetworkImage(e.doctorName),
-                //       // ),
-                //       SizedBox(width: 3),
-                //       Text(e.doctorName),
-                //     ],
-                //   ),
-                // ),
-              ))
+            // child: Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     children: [
+            //       // CircleAvatar(
+            //       //   backgroundImage: NetworkImage(e.doctorName),
+            //       // ),
+            //       SizedBox(width: 3),
+            //       Text(e.doctorName),
+            //     ],
+            //   ),
+            // ),
+          ))
           .toList(),
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<Customar> item) {
@@ -315,44 +434,42 @@ class GroupAComplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return SearchField<GroupModel>(
       suggestions: _SalesOrderState._userGroup
-          .map((e) => SearchFieldListItem<GroupModel>(
-                e.GroupName,
-                item: e,
+          .map((e) =>
+          SearchFieldListItem<GroupModel>(
+            e.GroupName,
+            item: e,
 
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          e.GroupName,
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Row(
+                  children: [
+                    Text(
+                      e.GroupName,
+                      style: TextStyle(fontSize: 14),
                     ),
-                  ),
+                  ],
                 ),
+              ),
+            ),
 
-                // child: Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Row(
-                //     children: [
-                //       // CircleAvatar(
-                //       //   backgroundImage: NetworkImage(e.doctorName),
-                //       // ),
-                //       SizedBox(width: 3),
-                //       Text(e.doctorName),
-                //     ],
-                //   ),
-                // ),
-              ))
+            // child: Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     children: [
+            //       // CircleAvatar(
+            //       //   backgroundImage: NetworkImage(e.doctorName),
+            //       // ),
+            //       SizedBox(width: 3),
+            //       Text(e.doctorName),
+            //     ],
+            //   ),
+            // ),
+          ))
           .toList(),
       suggestionState: Suggestion.expand,
       onSuggestionTap: (SearchFieldListItem<GroupModel> item) {
-
-
-
         Doctor.selectedGroup = item.item?.GroupName;
 
         //ItemAComplate();
@@ -369,7 +486,8 @@ class GroupAComplate extends StatelessWidget {
         for (int a = 0; a < _SalesOrderState._userProducets.length; a++) {
           if (_SalesOrderState._userProducets[a].groupName ==
               item.item?.GroupName) {
-            _SalesOrderState._userProducetsGroupWise.add(_SalesOrderState._userProducets[a]);
+            _SalesOrderState._userProducetsGroupWise.add(
+                _SalesOrderState._userProducets[a]);
           }
         }
 
