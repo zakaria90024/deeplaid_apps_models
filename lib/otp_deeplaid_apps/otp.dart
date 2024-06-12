@@ -74,7 +74,6 @@ class _otpModelState extends State<otpModel> {
     //rint("responsdfsd$response");
   }
 
-  _getEmployees() {}
 
   @override
   Widget build(BuildContext context) {
