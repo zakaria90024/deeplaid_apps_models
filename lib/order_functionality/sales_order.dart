@@ -178,10 +178,8 @@ class _SalesOrderState extends State<SalesOrder> {
                   ],
                 ),
               ),
-
-
               SizedBox(
-                height: deviceHight * 0.04,
+                height: deviceHight * 0.02,
                 width: deviceWidth,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
