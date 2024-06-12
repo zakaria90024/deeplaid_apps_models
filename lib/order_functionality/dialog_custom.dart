@@ -233,7 +233,7 @@ class _CustomDialogState extends State<CustomDialog> {
               }
               //end UUID make orderid unique ===================================
 
-              print("Final milisec: $milisec");
+              //print("Final milisec: $milisec");
 
               for (int i = 0; i < filteredList.length; i++) {
                 if (quantityControllers[i].text.isNotEmpty) {
