@@ -399,7 +399,7 @@ class _DashboardActivityState extends State<DashboardActivity>
                       ),
                     )),
 
-                /// Custom Tabbar with solid selected bg and transparent tabular bg
+                /// Custom Tabular with solid selected bg and transparent tabular bg
               ],
             ),
           ),
