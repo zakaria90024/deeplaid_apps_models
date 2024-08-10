@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:deeplaid_apps_models/dashboard_report/dashboard_activity.dart';
 import 'package:deeplaid_apps_models/doctor_list/doctorlist.dart';
 import 'package:deeplaid_apps_models/splash_deeplaid_apps/splash.dart';
 import 'package:deeplaid_apps_models/sync_deeplaid_apps/sync.dart';
@@ -16,9 +17,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashDeeplaid(),
+      // home: const SplashDeeplaid(),
+      home: DashboardActivity(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
+
+
 
