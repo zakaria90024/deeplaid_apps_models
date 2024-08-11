@@ -73,7 +73,6 @@ class _DashboardActivityState extends State<DashboardActivity>
     List<String> branches = ['Deeplaid', 'Herbal', 'Sales Center'];
 
     return Scaffold(
-
       // appBar: AppBar(
       //
       // backgroundColor: Color(0xFF144A9D),
@@ -252,11 +251,11 @@ class _DashboardActivityState extends State<DashboardActivity>
 
                 ///dialog custom date selection
                 SizedBox(
-
                     height: deviceHight * 0.030,
                     width: deviceWidth,
                     child: Container(
-                      margin: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
+                      margin:
+                          EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
                       child: GestureDetector(
                         onTap: () {
                           showDialog(
@@ -303,10 +302,8 @@ class _DashboardActivityState extends State<DashboardActivity>
                                                   _selectDateFrom(context);
                                                 },
                                               ),
-
                                             ),
                                             readOnly: true,
-
                                           ),
                                         ),
                                       ),
@@ -350,7 +347,11 @@ class _DashboardActivityState extends State<DashboardActivity>
                                               Navigator.of(context)
                                                   .pop(); // Close the dialog
                                             },
-                                            child: Text('Cancel', style: TextStyle(color: Color(0xFF144A9D)),),
+                                            child: Text(
+                                              'Cancel',
+                                              style: TextStyle(
+                                                  color: Color(0xFF144A9D)),
+                                            ),
                                           ),
                                           SizedBox(width: 8),
                                           ElevatedButton(
@@ -374,7 +375,7 @@ class _DashboardActivityState extends State<DashboardActivity>
                                               //textStyle: TextStyle(fontSize: 18), // Text style
                                             ),
                                             child: Text(
-                                              'Submit',
+                                              'Search',
                                               style: TextStyle(
                                                   color: Colors.white),
                                             ),
@@ -398,6 +399,9 @@ class _DashboardActivityState extends State<DashboardActivity>
                         )),
                       ),
                     )),
+
+                SizedBox(height: 16,)
+
 
                 /// Custom Tabular with solid selected bg and transparent tabular bg
               ],

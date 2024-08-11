@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:deeplaid_apps_models/model/commision_model.dart';
+import 'package:deeplaid_apps_models/model/dashboard_model.dart';
 import 'package:deeplaid_apps_models/model/doctor_model.dart';
 import 'package:deeplaid_apps_models/model/group_model.dart';
 import 'package:deeplaid_apps_models/model/item_model.dart';
@@ -10,7 +11,6 @@ import 'dart:convert';
 class Services {
   static const root = 'http://192.168.1.63:8080/api';
   static const urlPrefix = 'http://localhost:8086/EmployesDB';
-
 
   static const String _GET_ACTION = 'GET_ALL';
   static const String _CREATE_TABLE = 'CREATE_TABLE';
@@ -23,71 +23,60 @@ class Services {
     final response = await http.get(url);
     print("getDoctor >> Response:: ${response.statusCode}");
     if (response.statusCode == 200) {
-
       final jsonData = jsonDecode(response.body);
       final List<dynamic> dataList = jsonData.cast<dynamic>();
-      final List<DoctorModel> myDataList = dataList.map((data) => DoctorModel.fromJson(data)).toList();
+      final List<DoctorModel> myDataList =
+          dataList.map((data) => DoctorModel.fromJson(data)).toList();
       return myDataList;
-
     } else {
       throw <DoctorModel>[];
     }
   }
-
-
 
   static Future<List<GroupModel>> getGroup() async {
     final url = Uri.parse('$root/StockGroup?branchid=0001');
     final response = await http.get(url);
     print("getDoctor >> Response:: ${response.statusCode}");
     if (response.statusCode == 200) {
-
       final jsonData = jsonDecode(response.body);
       final List<dynamic> dataList = jsonData.cast<dynamic>();
-      final List<GroupModel> myDataList = dataList.map((data) => GroupModel.fromJson(data)).toList();
+      final List<GroupModel> myDataList =
+          dataList.map((data) => GroupModel.fromJson(data)).toList();
       return myDataList;
-
     } else {
       throw <GroupModel>[];
     }
   }
-
 
   static Future<List<ItemModel>> getItem() async {
     final url = Uri.parse('$root/mLoadItemRate?branchid=0001&strTC=001');
     final response = await http.get(url);
     print("getDoctor >> Response:: ${response.statusCode}");
     if (response.statusCode == 200) {
-
       final jsonData = jsonDecode(response.body);
       final List<dynamic> dataList = jsonData.cast<dynamic>();
-      final List<ItemModel> myItemList = dataList.map((data) => ItemModel.fromJson(data)).toList();
+      final List<ItemModel> myItemList =
+          dataList.map((data) => ItemModel.fromJson(data)).toList();
       return myItemList;
-
     } else {
       throw <GroupModel>[];
     }
   }
-
 
   static Future<List<CommissionSlabModel>> getCommission() async {
     final url = Uri.parse('$root/Commissionslab');
     final response = await http.get(url);
     print("getDoctor >> Response:: ${response.statusCode}");
     if (response.statusCode == 200) {
-
       final jsonData = jsonDecode(response.body);
       final List<dynamic> dataList = jsonData.cast<dynamic>();
-      final List<CommissionSlabModel> myItemList = dataList.map((data) => CommissionSlabModel.fromJson(data)).toList();
+      final List<CommissionSlabModel> myItemList =
+          dataList.map((data) => CommissionSlabModel.fromJson(data)).toList();
       return myItemList;
-
     } else {
       throw <GroupModel>[];
     }
   }
-
-
-
 
   //
   // static Future<List<DoctorModel>> getEmployees() async {
@@ -153,8 +142,9 @@ class Services {
     }
   }
 
-  //for mpo login
-  static Future<LoginModel> getValidLogin(String userID, String Password, String branchid) async {
+  //for mpo login for x-www-form-urlencoded
+  static Future<LoginModel> getValidLogin(
+      String userID, String Password, String branchid) async {
     final url = Uri.parse('$root/MPO/post');
 
     final response = await http.post(
@@ -166,7 +156,7 @@ class Services {
         'UserID': userID,
         'Password': Password,
         'branchid': branchid,
-        "empcardNo":""
+        "empcardNo": ""
       },
     );
 
@@ -193,7 +183,8 @@ class Services {
     }
   }
 
-  static Future<String> updateEmployee(String empId, String firstName, String lastName) async {
+  static Future<String> updateEmployee(
+      String empId, String firstName, String lastName) async {
     try {
       var map = new Map<String, dynamic>();
       map["action"] = _UPDATE_EMP_ACTION;
@@ -205,6 +196,46 @@ class Services {
       return response.body;
     } catch (e) {
       return 'error';
+    }
+  }
+
+
+  //get dashboard data post api
+  static Future<List<DashboardData>> getDashboardData(
+    String strUserName,
+    String strFdate,
+    String strTdate,
+    String strBranchid,
+  ) async {
+    final String url = '$root/api/AppsDashboard';
+    final Map<String, String> queryParams = {
+      'strUserName': strUserName,
+      'strFdate': strFdate,
+      'strTdate': strTdate,
+      'strBranchid': strBranchid,
+    };
+
+    try {
+      final uri = Uri.parse(url).replace(queryParameters: queryParams);
+      final response = await http.post(uri);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(response.body);
+
+        // Parse the JSON data into a list of DashboardData objects
+        List<DashboardData> dashboardDataList =
+            jsonData.map((item) => DashboardData.fromJson(item)).toList();
+
+        return dashboardDataList;
+      } else {
+        // Handle non-200 responses
+        print('Error: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      // Handle exceptions
+      print('Exception occurred: $e');
+      return [];
     }
   }
 
