@@ -17,11 +17,14 @@ class _DashboardActivityState extends State<DashboardActivity>
       TextEditingController();
   final TextEditingController _textFieldControllerToDate =
       TextEditingController();
+  int selectedButtonIndex = 0;
   final _selectedColor = Color(0xff1a73e8);
   final _tabs = [
-    Tab(text: 'Today'),
-    Tab(text: 'This Month'),
-    Tab(text: 'This Year'),
+    Tab(text: 'Order'),
+    Tab(text: 'Sales'),
+    Tab(text: 'Collection'),
+    Tab(text: 'Limit'),
+    Tab(text: 'Dues'),
   ];
 
   //select date From
@@ -219,39 +222,96 @@ class _DashboardActivityState extends State<DashboardActivity>
                   ),
                 ),
 
-                ///tabbar
+                ///button today month year
                 SizedBox(
-                    height: deviceHight * 0.130,
-                    width: deviceWidth,
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: 12, top: 0, right: 12, bottom: 0),
-                          //height: kToolbarHeight - 8.0,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade50,
-                            borderRadius: BorderRadius.circular(8.0),
+                  width: deviceWidth,
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: deviceWidth * 0.30,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              selectedButtonIndex =
+                                  1; // Set the index to 1 when Button 1 is pressed
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: selectedButtonIndex == 1
+                                ? Color(0xFF144A9D)
+                                : Colors.white,
+                            foregroundColor: selectedButtonIndex == 1
+                                ? Colors.white
+                                : Colors.black,
+                            side: BorderSide(
+                                color: selectedButtonIndex == 1
+                                    ? Color(0xFF144A9D)
+                                    : Colors.grey),
                           ),
-                          child: TabBar(
-                            onTap: (value) {
-                              print(value);
-                            },
-                            controller: _tabController,
-                            indicator: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.0),
-                                color: _selectedColor),
-                            labelColor: Colors.white,
-                            unselectedLabelColor: Colors.black,
-                            tabs: _tabs,
-                          ),
+                          child: Text('Today'),
                         ),
-                      ],
-                    )),
+                      ),
+                      SizedBox(width: 5.0),
+                      SizedBox(
+                        width: deviceWidth * 0.30,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              selectedButtonIndex =
+                                  2; // Set the index to 2 when Button 2 is pressed
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: selectedButtonIndex == 2
+                                ? Color(0xFF144A9D)
+                                : Colors.white,
+                            foregroundColor: selectedButtonIndex == 2
+                                ? Colors.white
+                                : Colors.black,
+                            side: BorderSide(
+                                color: selectedButtonIndex == 2
+                                    ? Color(0xFF144A9D)
+                                    : Colors.grey),
+                          ),
+                          child: Text('This Month'),
+                        ),
+                      ),
+                      SizedBox(width: 5.0),
+                      SizedBox(
+                        width: deviceWidth * 0.30,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              selectedButtonIndex =
+                                  3; // Set the index to 3 when Button 3 is pressed
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: selectedButtonIndex == 3
+                                ? Color(0xFF144A9D)
+                                : Colors.white,
+                            foregroundColor: selectedButtonIndex == 3
+                                ? Colors.white
+                                : Colors.black,
+                            side: BorderSide(
+                                color: selectedButtonIndex == 3
+                                    ? Color(0xFF144A9D)
+                                    : Colors.grey),
+                          ),
+                          child: Text('This Year'),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+
+
+                SizedBox(height: 10),
 
                 ///dialog custom date selection
                 SizedBox(
-                    height: deviceHight * 0.030,
                     width: deviceWidth,
                     child: Container(
                       margin:
@@ -400,8 +460,62 @@ class _DashboardActivityState extends State<DashboardActivity>
                       ),
                     )),
 
-                SizedBox(height: 16,)
+                SizedBox(height: 16),
+                // // ///tabbar
+                SizedBox(
+                    height: deviceHight * 0.130,
+                    width: deviceWidth,
+                    child: Column(
+                      children: [
 
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: 12, top: 0, right: 12, bottom: 0),
+                          //height: kToolbarHeight - 8.0,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade50,
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: TabBar(
+                            onTap: (value) {
+                              print(value);
+                            },
+                            controller: _tabController,
+                            indicator: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: _selectedColor.withOpacity(0.2),
+                                //color: _selectedColor
+                            ),
+                            labelColor: Colors.black,
+                            unselectedLabelColor: Colors.black,
+                            tabs: _tabs,
+                          ),
+                        ),
+                      ],
+                    )),
+                // SizedBox(
+                //   height: deviceHight * 0.1,
+                //   width: deviceWidth,
+                //   // child: Container(
+                //   //   child: TabBarView(
+                //   //     controller: _tabController,
+                //   //     children: [
+                //   //       // First tab
+                //   //       Center(child: Text("Tab 1"),),
+                //   //
+                //   //       // Second tab
+                //   //       Center(child: Text("Tab 2"),),
+                //   //
+                //   //       // Third tab
+                //   //       Center(child: Text("Tab 3"),),
+                //   //     ],
+                //   //   ),
+                //   //
+                //   // ),
+                //
+                //
+                //
+                // )
 
                 /// Custom Tabular with solid selected bg and transparent tabular bg
               ],
