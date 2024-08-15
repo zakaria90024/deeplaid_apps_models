@@ -1,6 +1,11 @@
+import 'package:deeplaid_apps_models/service/Services.dart';
 import 'package:flutter/material.dart';
 import 'package:deeplaid_apps_models/dropdown.dart';
 import 'package:flutter_native_splash/cli_commands.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+
+import '../model/dashboard_model.dart';
 
 class DashboardActivity extends StatefulWidget {
   const DashboardActivity({super.key});
@@ -19,6 +24,7 @@ class _DashboardActivityState extends State<DashboardActivity>
       TextEditingController();
   int selectedButtonIndex = 0;
   final _selectedColor = Color(0xff1a73e8);
+  String selectedTab = "";
   final _tabs = [
     Tab(text: 'Order'),
     Tab(text: 'Sales'),
@@ -26,6 +32,14 @@ class _DashboardActivityState extends State<DashboardActivity>
     Tab(text: 'Limit'),
     Tab(text: 'Dues'),
   ];
+
+  DashboardResponse? dashboardResponse;
+
+  List<CollectionItem> collectionList = [];
+  List<CollectionItem> duesList = [];
+  List<CollectionItem> limitList = [];
+  List<CollectionItem> orderList = [];
+  List<CollectionItem> salesList = [];
 
   //select date From
   void _selectDateFrom(BuildContext context) async {
@@ -59,6 +73,40 @@ class _DashboardActivityState extends State<DashboardActivity>
   void initState() {
     _tabController = TabController(length: 5, vsync: this);
     super.initState();
+    // dashboardResponse= Services.getDashboardData("Deeplaid", "01-08-2024", "14-08-2024", "0001") as DashboardResponse?;
+    //
+    // print(dashboardResponse.toString());
+
+    Services.getDashboardData("Deeplaid", "01-08-2024", "14-08-2024", "0001")
+        .then((data) {
+      setState(() {
+
+        //it's called after callback
+        Fluttertoast.showToast(msg: "Called");
+
+        dashboardResponse = data;
+        duesList = dashboardResponse!.dues;
+        limitList = dashboardResponse!.limit;
+        orderList = dashboardResponse!.order;
+        salesList = dashboardResponse!.sales;
+
+        if(selectedTab == "Sales"){
+          limitList = dashboardResponse!.sales;
+          //setInfoListTile(salesList);
+        }else if(selectedTab == "Limit"){
+          limitList = dashboardResponse!.limit;
+        }
+
+      });
+    });
+
+    String? s = dashboardResponse?.strStatus;
+
+    // List<LimitItem> d = [];
+    // d.add(dashboardResponse!.limit.first );
+    //
+    print("dsf" + s.toString());
+
   }
 
   @override
@@ -234,6 +282,12 @@ class _DashboardActivityState extends State<DashboardActivity>
                         child: OutlinedButton(
                           onPressed: () {
                             setState(() {
+                              // Get the current date
+                              DateTime now = DateTime.now();
+                              String formattedDate =
+                                  DateFormat('dd-MM-yyyy').format(now);
+                              print("Today=" + formattedDate);
+
                               selectedButtonIndex =
                                   1; // Set the index to 1 when Button 1 is pressed
                             });
@@ -259,6 +313,29 @@ class _DashboardActivityState extends State<DashboardActivity>
                         child: OutlinedButton(
                           onPressed: () {
                             setState(() {
+                              // Get the current date
+                              DateTime now = DateTime.now();
+                              String formattedDate =
+                                  DateFormat('dd-MM-yyyy').format(now);
+
+                              //String[] s = formattedDate.split("-");
+
+                              // Split the formatted date string using '-'
+                              List<String> dateParts = formattedDate.split('-');
+
+                              // Output the split parts
+                              String dayAndMonth =
+                                  dateParts[0]; // This will be "dd=MM"
+                              String year = dateParts[1]; // This will be "yyyy"
+
+                              String fullFromThisMonth =
+                                  "01-" + dateParts[1] + "-" + dateParts[2];
+
+                              print("From=" +
+                                  fullFromThisMonth +
+                                  "To=" +
+                                  formattedDate);
+
                               selectedButtonIndex =
                                   2; // Set the index to 2 when Button 2 is pressed
                             });
@@ -284,6 +361,18 @@ class _DashboardActivityState extends State<DashboardActivity>
                         child: OutlinedButton(
                           onPressed: () {
                             setState(() {
+                              // Get the current date
+                              DateTime now = DateTime.now();
+                              String formattedDate =
+                                  DateFormat('dd-MM-yyyy').format(now);
+                              List<String> dateParts = formattedDate.split('-');
+                              String fullFromThisMonth =
+                                  "01-01" + "-" + dateParts[2];
+                              print("From=" +
+                                  fullFromThisMonth +
+                                  "To=" +
+                                  formattedDate);
+
                               selectedButtonIndex =
                                   3; // Set the index to 3 when Button 3 is pressed
                             });
@@ -306,7 +395,6 @@ class _DashboardActivityState extends State<DashboardActivity>
                     ],
                   ),
                 ),
-
 
                 SizedBox(height: 10),
 
@@ -463,11 +551,10 @@ class _DashboardActivityState extends State<DashboardActivity>
                 SizedBox(height: 16),
                 // // ///tabbar
                 SizedBox(
-                    height: deviceHight * 0.130,
+                    height: deviceHight * 0.125,
                     width: deviceWidth,
                     child: Column(
                       children: [
-
                         Container(
                           margin: EdgeInsets.only(
                               left: 12, top: 0, right: 12, bottom: 0),
@@ -477,45 +564,67 @@ class _DashboardActivityState extends State<DashboardActivity>
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: TabBar(
+                            
                             onTap: (value) {
-                              print(value);
+                              print("va;ite"+value.toString());
+
+                              value.toString();
+
+                              if(value == 0){
+                                setState(() {
+                                  selectedTab = "Order";
+                                  _listView(selectedTab, dashboardResponse);
+                                });
+
+                              }else if(value == 1){
+                                setState(() {
+                                  selectedTab = "Order";
+                                  _listView(selectedTab, dashboardResponse);
+                                });
+                              }else if(value == 2){
+                                setState(() {
+                                  selectedTab = "Order";
+                                  _listView(selectedTab, dashboardResponse);
+                                });
+                              }else if(value == 3){
+                                setState(() {
+                                  selectedTab = "Order";
+                                  _listView(selectedTab, dashboardResponse);
+                                });
+                              }else if(value == 4 ){
+                                setState(() {
+                                  selectedTab = "Order";
+                                  _listView(selectedTab, dashboardResponse);
+                                });
+                              }
+
+
                             },
                             controller: _tabController,
                             indicator: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.0),
-                                color: _selectedColor.withOpacity(0.2),
-                                //color: _selectedColor
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: _selectedColor.withOpacity(0.2),
+                              //color: _selectedColor
                             ),
                             labelColor: Colors.black,
                             unselectedLabelColor: Colors.black,
                             tabs: _tabs,
+                            
+
                           ),
+
+                          
                         ),
+
                       ],
                     )),
-                // SizedBox(
-                //   height: deviceHight * 0.1,
-                //   width: deviceWidth,
-                //   // child: Container(
-                //   //   child: TabBarView(
-                //   //     controller: _tabController,
-                //   //     children: [
-                //   //       // First tab
-                //   //       Center(child: Text("Tab 1"),),
-                //   //
-                //   //       // Second tab
-                //   //       Center(child: Text("Tab 2"),),
-                //   //
-                //   //       // Third tab
-                //   //       Center(child: Text("Tab 3"),),
-                //   //     ],
-                //   //   ),
-                //   //
-                //   // ),
-                //
-                //
-                //
-                // )
+
+                SizedBox(
+                    height: 200,
+                    width: deviceWidth,
+                    child: _listView(selectedTab, dashboardResponse)
+
+                )
 
                 /// Custom Tabular with solid selected bg and transparent tabular bg
               ],
@@ -525,4 +634,60 @@ class _DashboardActivityState extends State<DashboardActivity>
       ),
     );
   }
+
+  Widget _listView(String tabString, DashboardResponse? dashboardResponse){
+
+    List<CollectionItem> list = [];
+    if(tabString == "Order"){
+      list = dashboardResponse!.order;
+    }
+    if(tabString == "Sales"){
+      list = dashboardResponse!.sales;
+    }
+    if(tabString == "Collection"){
+      list = dashboardResponse!.collection;
+    }
+    if(tabString == "Limit"){
+      list = dashboardResponse!.limit;
+    }
+    if(tabString == "Dues"){
+      list = dashboardResponse!.dues;
+    }
+
+    return Container(
+      color: Colors.grey.shade50,
+      child: list.isEmpty
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          final item = list[index];
+          return ListTile(
+            title: Text(item.strProperty),
+            subtitle: Text(
+                'Amount: ${item.dblAmount.toString()}'),
+          );
+        },
+      ),
+    );
+  }
+
+
+
+
+  Widget _buildPage(String text, Color color) {
+    return Container(
+      child: SizedBox(
+        height:50 ,
+        child: Container(
+          child: Center(
+            child: Text(text, style: TextStyle(fontSize: 24, color: Colors.white)),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+
 }
