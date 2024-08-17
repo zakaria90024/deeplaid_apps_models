@@ -1,10 +1,8 @@
+import 'package:deeplaid_apps_models/dashboard_report/dashboard_master.dart';
 import 'package:deeplaid_apps_models/service/Services.dart';
 import 'package:flutter/material.dart';
-import 'package:deeplaid_apps_models/dropdown.dart';
-import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-
 import '../model/dashboard_model.dart';
 
 class DashboardActivity extends StatefulWidget {
@@ -17,13 +15,15 @@ class DashboardActivity extends StatefulWidget {
 class _DashboardActivityState extends State<DashboardActivity>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  String? _selectedBranch;
+  String? _selectedBranch = "Deeplaid";
   final TextEditingController _textFieldControllerFromDate =
       TextEditingController();
   final TextEditingController _textFieldControllerToDate =
       TextEditingController();
+  bool _isLoading = false; // Track loading state
   int selectedButtonIndex = 0;
-  final _selectedColor = Color(0xff1a73e8);
+  //final _selectedColor = Color(0xff1a73e8);
+  final _selectedColor = Colors.grey.shade700;
   String selectedTab = "";
   final _tabs = [
     Tab(text: 'Order'),
@@ -36,10 +36,6 @@ class _DashboardActivityState extends State<DashboardActivity>
   DashboardResponse? dashboardResponse;
 
   List<CollectionItem> collectionList = [];
-  List<CollectionItem> duesList = [];
-  List<CollectionItem> limitList = [];
-  List<CollectionItem> orderList = [];
-  List<CollectionItem> salesList = [];
 
   //select date From
   void _selectDateFrom(BuildContext context) async {
@@ -77,36 +73,56 @@ class _DashboardActivityState extends State<DashboardActivity>
     //
     // print(dashboardResponse.toString());
 
-    Services.getDashboardData("Deeplaid", "01-08-2024", "14-08-2024", "0001")
-        .then((data) {
-      setState(() {
-
-        //it's called after callback
-        Fluttertoast.showToast(msg: "Called");
-
-        dashboardResponse = data;
-        duesList = dashboardResponse!.dues;
-        limitList = dashboardResponse!.limit;
-        orderList = dashboardResponse!.order;
-        salesList = dashboardResponse!.sales;
-
-        if(selectedTab == "Sales"){
-          limitList = dashboardResponse!.sales;
-          //setInfoListTile(salesList);
-        }else if(selectedTab == "Limit"){
-          limitList = dashboardResponse!.limit;
-        }
-
-      });
-    });
-
-    String? s = dashboardResponse?.strStatus;
+    // Services.getDashboardData("Deeplaid", "01-08-2024", "14-08-2024", "0001")
+    //     .then((data) {
+    //   setState(() {
+    //     //it's called after callback
+    //     Fluttertoast.showToast(msg: "Called");
+    //     dashboardResponse = data;
+    //   });
+    // });
 
     // List<LimitItem> d = [];
     // d.add(dashboardResponse!.limit.first );
     //
-    print("dsf" + s.toString());
+    //print("dsf" + s.toString());
 
+    //showProgressDialog(context);
+    //Get the current date
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+
+    print(_selectedBranch);
+    String custBranchCode =
+        _selectedBranch ?? ""; // Provide a fallback if _selectedBranch is null
+
+    if (_selectedBranch != null) {
+      // Ensure _selectedBranch is not null before comparisons
+      if (_selectedBranch == "Deeplaid") {
+        custBranchCode = "0001";
+      } else if (_selectedBranch == "Herbal") {
+        custBranchCode = "0003";
+      } else if (_selectedBranch == "Sales Center") {
+        custBranchCode = "0005";
+      }
+
+      Services.getDashboardData(
+              "Deeplaid", formattedDate, formattedDate, custBranchCode)
+          .then((data) {
+        setState(() {
+          // Start loading
+          //it's called after callback
+          //Fluttertoast.showToast(msg: "Called Today");
+          dashboardResponse = data;
+          //hideProgressDialog(context);
+        });
+      });
+    } else {
+      // Handle the case where _selectedBranch is null, if needed
+      print("No branch selected.");
+    }
+
+    selectedButtonIndex = 1;
   }
 
   @override
@@ -190,10 +206,10 @@ class _DashboardActivityState extends State<DashboardActivity>
                                           right: 10,
                                           bottom: 10),
                                       child: Text(
-                                        "Dashboard",
+                                        "DASHBOARD",
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontWeight: FontWeight.bold,
+                                            fontWeight: FontWeight.normal,
                                             fontSize: 16),
                                       ),
                                     )),
@@ -221,7 +237,7 @@ class _DashboardActivityState extends State<DashboardActivity>
 
                 ///spinner
                 SizedBox(
-                  height: deviceHight * 0.130,
+                  height: deviceHight * 0.120,
                   width: deviceWidth,
                   child: Column(
                     children: [
@@ -282,11 +298,45 @@ class _DashboardActivityState extends State<DashboardActivity>
                         child: OutlinedButton(
                           onPressed: () {
                             setState(() {
+                              // Show progress dialog
+                              showProgressDialog(context);
                               // Get the current date
                               DateTime now = DateTime.now();
                               String formattedDate =
                                   DateFormat('dd-MM-yyyy').format(now);
-                              print("Today=" + formattedDate);
+
+                              print(_selectedBranch);
+                              String custBranchCode = _selectedBranch ??
+                                  ""; // Provide a fallback if _selectedBranch is null
+
+                              if (_selectedBranch != null) {
+                                // Ensure _selectedBranch is not null before comparisons
+                                if (_selectedBranch == "Deeplaid") {
+                                  custBranchCode = "0001";
+                                } else if (_selectedBranch == "Herbal") {
+                                  custBranchCode = "0003";
+                                } else if (_selectedBranch == "Sales Center") {
+                                  custBranchCode = "0005";
+                                }
+
+                                Services.getDashboardData(
+                                        "Deeplaid",
+                                        formattedDate,
+                                        formattedDate,
+                                        custBranchCode)
+                                    .then((data) {
+                                  setState(() {
+                                    //it's called after callback
+                                    //Fluttertoast.showToast(msg: "Called Today");
+
+                                    dashboardResponse = data;
+                                    hideProgressDialog(context);
+                                  });
+                                });
+                              } else {
+                                // Handle the case where _selectedBranch is null, if needed
+                                print("No branch selected.");
+                              }
 
                               selectedButtonIndex =
                                   1; // Set the index to 1 when Button 1 is pressed
@@ -336,6 +386,44 @@ class _DashboardActivityState extends State<DashboardActivity>
                                   "To=" +
                                   formattedDate);
 
+                              //Call api from here this month=====================================================
+                              // Show progress dialog
+                              showProgressDialog(context);
+                              // Get the current date
+
+                              print(_selectedBranch);
+                              String custBranchCode = _selectedBranch ??
+                                  ""; // Provide a fallback if _selectedBranch is null
+
+                              if (_selectedBranch != null) {
+                                // Ensure _selectedBranch is not null before comparisons
+                                if (_selectedBranch == "Deeplaid") {
+                                  custBranchCode = "0001";
+                                } else if (_selectedBranch == "Herbal") {
+                                  custBranchCode = "0003";
+                                } else if (_selectedBranch == "Sales Center") {
+                                  custBranchCode = "0005";
+                                }
+
+                                Services.getDashboardData(
+                                        "Deeplaid",
+                                        fullFromThisMonth,
+                                        formattedDate,
+                                        custBranchCode)
+                                    .then((data) {
+                                  setState(() {
+                                    //it's called after callback
+                                    //Fluttertoast.showToast(msg: "Called Today");
+
+                                    dashboardResponse = data;
+                                    hideProgressDialog(context);
+                                  });
+                                });
+                              } else {
+                                // Handle the case where _selectedBranch is null, if needed
+                                print("No branch selected.");
+                              }
+
                               selectedButtonIndex =
                                   2; // Set the index to 2 when Button 2 is pressed
                             });
@@ -366,12 +454,50 @@ class _DashboardActivityState extends State<DashboardActivity>
                               String formattedDate =
                                   DateFormat('dd-MM-yyyy').format(now);
                               List<String> dateParts = formattedDate.split('-');
-                              String fullFromThisMonth =
+                              String fullFromThisYear =
                                   "01-01" + "-" + dateParts[2];
                               print("From=" +
-                                  fullFromThisMonth +
+                                  fullFromThisYear +
                                   "To=" +
                                   formattedDate);
+
+                              //Call api from here this year=====================================================
+                              // Show progress dialog
+                              showProgressDialog(context);
+                              // Get the current date
+
+                              print(_selectedBranch);
+                              String custBranchCode = _selectedBranch ??
+                                  ""; // Provide a fallback if _selectedBranch is null
+
+                              if (_selectedBranch != null) {
+                                // Ensure _selectedBranch is not null before comparisons
+                                if (_selectedBranch == "Deeplaid") {
+                                  custBranchCode = "0001";
+                                } else if (_selectedBranch == "Herbal") {
+                                  custBranchCode = "0003";
+                                } else if (_selectedBranch == "Sales Center") {
+                                  custBranchCode = "0005";
+                                }
+
+                                Services.getDashboardData(
+                                        "Deeplaid",
+                                        fullFromThisYear,
+                                        formattedDate,
+                                        custBranchCode)
+                                    .then((data) {
+                                  setState(() {
+                                    //it's called after callback
+                                    //Fluttertoast.showToast(msg: "Called Today");
+
+                                    dashboardResponse = data;
+                                    hideProgressDialog(context);
+                                  });
+                                });
+                              } else {
+                                // Handle the case where _selectedBranch is null, if needed
+                                print("No branch selected.");
+                              }
 
                               selectedButtonIndex =
                                   3; // Set the index to 3 when Button 3 is pressed
@@ -504,14 +630,73 @@ class _DashboardActivityState extends State<DashboardActivity>
                                           SizedBox(width: 8),
                                           ElevatedButton(
                                             onPressed: () {
-                                              print(
-                                                  "User entered: ${_textFieldControllerFromDate.text}");
-                                              print(
-                                                  "User entered: ${_textFieldControllerToDate.text}");
-                                              print(
-                                                  "Selected branch: $_selectedBranch");
-                                              Navigator.of(context)
-                                                  .pop(); // Close the dialog
+                                              setState(() {
+                                                print(
+                                                    "User entered: ${_textFieldControllerFromDate.text}");
+                                                print(
+                                                    "User entered: ${_textFieldControllerToDate.text}");
+                                                print(
+                                                    "Selected branch: $_selectedBranch");
+                                                //Navigator.of(context).pop(); // Close the dialog
+
+                                                //Call api from here this month=====================================================
+                                                // Show progress dialog
+                                                showProgressDialog(context);
+                                                // Get the current date
+
+                                                print(_selectedBranch);
+                                                String custBranchCode = _selectedBranch ??
+                                                    ""; // Provide a fallback if _selectedBranch is null
+
+                                                if (_selectedBranch != null) {
+                                                  // Ensure _selectedBranch is not null before comparisons
+                                                  if (_selectedBranch ==
+                                                      "Deeplaid") {
+                                                    custBranchCode = "0001";
+                                                  } else if (_selectedBranch ==
+                                                      "Herbal") {
+                                                    custBranchCode = "0003";
+                                                  } else if (_selectedBranch ==
+                                                      "Sales Center") {
+                                                    custBranchCode = "0005";
+                                                  }
+
+                                                  if(_textFieldControllerFromDate
+                                                      .text.isEmpty ||  _textFieldControllerToDate
+                                                      .text.isEmpty ){
+                                                    Fluttertoast.showToast(msg: "Please Select Date");
+                                                    print("Please Select Date");
+                                                  }else{
+
+
+
+                                                  Services.getDashboardData(
+                                                      "Deeplaid",
+                                                      _textFieldControllerFromDate
+                                                          .text,
+                                                      _textFieldControllerToDate
+                                                          .text,
+                                                      custBranchCode)
+                                                      .then((data) {
+                                                    setState(() {
+                                                      //it's called after callback
+                                                      //Fluttertoast.showToast(msg: "Called Today");
+
+                                                      dashboardResponse = data;
+                                                      hideProgressDialog(context);
+                                                      Navigator.of(context).pop();
+                                                    });
+                                                  });
+                                                  }
+
+                                                } else {
+                                                  // Handle the case where _selectedBranch is null, if needed
+                                                  print("No branch selected.");
+                                                }
+
+                                              });
+
+
                                             },
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor:
@@ -551,7 +736,7 @@ class _DashboardActivityState extends State<DashboardActivity>
                 SizedBox(height: 16),
                 // // ///tabbar
                 SizedBox(
-                    height: deviceHight * 0.125,
+                    height: deviceHight * 0.100,
                     width: deviceWidth,
                     child: Column(
                       children: [
@@ -564,41 +749,38 @@ class _DashboardActivityState extends State<DashboardActivity>
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: TabBar(
-                            
                             onTap: (value) {
-                              print("va;ite"+value.toString());
 
+                              print("selected value = " + value.toString());
                               value.toString();
 
-                              if(value == 0){
-                                setState(() {
-                                  selectedTab = "Order";
-                                  _listView(selectedTab, dashboardResponse);
-                                });
-
-                              }else if(value == 1){
-                                setState(() {
-                                  selectedTab = "Order";
-                                  _listView(selectedTab, dashboardResponse);
-                                });
-                              }else if(value == 2){
-                                setState(() {
-                                  selectedTab = "Order";
-                                  _listView(selectedTab, dashboardResponse);
-                                });
-                              }else if(value == 3){
-                                setState(() {
-                                  selectedTab = "Order";
-                                  _listView(selectedTab, dashboardResponse);
-                                });
-                              }else if(value == 4 ){
-                                setState(() {
-                                  selectedTab = "Order";
-                                  _listView(selectedTab, dashboardResponse);
-                                });
-                              }
-
-
+                              // if(value == 0){
+                              //   setState(() {
+                              //     selectedTab = "Order";
+                              //     _listView(selectedTab, dashboardResponse);
+                              //   });
+                              //
+                              // }else if(value == 1){
+                              //   setState(() {
+                              //     selectedTab = "Order";
+                              //     _listView(selectedTab, dashboardResponse);
+                              //   });
+                              // }else if(value == 2){
+                              //   setState(() {
+                              //     selectedTab = "Order";
+                              //     _listView(selectedTab, dashboardResponse);
+                              //   });
+                              // }else if(value == 3){
+                              //   setState(() {
+                              //     selectedTab = "Order";
+                              //     _listView(selectedTab, dashboardResponse);
+                              //   });
+                              // }else if(value == 4 ){
+                              //   setState(() {
+                              //     selectedTab = "Order";
+                              //     _listView(selectedTab, dashboardResponse);
+                              //   });
+                              // }
                             },
                             controller: _tabController,
                             indicator: BoxDecoration(
@@ -609,22 +791,40 @@ class _DashboardActivityState extends State<DashboardActivity>
                             labelColor: Colors.black,
                             unselectedLabelColor: Colors.black,
                             tabs: _tabs,
-                            
-
                           ),
-
-                          
                         ),
-
+                        // TabBarView(
+                        //
+                        //   controller: _tabController,
+                        //   children: [
+                        //     FirstPage(dashboardResponse!.dues),
+                        //     SecondPage(),
+                        //     //ThirdPage(),
+                        //   ],)
                       ],
                     )),
 
                 SizedBox(
-                    height: 200,
+                    height:deviceHight * 0.50,
                     width: deviceWidth,
-                    child: _listView(selectedTab, dashboardResponse)
-
-                )
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: 10, right: 10, top: 0, bottom: 0),
+                      color: Colors.grey.shade100,
+                      child: dashboardResponse == null
+                          ? const Center(child: CircularProgressIndicator())
+                          : TabBarView(
+                              controller: _tabController,
+                              children: [
+                                DashboardMaster(dashboardResponse!.order ?? []),
+                                DashboardMaster(dashboardResponse!.sales ?? []),
+                                DashboardMaster(
+                                    dashboardResponse!.collection ?? []),
+                                DashboardMaster(dashboardResponse!.limit ?? []),
+                                DashboardMaster(dashboardResponse!.dues ?? []),
+                              ],
+                            ),
+                    ))
 
                 /// Custom Tabular with solid selected bg and transparent tabular bg
               ],
@@ -635,59 +835,102 @@ class _DashboardActivityState extends State<DashboardActivity>
     );
   }
 
-  Widget _listView(String tabString, DashboardResponse? dashboardResponse){
+//
+// Widget _listView(String tabString, DashboardResponse? dashboardResponse){
+//
+//   List<CollectionItem> list = [];
+//   if(tabString == "Order"){
+//     list = dashboardResponse!.order;
+//   }
+//   if(tabString == "Sales"){
+//     list = dashboardResponse!.sales;
+//   }
+//   if(tabString == "Collection"){
+//     list = dashboardResponse!.collection;
+//   }
+//   if(tabString == "Limit"){
+//     list = dashboardResponse!.limit;
+//   }
+//   if(tabString == "Dues"){
+//     list = dashboardResponse!.dues;
+//   }
+//
+//   return Container(
+//     color: Colors.grey.shade50,
+//     child: list.isEmpty
+//         ? Center(child: CircularProgressIndicator())
+//         : ListView.builder(
+//       itemCount: list.length,
+//       itemBuilder: (context, index) {
+//         final item = list[index];
+//         return ListTile(
+//           title: Text(item.strProperty),
+//           subtitle: Text(
+//               'Amount: ${item.dblAmount.toString()}'),
+//         );
+//       },
+//     ),
+//   );
+// }
+//
+//
+//
 
-    List<CollectionItem> list = [];
-    if(tabString == "Order"){
-      list = dashboardResponse!.order;
-    }
-    if(tabString == "Sales"){
-      list = dashboardResponse!.sales;
-    }
-    if(tabString == "Collection"){
-      list = dashboardResponse!.collection;
-    }
-    if(tabString == "Limit"){
-      list = dashboardResponse!.limit;
-    }
-    if(tabString == "Dues"){
-      list = dashboardResponse!.dues;
-    }
+// Widget _buildPage(String text, Color color) {
+//   return Container(
+//     child: SizedBox(
+//       height:50 ,
+//       child: Container(
+//         child: Center(
+//           child: Text(text, style: TextStyle(fontSize: 24, color: Colors.white)),
+//         ),
+//       ),
+//     ),
+//   );
+// }
 
-    return Container(
-      color: Colors.grey.shade50,
-      child: list.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          final item = list[index];
-          return ListTile(
-            title: Text(item.strProperty),
-            subtitle: Text(
-                'Amount: ${item.dblAmount.toString()}'),
-          );
-        },
-      ),
-    );
-  }
-
-
-
-
-  Widget _buildPage(String text, Color color) {
-    return Container(
-      child: SizedBox(
-        height:50 ,
-        child: Container(
-          child: Center(
-            child: Text(text, style: TextStyle(fontSize: 24, color: Colors.white)),
+// Method to show progress dialog
+  void showProgressDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      // Prevents closing the dialog by tapping outside
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          child: SizedBox(
+            width: 150, // Adjust width as needed
+            height: 100, // Adjust height as needed
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16), // Space between the indicator and text
+                Text(
+                  "Loading, please wait...",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
 
+  // Method to hide progress dialog
+  void hideProgressDialog(BuildContext context) {
+    if (mounted && Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    }
+  }
 
+  // // Method to hide progress dialog
+  // void hideProgressDialog(BuildContext context) {
+  //   Navigator.of(context).pop();
+  // }
 }
