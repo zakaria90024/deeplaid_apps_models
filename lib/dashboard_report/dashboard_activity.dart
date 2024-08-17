@@ -237,7 +237,7 @@ class _DashboardActivityState extends State<DashboardActivity>
 
                 ///spinner
                 SizedBox(
-                  height: deviceHight * 0.120,
+                  height: deviceHight * 0.100,
                   width: deviceWidth,
                   child: Column(
                     children: [
@@ -289,12 +289,12 @@ class _DashboardActivityState extends State<DashboardActivity>
                 ///button today month year
                 SizedBox(
                   width: deviceWidth,
-                  height: 50,
+                  height: 60,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: deviceWidth * 0.30,
+                        width: deviceWidth * 0.31,
                         child: OutlinedButton(
                           onPressed: () {
                             setState(() {
@@ -359,7 +359,7 @@ class _DashboardActivityState extends State<DashboardActivity>
                       ),
                       SizedBox(width: 5.0),
                       SizedBox(
-                        width: deviceWidth * 0.30,
+                        width: deviceWidth * 0.31,
                         child: OutlinedButton(
                           onPressed: () {
                             setState(() {
@@ -445,7 +445,7 @@ class _DashboardActivityState extends State<DashboardActivity>
                       ),
                       SizedBox(width: 5.0),
                       SizedBox(
-                        width: deviceWidth * 0.30,
+                        width: deviceWidth * 0.31,
                         child: OutlinedButton(
                           onPressed: () {
                             setState(() {
