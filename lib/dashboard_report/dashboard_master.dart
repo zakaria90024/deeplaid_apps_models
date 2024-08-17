@@ -19,6 +19,7 @@ class DashboardMaster extends StatelessWidget {
                   return ListTile(
                     title: Text(item.strProperty.toUpperCase()),
                     subtitle: Text('Amount: ${item.dblAmount.toString()}'),
+
                   );
                 },
               ),
