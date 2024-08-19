@@ -22,6 +22,7 @@ class _DashboardActivityState extends State<DashboardActivity>
       TextEditingController();
   bool _isLoading = false; // Track loading state
   int selectedButtonIndex = 0;
+
   //final _selectedColor = Color(0xff1a73e8);
   final _selectedColor = Colors.grey.shade700;
   String selectedTab = "";
@@ -173,48 +174,50 @@ class _DashboardActivityState extends State<DashboardActivity>
                     color: Color(0xFF144A9D),
                     child: Row(
                       children: [
-                        SizedBox(
-                          height: deviceHight * 0.075,
-                          width: deviceWidth,
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: deviceHight * 0.065,
-                                width: deviceWidth * 0.13,
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    child: const Icon(
-                                      Icons.arrow_back_outlined,
-                                      color: Colors.white,
-                                      size: 20,
-                                    )),
-                              ),
-                              SizedBox(
-                                height: deviceHight * 0.065,
-                                width: deviceWidth * 0.87,
-                                child: Container(
-                                    margin: EdgeInsets.only(
-                                        left: 0,
-                                        top: 0,
-                                        right: deviceWidth * 0.065,
-                                        bottom: 0),
-                                    alignment: Alignment.center,
-                                    child: const Padding(
-                                      padding: EdgeInsets.only(
+                        Expanded(
+
+                          child: Container(
+                            height: deviceHight * 0.075,
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: deviceHight * 0.065,
+                                  width: deviceWidth * 0.13,
+                                  child: Container(
+                                      alignment: Alignment.center,
+                                      child: const Icon(
+                                        Icons.arrow_back_outlined,
+                                        color: Colors.white,
+                                        size: 20,
+                                      )),
+                                ),
+                                SizedBox(
+                                  height: deviceHight * 0.065,
+                                  width: deviceWidth * 0.87,
+                                  child: Container(
+                                      margin: EdgeInsets.only(
                                           left: 0,
-                                          top: 10,
-                                          right: 10,
-                                          bottom: 10),
-                                      child: Text(
-                                        "DASHBOARD",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 16),
-                                      ),
-                                    )),
-                              )
-                            ],
+                                          top: 0,
+                                          right: deviceWidth * 0.065,
+                                          bottom: 0),
+                                      alignment: Alignment.center,
+                                      child: const Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 0,
+                                            top: 10,
+                                            right: 10,
+                                            bottom: 10),
+                                        child: Text(
+                                          "DASHBOARD",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        ),
+                                      )),
+                                )
+                              ],
+                            ),
                           ),
                         )
                       ],
@@ -237,7 +240,7 @@ class _DashboardActivityState extends State<DashboardActivity>
 
                 ///spinner
                 SizedBox(
-                  height: deviceHight * 0.100,
+                  height: deviceHight * 0.115,
                   width: deviceWidth,
                   child: Column(
                     children: [
@@ -289,236 +292,254 @@ class _DashboardActivityState extends State<DashboardActivity>
                 ///button today month year
                 SizedBox(
                   width: deviceWidth,
-                  height: 60,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: deviceWidth * 0.31,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              // Show progress dialog
-                              showProgressDialog(context);
-                              // Get the current date
-                              DateTime now = DateTime.now();
-                              String formattedDate =
-                                  DateFormat('dd-MM-yyyy').format(now);
+                  height: 65,
+                  child: Container(
+                    padding: EdgeInsets.all(12.0),
+                    child: Row(
+                      children: [
+                        //SizedBox(width: 12.0),
+                        Expanded(
+                          child: Container(
+                            height: 70,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  // Show progress dialog
+                                  showProgressDialog(context);
+                                  // Get the current date
+                                  DateTime now = DateTime.now();
+                                  String formattedDate =
+                                      DateFormat('dd-MM-yyyy').format(now);
 
-                              print(_selectedBranch);
-                              String custBranchCode = _selectedBranch ??
-                                  ""; // Provide a fallback if _selectedBranch is null
+                                  print(_selectedBranch);
+                                  String custBranchCode = _selectedBranch ??
+                                      ""; // Provide a fallback if _selectedBranch is null
 
-                              if (_selectedBranch != null) {
-                                // Ensure _selectedBranch is not null before comparisons
-                                if (_selectedBranch == "Deeplaid") {
-                                  custBranchCode = "0001";
-                                } else if (_selectedBranch == "Herbal") {
-                                  custBranchCode = "0003";
-                                } else if (_selectedBranch == "Sales Center") {
-                                  custBranchCode = "0005";
-                                }
+                                  if (_selectedBranch != null) {
+                                    // Ensure _selectedBranch is not null before comparisons
+                                    if (_selectedBranch == "Deeplaid") {
+                                      custBranchCode = "0001";
+                                    } else if (_selectedBranch == "Herbal") {
+                                      custBranchCode = "0003";
+                                    } else if (_selectedBranch ==
+                                        "Sales Center") {
+                                      custBranchCode = "0005";
+                                    }
 
-                                Services.getDashboardData(
-                                        "Deeplaid",
-                                        formattedDate,
-                                        formattedDate,
-                                        custBranchCode)
-                                    .then((data) {
-                                  setState(() {
-                                    //it's called after callback
-                                    //Fluttertoast.showToast(msg: "Called Today");
+                                    Services.getDashboardData(
+                                            "Deeplaid",
+                                            formattedDate,
+                                            formattedDate,
+                                            custBranchCode)
+                                        .then((data) {
+                                      setState(() {
+                                        //it's called after callback
+                                        //Fluttertoast.showToast(msg: "Called Today");
 
-                                    dashboardResponse = data;
-                                    hideProgressDialog(context);
-                                  });
+                                        dashboardResponse = data;
+                                        hideProgressDialog(context);
+                                      });
+                                    });
+                                  } else {
+                                    // Handle the case where _selectedBranch is null, if needed
+                                    print("No branch selected.");
+                                  }
+
+                                  selectedButtonIndex =
+                                      1; // Set the index to 1 when Button 1 is pressed
                                 });
-                              } else {
-                                // Handle the case where _selectedBranch is null, if needed
-                                print("No branch selected.");
-                              }
-
-                              selectedButtonIndex =
-                                  1; // Set the index to 1 when Button 1 is pressed
-                            });
-                          },
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: selectedButtonIndex == 1
-                                ? Color(0xFF144A9D)
-                                : Colors.white,
-                            foregroundColor: selectedButtonIndex == 1
-                                ? Colors.white
-                                : Colors.black,
-                            side: BorderSide(
-                                color: selectedButtonIndex == 1
+                              },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: selectedButtonIndex == 1
                                     ? Color(0xFF144A9D)
-                                    : Colors.grey),
+                                    : Colors.white,
+                                foregroundColor: selectedButtonIndex == 1
+                                    ? Colors.white
+                                    : Colors.black,
+                                side: BorderSide(
+                                    color: selectedButtonIndex == 1
+                                        ? Color(0xFF144A9D)
+                                        : Colors.grey),
+                              ),
+                              child: Text('Today'),
+                            ),
                           ),
-                          child: Text('Today'),
                         ),
-                      ),
-                      SizedBox(width: 5.0),
-                      SizedBox(
-                        width: deviceWidth * 0.31,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              // Get the current date
-                              DateTime now = DateTime.now();
-                              String formattedDate =
-                                  DateFormat('dd-MM-yyyy').format(now);
+                        //SizedBox(width: 5.0),
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(left: 8.0),
+                            height: 70,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  // Get the current date
+                                  DateTime now = DateTime.now();
+                                  String formattedDate =
+                                      DateFormat('dd-MM-yyyy').format(now);
 
-                              //String[] s = formattedDate.split("-");
+                                  //String[] s = formattedDate.split("-");
 
-                              // Split the formatted date string using '-'
-                              List<String> dateParts = formattedDate.split('-');
+                                  // Split the formatted date string using '-'
+                                  List<String> dateParts =
+                                      formattedDate.split('-');
 
-                              // Output the split parts
-                              String dayAndMonth =
-                                  dateParts[0]; // This will be "dd=MM"
-                              String year = dateParts[1]; // This will be "yyyy"
+                                  // Output the split parts
+                                  String dayAndMonth =
+                                      dateParts[0]; // This will be "dd=MM"
+                                  String year =
+                                      dateParts[1]; // This will be "yyyy"
 
-                              String fullFromThisMonth =
-                                  "01-" + dateParts[1] + "-" + dateParts[2];
+                                  String fullFromThisMonth =
+                                      "01-" + dateParts[1] + "-" + dateParts[2];
 
-                              print("From=" +
-                                  fullFromThisMonth +
-                                  "To=" +
-                                  formattedDate);
+                                  print("From=" +
+                                      fullFromThisMonth +
+                                      "To=" +
+                                      formattedDate);
 
-                              //Call api from here this month=====================================================
-                              // Show progress dialog
-                              showProgressDialog(context);
-                              // Get the current date
+                                  //Call api from here this month=====================================================
+                                  // Show progress dialog
+                                  showProgressDialog(context);
+                                  // Get the current date
 
-                              print(_selectedBranch);
-                              String custBranchCode = _selectedBranch ??
-                                  ""; // Provide a fallback if _selectedBranch is null
+                                  print(_selectedBranch);
+                                  String custBranchCode = _selectedBranch ??
+                                      ""; // Provide a fallback if _selectedBranch is null
 
-                              if (_selectedBranch != null) {
-                                // Ensure _selectedBranch is not null before comparisons
-                                if (_selectedBranch == "Deeplaid") {
-                                  custBranchCode = "0001";
-                                } else if (_selectedBranch == "Herbal") {
-                                  custBranchCode = "0003";
-                                } else if (_selectedBranch == "Sales Center") {
-                                  custBranchCode = "0005";
-                                }
+                                  if (_selectedBranch != null) {
+                                    // Ensure _selectedBranch is not null before comparisons
+                                    if (_selectedBranch == "Deeplaid") {
+                                      custBranchCode = "0001";
+                                    } else if (_selectedBranch == "Herbal") {
+                                      custBranchCode = "0003";
+                                    } else if (_selectedBranch ==
+                                        "Sales Center") {
+                                      custBranchCode = "0005";
+                                    }
 
-                                Services.getDashboardData(
-                                        "Deeplaid",
-                                        fullFromThisMonth,
-                                        formattedDate,
-                                        custBranchCode)
-                                    .then((data) {
-                                  setState(() {
-                                    //it's called after callback
-                                    //Fluttertoast.showToast(msg: "Called Today");
+                                    Services.getDashboardData(
+                                            "Deeplaid",
+                                            fullFromThisMonth,
+                                            formattedDate,
+                                            custBranchCode)
+                                        .then((data) {
+                                      setState(() {
+                                        //it's called after callback
+                                        //Fluttertoast.showToast(msg: "Called Today");
 
-                                    dashboardResponse = data;
-                                    hideProgressDialog(context);
-                                  });
+                                        dashboardResponse = data;
+                                        hideProgressDialog(context);
+                                      });
+                                    });
+                                  } else {
+                                    // Handle the case where _selectedBranch is null, if needed
+                                    print("No branch selected.");
+                                  }
+
+                                  selectedButtonIndex =
+                                      2; // Set the index to 2 when Button 2 is pressed
                                 });
-                              } else {
-                                // Handle the case where _selectedBranch is null, if needed
-                                print("No branch selected.");
-                              }
-
-                              selectedButtonIndex =
-                                  2; // Set the index to 2 when Button 2 is pressed
-                            });
-                          },
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: selectedButtonIndex == 2
-                                ? Color(0xFF144A9D)
-                                : Colors.white,
-                            foregroundColor: selectedButtonIndex == 2
-                                ? Colors.white
-                                : Colors.black,
-                            side: BorderSide(
-                                color: selectedButtonIndex == 2
+                              },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: selectedButtonIndex == 2
                                     ? Color(0xFF144A9D)
-                                    : Colors.grey),
+                                    : Colors.white,
+                                foregroundColor: selectedButtonIndex == 2
+                                    ? Colors.white
+                                    : Colors.black,
+                                side: BorderSide(
+                                    color: selectedButtonIndex == 2
+                                        ? Color(0xFF144A9D)
+                                        : Colors.grey),
+                              ),
+                              child: Text('This Month'),
+                            ),
                           ),
-                          child: Text('This Month'),
                         ),
-                      ),
-                      SizedBox(width: 5.0),
-                      SizedBox(
-                        width: deviceWidth * 0.31,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              // Get the current date
-                              DateTime now = DateTime.now();
-                              String formattedDate =
-                                  DateFormat('dd-MM-yyyy').format(now);
-                              List<String> dateParts = formattedDate.split('-');
-                              String fullFromThisYear =
-                                  "01-01" + "-" + dateParts[2];
-                              print("From=" +
-                                  fullFromThisYear +
-                                  "To=" +
-                                  formattedDate);
+                        //SizedBox(width: 5.0),
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(left: 8.0),
+                            height: 70,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  // Get the current date
+                                  DateTime now = DateTime.now();
+                                  String formattedDate =
+                                      DateFormat('dd-MM-yyyy').format(now);
+                                  List<String> dateParts =
+                                      formattedDate.split('-');
+                                  String fullFromThisYear =
+                                      "01-01" + "-" + dateParts[2];
+                                  print("From=" +
+                                      fullFromThisYear +
+                                      "To=" +
+                                      formattedDate);
 
-                              //Call api from here this year=====================================================
-                              // Show progress dialog
-                              showProgressDialog(context);
-                              // Get the current date
+                                  //Call api from here this year=====================================================
+                                  // Show progress dialog
+                                  showProgressDialog(context);
+                                  // Get the current date
 
-                              print(_selectedBranch);
-                              String custBranchCode = _selectedBranch ??
-                                  ""; // Provide a fallback if _selectedBranch is null
+                                  print(_selectedBranch);
+                                  String custBranchCode = _selectedBranch ??
+                                      ""; // Provide a fallback if _selectedBranch is null
 
-                              if (_selectedBranch != null) {
-                                // Ensure _selectedBranch is not null before comparisons
-                                if (_selectedBranch == "Deeplaid") {
-                                  custBranchCode = "0001";
-                                } else if (_selectedBranch == "Herbal") {
-                                  custBranchCode = "0003";
-                                } else if (_selectedBranch == "Sales Center") {
-                                  custBranchCode = "0005";
-                                }
+                                  if (_selectedBranch != null) {
+                                    // Ensure _selectedBranch is not null before comparisons
+                                    if (_selectedBranch == "Deeplaid") {
+                                      custBranchCode = "0001";
+                                    } else if (_selectedBranch == "Herbal") {
+                                      custBranchCode = "0003";
+                                    } else if (_selectedBranch ==
+                                        "Sales Center") {
+                                      custBranchCode = "0005";
+                                    }
 
-                                Services.getDashboardData(
-                                        "Deeplaid",
-                                        fullFromThisYear,
-                                        formattedDate,
-                                        custBranchCode)
-                                    .then((data) {
-                                  setState(() {
-                                    //it's called after callback
-                                    //Fluttertoast.showToast(msg: "Called Today");
+                                    Services.getDashboardData(
+                                            "Deeplaid",
+                                            fullFromThisYear,
+                                            formattedDate,
+                                            custBranchCode)
+                                        .then((data) {
+                                      setState(() {
+                                        //it's called after callback
+                                        //Fluttertoast.showToast(msg: "Called Today");
 
-                                    dashboardResponse = data;
-                                    hideProgressDialog(context);
-                                  });
+                                        dashboardResponse = data;
+                                        hideProgressDialog(context);
+                                      });
+                                    });
+                                  } else {
+                                    // Handle the case where _selectedBranch is null, if needed
+                                    print("No branch selected.");
+                                  }
+
+                                  selectedButtonIndex =
+                                      3; // Set the index to 3 when Button 3 is pressed
                                 });
-                              } else {
-                                // Handle the case where _selectedBranch is null, if needed
-                                print("No branch selected.");
-                              }
-
-                              selectedButtonIndex =
-                                  3; // Set the index to 3 when Button 3 is pressed
-                            });
-                          },
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: selectedButtonIndex == 3
-                                ? Color(0xFF144A9D)
-                                : Colors.white,
-                            foregroundColor: selectedButtonIndex == 3
-                                ? Colors.white
-                                : Colors.black,
-                            side: BorderSide(
-                                color: selectedButtonIndex == 3
+                              },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: selectedButtonIndex == 3
                                     ? Color(0xFF144A9D)
-                                    : Colors.grey),
+                                    : Colors.white,
+                                foregroundColor: selectedButtonIndex == 3
+                                    ? Colors.white
+                                    : Colors.black,
+                                side: BorderSide(
+                                    color: selectedButtonIndex == 3
+                                        ? Color(0xFF144A9D)
+                                        : Colors.grey),
+                              ),
+                              child: Text('This Year'),
+                            ),
                           ),
-                          child: Text('This Year'),
                         ),
-                      )
-                    ],
+                        //SizedBox(width: 12.0),
+                      ],
+                    ),
                   ),
                 ),
 
@@ -645,8 +666,9 @@ class _DashboardActivityState extends State<DashboardActivity>
                                                 // Get the current date
 
                                                 print(_selectedBranch);
-                                                String custBranchCode = _selectedBranch ??
-                                                    ""; // Provide a fallback if _selectedBranch is null
+                                                String custBranchCode =
+                                                    _selectedBranch ??
+                                                        ""; // Provide a fallback if _selectedBranch is null
 
                                                 if (_selectedBranch != null) {
                                                   // Ensure _selectedBranch is not null before comparisons
@@ -661,42 +683,41 @@ class _DashboardActivityState extends State<DashboardActivity>
                                                     custBranchCode = "0005";
                                                   }
 
-                                                  if(_textFieldControllerFromDate
-                                                      .text.isEmpty ||  _textFieldControllerToDate
-                                                      .text.isEmpty ){
-                                                    Fluttertoast.showToast(msg: "Please Select Date");
-                                                    print("Please Select Date");
-                                                  }else{
-
-
-
-                                                  Services.getDashboardData(
-                                                      "Deeplaid",
-                                                      _textFieldControllerFromDate
-                                                          .text,
+                                                  if (_textFieldControllerFromDate
+                                                          .text.isEmpty ||
                                                       _textFieldControllerToDate
-                                                          .text,
-                                                      custBranchCode)
-                                                      .then((data) {
-                                                    setState(() {
-                                                      //it's called after callback
-                                                      //Fluttertoast.showToast(msg: "Called Today");
+                                                          .text.isEmpty) {
+                                                    Fluttertoast.showToast(
+                                                        msg:
+                                                            "Please Select Date");
+                                                    print("Please Select Date");
+                                                  } else {
+                                                    Services.getDashboardData(
+                                                            "Deeplaid",
+                                                            _textFieldControllerFromDate
+                                                                .text,
+                                                            _textFieldControllerToDate
+                                                                .text,
+                                                            custBranchCode)
+                                                        .then((data) {
+                                                      setState(() {
+                                                        //it's called after callback
+                                                        //Fluttertoast.showToast(msg: "Called Today");
 
-                                                      dashboardResponse = data;
-                                                      hideProgressDialog(context);
-                                                      Navigator.of(context).pop();
+                                                        dashboardResponse =
+                                                            data;
+                                                        hideProgressDialog(
+                                                            context);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      });
                                                     });
-                                                  });
                                                   }
-
                                                 } else {
                                                   // Handle the case where _selectedBranch is null, if needed
                                                   print("No branch selected.");
                                                 }
-
                                               });
-
-
                                             },
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor:
@@ -750,7 +771,6 @@ class _DashboardActivityState extends State<DashboardActivity>
                           ),
                           child: TabBar(
                             onTap: (value) {
-
                               print("selected value = " + value.toString());
                               value.toString();
 
@@ -805,7 +825,7 @@ class _DashboardActivityState extends State<DashboardActivity>
                     )),
 
                 SizedBox(
-                    height:deviceHight * 0.50,
+                    height: deviceHight * 0.50,
                     width: deviceWidth,
                     child: Container(
                       margin: EdgeInsets.only(
@@ -921,7 +941,6 @@ class _DashboardActivityState extends State<DashboardActivity>
     );
   }
 
-
   // Method to hide progress dialog
   void hideProgressDialog(BuildContext context) {
     if (mounted && Navigator.of(context).canPop()) {
@@ -929,8 +948,8 @@ class _DashboardActivityState extends State<DashboardActivity>
     }
   }
 
-  // // Method to hide progress dialog
-  // void hideProgressDialog(BuildContext context) {
-  //   Navigator.of(context).pop();
-  // }
+// // Method to hide progress dialog
+// void hideProgressDialog(BuildContext context) {
+//   Navigator.of(context).pop();
+// }
 }
