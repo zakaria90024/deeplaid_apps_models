@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //home page
     final String laderNamefull = widget.fullName;
     Fluttertoast.showToast(msg: laderNamefull);
     final deviceHight = MediaQuery.of(context).size.height;
