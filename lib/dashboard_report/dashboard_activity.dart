@@ -74,14 +74,14 @@ class _DashboardActivityState extends State<DashboardActivity>
     //
     // print(dashboardResponse.toString());
 
-    // Services.getDashboardData("Deeplaid", "01-08-2024", "14-08-2024", "0001")
-    //     .then((data) {
-    //   setState(() {
-    //     //it's called after callback
-    //     Fluttertoast.showToast(msg: "Called");
-    //     dashboardResponse = data;
-    //   });
-    // });
+    Services.getDashboardData("001", "01-08-2024", "14-08-2024", "0001")
+        .then((data) {
+      setState(() {
+        //it's called after callback
+        //Fluttertoast.showToast(msg: "Called");
+        dashboardResponse = data;
+      });
+    });
 
     // List<LimitItem> d = [];
     // d.add(dashboardResponse!.limit.first );
@@ -107,17 +107,17 @@ class _DashboardActivityState extends State<DashboardActivity>
         custBranchCode = "0005";
       }
 
-      Services.getDashboardData(
-              "Deeplaid", formattedDate, formattedDate, custBranchCode)
-          .then((data) {
-        setState(() {
-          // Start loading
-          //it's called after callback
-          //Fluttertoast.showToast(msg: "Called Today");
-          dashboardResponse = data;
-          //hideProgressDialog(context);
-        });
-      });
+      // Services.getDashboardData(
+      //         "Deeplaid", formattedDate, formattedDate, custBranchCode)
+      //     .then((data) {
+      //   setState(() {
+      //     // Start loading
+      //     //it's called after callback
+      //     //Fluttertoast.showToast(msg: "Called Today");
+      //     dashboardResponse = data;
+      //     //hideProgressDialog(context);
+      //   });
+      // });
     } else {
       // Handle the case where _selectedBranch is null, if needed
       print("No branch selected.");
