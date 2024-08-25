@@ -1,9 +1,13 @@
+
 import 'package:deeplaid_apps_models/dashboard_report/dashboard_master.dart';
 import 'package:deeplaid_apps_models/service/Services.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import '../model/dashboard_model.dart';
+import 'dashboard_view/dashboard_presenter.dart';
+import 'dashboard_view/dashboard_view.dart';
+
 
 class DashboardActivity extends StatefulWidget {
   const DashboardActivity({super.key});
@@ -12,17 +16,14 @@ class DashboardActivity extends StatefulWidget {
   State<DashboardActivity> createState() => _DashboardActivityState();
 }
 
-class _DashboardActivityState extends State<DashboardActivity>
-    with SingleTickerProviderStateMixin {
+class _DashboardActivityState extends State<DashboardActivity> with SingleTickerProviderStateMixin implements DashboardInterfaceView {
+
   late TabController _tabController;
   String? _selectedBranch = "Deeplaid";
-  final TextEditingController _textFieldControllerFromDate =
-      TextEditingController();
-  final TextEditingController _textFieldControllerToDate =
-      TextEditingController();
+  final TextEditingController _textFieldControllerFromDate = TextEditingController();
+  final TextEditingController _textFieldControllerToDate = TextEditingController();
   bool _isLoading = false; // Track loading state
   int selectedButtonIndex = 0;
-
   //final _selectedColor = Color(0xff1a73e8);
   final _selectedColor = Colors.grey.shade700;
   String selectedTab = "";
@@ -35,6 +36,7 @@ class _DashboardActivityState extends State<DashboardActivity>
   ];
 
   DashboardResponse? dashboardResponse;
+  late DashboardPresenter dashboardPresenter;
 
   List<CollectionItem> collectionList = [];
 
@@ -73,15 +75,21 @@ class _DashboardActivityState extends State<DashboardActivity>
     // dashboardResponse= Services.getDashboardData("Deeplaid", "01-08-2024", "14-08-2024", "0001") as DashboardResponse?;
     //
     // print(dashboardResponse.toString());
+    dashboardPresenter = DashboardPresenter(this);
 
-    Services.getDashboardData("001", "01-08-2024", "14-08-2024", "0001")
-        .then((data) {
-      setState(() {
-        //it's called after callback
-        //Fluttertoast.showToast(msg: "Called");
-        dashboardResponse = data;
-      });
-    });
+    dashboardPresenter.getDashboardData("001", "01-08-2024", "25-08-2024", "0001");
+
+    //dashboardPresenter.dashboardInterfaceView.onDashboardData(dashboardResponse);
+    
+    
+    // Services.getDashboardData("001", "01-08-2024", "14-08-2024", "0001")
+    //     .then((data) {
+    //   setState(() {
+    //     //it's called after callback
+    //     //Fluttertoast.showToast(msg: "Called");
+    //     dashboardResponse = data;
+    //   });
+    // });
 
     // List<LimitItem> d = [];
     // d.add(dashboardResponse!.limit.first );
@@ -327,7 +335,7 @@ class _DashboardActivityState extends State<DashboardActivity>
                                     }
 
                                     Services.getDashboardData(
-                                            "Deeplaid",
+                                            "001",
                                             formattedDate,
                                             formattedDate,
                                             custBranchCode)
@@ -838,8 +846,7 @@ class _DashboardActivityState extends State<DashboardActivity>
                               children: [
                                 DashboardMaster(dashboardResponse!.order ?? []),
                                 DashboardMaster(dashboardResponse!.sales ?? []),
-                                DashboardMaster(
-                                    dashboardResponse!.collection ?? []),
+                                DashboardMaster(dashboardResponse!.collection ?? []),
                                 DashboardMaster(dashboardResponse!.limit ?? []),
                                 DashboardMaster(dashboardResponse!.dues ?? []),
                               ],
@@ -854,60 +861,6 @@ class _DashboardActivityState extends State<DashboardActivity>
       ),
     );
   }
-
-//
-// Widget _listView(String tabString, DashboardResponse? dashboardResponse){
-//
-//   List<CollectionItem> list = [];
-//   if(tabString == "Order"){
-//     list = dashboardResponse!.order;
-//   }
-//   if(tabString == "Sales"){
-//     list = dashboardResponse!.sales;
-//   }
-//   if(tabString == "Collection"){
-//     list = dashboardResponse!.collection;
-//   }
-//   if(tabString == "Limit"){
-//     list = dashboardResponse!.limit;
-//   }
-//   if(tabString == "Dues"){
-//     list = dashboardResponse!.dues;
-//   }
-//
-//   return Container(
-//     color: Colors.grey.shade50,
-//     child: list.isEmpty
-//         ? Center(child: CircularProgressIndicator())
-//         : ListView.builder(
-//       itemCount: list.length,
-//       itemBuilder: (context, index) {
-//         final item = list[index];
-//         return ListTile(
-//           title: Text(item.strProperty),
-//           subtitle: Text(
-//               'Amount: ${item.dblAmount.toString()}'),
-//         );
-//       },
-//     ),
-//   );
-// }
-//
-//
-//
-
-// Widget _buildPage(String text, Color color) {
-//   return Container(
-//     child: SizedBox(
-//       height:50 ,
-//       child: Container(
-//         child: Center(
-//           child: Text(text, style: TextStyle(fontSize: 24, color: Colors.white)),
-//         ),
-//       ),
-//     ),
-//   );
-// }
 
 // Method to show progress dialog
   void showProgressDialog(BuildContext context) {
@@ -948,8 +901,21 @@ class _DashboardActivityState extends State<DashboardActivity>
     }
   }
 
-// // Method to hide progress dialog
-// void hideProgressDialog(BuildContext context) {
-//   Navigator.of(context).pop();
-// }
+  //response of Dashboard Api
+  @override
+  void onDashboardData(DashboardResponse? dashboardResponseAfterCall) {
+    setState(() {
+      dashboardResponse = dashboardResponseAfterCall;
+      CollectionItem d = CollectionItem(dblAmount: 12.445, strProperty: "Total");
+      dashboardResponse?.order.add( d);
+
+
+    });
+  }
+
+  @override
+  void onError(String smg) {
+    // TODO: implement onError
+  }
+
 }
