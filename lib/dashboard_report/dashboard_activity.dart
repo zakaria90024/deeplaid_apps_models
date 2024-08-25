@@ -906,8 +906,20 @@ class _DashboardActivityState extends State<DashboardActivity> with SingleTicker
   void onDashboardData(DashboardResponse? dashboardResponseAfterCall) {
     setState(() {
       dashboardResponse = dashboardResponseAfterCall;
-      CollectionItem d = CollectionItem(dblAmount: 12.445, strProperty: "Total");
-      dashboardResponse?.order.add( d);
+
+      // Assuming dashboardResponse is not null and has a list of CollectionItem
+      double countTotalOrder = 0;
+      // Iterate over the list of CollectionItem
+      for (var item in dashboardResponse?.order ?? []) {
+        // Convert the amount to double first
+        double amount = double.tryParse(item.dblAmount) ?? 0;
+        // Add to the total
+        countTotalOrder += amount;
+      }
+
+
+      CollectionItem d = CollectionItem(dblAmount: countTotalOrder, strProperty: "Total Pending");
+      dashboardResponse?.order.add(d);
 
 
     });
