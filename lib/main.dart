@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: const SplashDeeplaid(),
-      home: DashboardActivity(),
+       home: const SplashDeeplaid(),
+      //home: DashboardActivity(),
       debugShowCheckedModeBanner: false,
     );
   }

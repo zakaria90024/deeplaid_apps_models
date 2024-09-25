@@ -1,4 +1,5 @@
 
+import 'package:deeplaid_apps_models/dashboard_deeplaid_apps/home.dart';
 import 'package:deeplaid_apps_models/dashboard_report/dashboard_master.dart';
 import 'package:deeplaid_apps_models/service/Services.dart';
 import 'package:flutter/material.dart';
@@ -203,13 +204,19 @@ class _DashboardActivityState extends State<DashboardActivity> with SingleTicker
                                 SizedBox(
                                   height: deviceHight * 0.065,
                                   width: deviceWidth * 0.13,
-                                  child: Container(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
                                       alignment: Alignment.center,
                                       child: const Icon(
                                         Icons.arrow_back_outlined,
                                         color: Colors.white,
                                         size: 20,
-                                      )),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: deviceHight * 0.065,
