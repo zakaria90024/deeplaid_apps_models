@@ -77,7 +77,19 @@ class _DashboardActivityState extends State<DashboardActivity> with SingleTicker
     // print(dashboardResponse.toString());
     dashboardPresenter = DashboardPresenter(this);
 
-    dashboardPresenter.getDashboardData("001", "01-08-2024", "25-08-2024", "0001");
+    DateFormat dateFormat = DateFormat('dd-MM-yyyy');
+    // Get the current date
+    DateTime nows = DateTime.now();
+    // Get the first day of the current month
+    DateTime firstDayOfMonth = DateTime(nows.year, nows.month, 1);
+    // Get the last day of the current month by moving to the next month and subtracting 1 day
+    DateTime lastDayOfMonth = DateTime(nows.year, nows.month + 1, 0);
+    // Format the first and last day of the current month
+    String formattedFirstDay = dateFormat.format(firstDayOfMonth);
+    String formattedLastDay = dateFormat.format(lastDayOfMonth);
+
+
+    dashboardPresenter.getDashboardData("001", formattedFirstDay, formattedLastDay, "0001");
 
     //dashboardPresenter.dashboardInterfaceView.onDashboardData(dashboardResponse);
     
@@ -427,7 +439,7 @@ class _DashboardActivityState extends State<DashboardActivity> with SingleTicker
                                     }
 
                                     Services.getDashboardData(
-                                            "Deeplaid",
+                                            "001",
                                             fullFromThisMonth,
                                             formattedDate,
                                             custBranchCode)
@@ -507,7 +519,7 @@ class _DashboardActivityState extends State<DashboardActivity> with SingleTicker
                                     }
 
                                     Services.getDashboardData(
-                                            "Deeplaid",
+                                            "001",
                                             fullFromThisYear,
                                             formattedDate,
                                             custBranchCode)
@@ -701,7 +713,7 @@ class _DashboardActivityState extends State<DashboardActivity> with SingleTicker
                                                     print("Please Select Date");
                                                   } else {
                                                     Services.getDashboardData(
-                                                            "Deeplaid",
+                                                            "001",
                                                             _textFieldControllerFromDate
                                                                 .text,
                                                             _textFieldControllerToDate

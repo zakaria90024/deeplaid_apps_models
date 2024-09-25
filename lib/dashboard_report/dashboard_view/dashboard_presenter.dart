@@ -5,24 +5,22 @@ import 'package:http/http.dart' as http;
 import '../../model/dashboard_model.dart';
 import 'dashboard_view.dart';
 
-class DashboardPresenter{
+class DashboardPresenter {
+  late DashboardInterfaceView dashboardInterfaceView;
 
-  late DashboardInterfaceView dashboardInterfaceView ;
   late Services services;
 
-
-
-  DashboardPresenter(this.dashboardInterfaceView){
+  DashboardPresenter(this.dashboardInterfaceView) {
     services = Services();
   }
 
   void getDashboardData(
-      String strUserName,
-      String strFdate,
-      String strTdate,
-      String strBranchid,
-      ) async {
-    final String url = Services.root+'/AppsDashboard';
+    String strUserName,
+    String strFdate,
+    String strTdate,
+    String strBranchid,
+  ) async {
+    final String url = Services.root + '/AppsDashboard';
     final Map<String, String> queryParams = {
       'strUserName': strUserName,
       'strFdate': strFdate,
@@ -31,25 +29,22 @@ class DashboardPresenter{
     };
 
     try {
-
       // final response = await http.post(
       //   Uri.parse(url),
       //   headers: {"Content-Type": "application/json"},
       //   body: json.encode(queryParams),
       // );
 
-
       final uri = Uri.parse(url).replace(queryParameters: queryParams);
       final response = await http.post(uri);
       print(uri);
 
       if (response.statusCode == 200) {
-
-
         final jsonData = json.decode(response.body);
         //return DashboardResponse.fromJson(jsonData);
 
-        dashboardInterfaceView.onDashboardData(DashboardResponse.fromJson(jsonData));
+        dashboardInterfaceView
+            .onDashboardData(DashboardResponse.fromJson(jsonData));
 
         // print("response code"+response.statusCode.toString());
         // final List<dynamic> jsonData = json.decode(response.body);
@@ -68,10 +63,8 @@ class DashboardPresenter{
     } catch (e) {
       // Handle exceptions
       print('Exception occurred: $e');
-      dashboardInterfaceView.onError(""+e.toString());
+      dashboardInterfaceView.onError("" + e.toString());
       //return null;
     }
   }
-
-
 }
