@@ -143,7 +143,7 @@ class _SensorDataScreenState extends State<SensorDataScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sensor Data'),
+        title: Text('Sensor Tracking'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -191,7 +191,6 @@ class _SensorDataScreenState extends State<SensorDataScreen> {
     );
   }
 
-  // Helper method to handle empty data and build the chart lines
   LineChartBarData _buildLineChartBarData(List<FlSpot> data, Color color) {
     return LineChartBarData(
       spots: data.isNotEmpty ? data : [FlSpot(0, 0)],  // Fallback if data is empty
