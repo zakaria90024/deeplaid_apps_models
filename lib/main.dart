@@ -5,6 +5,7 @@ import 'package:deeplaid_apps_models/splash_deeplaid_apps/splash.dart';
 import 'package:deeplaid_apps_models/sync_deeplaid_apps/sync.dart';
 import 'package:deeplaid_apps_models/task_link3/add_task.dart';
 import 'package:deeplaid_apps_models/task_link3/sensor_tracking.dart';
+import 'package:deeplaid_apps_models/task_link3/user_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
        //home: const SplashDeeplaid(),
-      home: SensorApp(),
+      //home: SensorApp(),
+      home: MyAppSplash(),
       debugShowCheckedModeBanner: false,
     );
   }

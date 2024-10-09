@@ -35,7 +35,7 @@ class _SensorDataScreenState extends State<SensorDataScreen> {
   StreamSubscription? _gyroSubscription;
   StreamSubscription? _accelSubscription;
 
-  final double movementThreshold = 10.0;  // Set your threshold here
+  final double movementThreshold = 10.0; // Set your threshold here
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _SensorDataScreenState extends State<SensorDataScreen> {
   // Safe handling of sensor values to avoid NaN and Infinity
   double safeValue(double value) {
     if (value.isNaN || value.isInfinite) {
-      return 0.0;  // Provide a fallback value for invalid data
+      return 0.0; // Provide a fallback value for invalid data
     }
     return value;
   }
@@ -89,7 +89,7 @@ class _SensorDataScreenState extends State<SensorDataScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();  // Dismiss the alert
+                Navigator.of(context).pop(); // Dismiss the alert
               },
               child: Text('OK'),
             ),
@@ -143,7 +143,12 @@ class _SensorDataScreenState extends State<SensorDataScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sensor Tracking'),
+        title: Text(''),
+        backgroundColor: Colors.white, // Set AppBar color to white
+        elevation: 0, // Remove shadow under the AppBar if desired
+        iconTheme: IconThemeData(
+          color: Colors.black, // Set icon color (like back button) to black if necessary
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -157,17 +162,18 @@ class _SensorDataScreenState extends State<SensorDataScreen> {
   }
 
   // Method to build the sensor chart UI with initialization and data checks
-  Widget _buildSensorChart(
-      String title, List<FlSpot> dataX, List<FlSpot> dataY, List<FlSpot> dataZ) {
+  Widget _buildSensorChart(String title, List<FlSpot> dataX, List<FlSpot> dataY,
+      List<FlSpot> dataZ) {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.only(left:12 , top:8, right: 12, bottom: 8),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left:12 , top:8, right: 12, bottom: 8),
           child: Column(
             children: [
-              Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(title,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               SizedBox(height: 10),
               SizedBox(
                 height: 200,
@@ -193,7 +199,8 @@ class _SensorDataScreenState extends State<SensorDataScreen> {
 
   LineChartBarData _buildLineChartBarData(List<FlSpot> data, Color color) {
     return LineChartBarData(
-      spots: data.isNotEmpty ? data : [FlSpot(0, 0)],  // Fallback if data is empty
+      spots: data.isNotEmpty ? data : [FlSpot(0, 0)],
+      // Fallback if data is empty
       isCurved: true,
       color: color,
       barWidth: 2,
