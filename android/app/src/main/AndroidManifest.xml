@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.deeplaid_apps_models">
    <application
-        android:label="deeplaid_apps_models"
+        android:label="link3app"
         android:name="${applicationName}"
-        android:icon="@drawable/logo">
+        android:icon="@drawable/icon_pic1">
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -9,6 +9,7 @@ class MyAppSplash extends StatelessWidget {
     return MaterialApp(
       title: 'User Database Example',
       home: UserTableScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
