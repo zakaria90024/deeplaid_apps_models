@@ -37,7 +37,7 @@ class _ListEditScreenState extends State<ListEditScreen> {
               controller: _controller,
               onChanged: (value) {
                 setState(() {
-                  listTitle = value.isNotEmpty ? "$value (${_controller.text.length})" : "Untitled List (0)";
+                  listTitle = value.isNotEmpty ? "$value" : "Untitled List (0)";
                 });
               },
               decoration: InputDecoration(
@@ -69,10 +69,10 @@ class _ListEditScreenState extends State<ListEditScreen> {
           onTap: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => AddTaskItemInput()),
+              MaterialPageRoute(builder: (context) => AddTaskItemInput(listTitle: listTitle)),
             );
             // Add your onTap action here
-            print('Add a Task tapped');
+            print('Add a Task tapped'+listTitle);
           },
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
