@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,
       // ),
-       //home: const SplashDeeplaid(),
+       home: const SplashDeeplaid(),
       //home: SensorApp(),
-      home: HomeScreen(),
+      //home: HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
